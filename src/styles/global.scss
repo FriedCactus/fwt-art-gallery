@@ -1,8 +1,9 @@
 @import "./variables.scss";
+@import "./fonts";
 
 body {
   min-height: 100vh;
-  font-family: $RobotoRegular;
+  font-family: Roboto;
 }
 
 *,
