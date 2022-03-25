@@ -16,5 +16,6 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     quotes: ["error", "double"],
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
+    "vue/no-unused-components": "warn",
   },
 };

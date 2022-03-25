@@ -1,31 +1,23 @@
 <template>
-  <div>Apps</div>
+  <div>
+    App
+
+    <PictureCardVue />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import PictureCardVue from "./ui/PictureCard.vue";
 
 export default defineComponent({
   name: "App",
-  components: {},
+  components: {
+    PictureCardVue,
+  },
 });
 </script>
 
 <style lang="scss">
-body {
-  min-height: 100vh;
-  font-family: $RobotoRegular;
-}
-
-*,
-*::after,
-*::before {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-img {
-  max-width: 100%;
-}
+@import "./styles/global.scss";
 </style>
