@@ -4,13 +4,13 @@
 
     <div class="label">
       <div class="label-row">
-        <h3 class="title">Name</h3>
-        <div class="years">123546</div>
+        <h3 class="title">{{ author }}</h3>
+        <div class="years">(1904-1989)</div>
       </div>
       <div class="label-row">
         <div class="item">
           <span>Name: </span>
-          <p class="text">Text</p>
+          <p class="text">{{ name }}</p>
         </div>
         <div class="item">
           <span>Created: </span>
@@ -27,7 +27,11 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "PictureCard",
   props: {
-    image: {
+    author: {
+      type: String,
+      required: true,
+    },
+    name: {
       type: String,
       required: true,
     },
@@ -56,17 +60,20 @@ export default defineComponent({
 
     cursor: pointer;
     position: absolute;
-    bottom: 0;
+    top: calc(100% - 30px);
     left: 0;
     width: 100%;
 
     padding: 5px 15px;
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
 
     background-color: #ffffffbf;
 
-    &:hover {
-      padding: 10px 15px;
+    @media ($laptop) {
+      &:hover {
+        padding: 10px 15px;
+        transform: translateY(calc(-100% + 30px));
+      }
     }
 
     .label-row {
@@ -81,12 +88,33 @@ export default defineComponent({
         font-size: 18px;
         line-height: 111%;
         text-transform: capitalize;
+        margin-bottom: 5px;
+        color: $black;
       }
       .years {
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 115%;
+        color: $darkGrey;
       }
 
       .item {
+        display: flex;
+        margin-bottom: 5px;
+        font-size: 14px;
+        line-height: 142%;
+        color: $black;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        span {
+          font-weight: 500;
+          margin-right: 6px;
+        }
         .text {
+          font-weight: 300;
         }
       }
     }

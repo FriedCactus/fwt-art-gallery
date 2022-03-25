@@ -10,7 +10,7 @@ export default {
   ],
 };
 
-export const Main = () => ({
+export const Basic = () => ({
   components: { PictureCard },
   template: "<PictureCard />",
 });

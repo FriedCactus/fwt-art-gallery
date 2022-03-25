@@ -2,7 +2,7 @@
   <div>
     App
 
-    <PictureCardVue />
+    <PictureCardVue :author="'assasdass'" />
   </div>
 </template>
 
