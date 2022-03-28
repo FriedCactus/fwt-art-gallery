@@ -1,6 +1,6 @@
 <template>
   <div class="picture-card">
-    <img src="../assets/mocks/images/card_mock.jpeg" alt="" />
+    <img :src="require(`../assets/mocks/images/${imgUrl}`)" alt="" />
 
     <div class="label">
       <div class="label-row">
@@ -31,7 +31,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
-
+    imgUrl: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

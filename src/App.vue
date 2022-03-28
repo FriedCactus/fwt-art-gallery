@@ -1,16 +1,27 @@
 <template>
-  <div>App</div>
+  <div>
+    App
+
+    <PictureCardVue
+      :author="'assasdass'"
+      :name="'Painting'"
+      :imgUrl="'card_mock.jpeg'"
+    />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
+import PictureCardVue from "./ui/PictureCard.vue";
 
 export default defineComponent({
-  name: 'App',
-  components: {},
+  name: "App",
+  components: {
+    PictureCardVue,
+  },
 });
 </script>
 
 <style lang="scss">
-@import './styles/global.scss';
+@import "./styles/global.scss";
 </style>
