@@ -5,17 +5,13 @@ const Template = (args) => ({
   setup() {
     return { args };
   },
-  template: '<PictureCard v-bind="args" />',
+  template:
+    '<div style="width: 360px; height: 300px;" ><PictureCard v-bind="args" /></div>',
 });
 
 export default {
   title: "PictureCard",
   components: PictureCard,
-  decorators: [
-    () => ({
-      template: '<div style="width: 360px; height: 300px;" ><story /></div>',
-    }),
-  ],
   args: {
     author: "Author",
     name: "Painting",

@@ -1,16 +1,16 @@
 <template>
   <div>App</div>
-  <Button />
+  <EditButtonVue />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Button from "./ui/Button.vue";
+import EditButtonVue from "./ui/EditButton.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    Button,
+    EditButtonVue,
   },
 });
 </script>
