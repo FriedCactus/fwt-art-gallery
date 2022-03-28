@@ -22,10 +22,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'PictureCard',
+  name: "PictureCard",
   props: {
     author: {
       type: String,
@@ -41,9 +41,6 @@ export default defineComponent({
     },
     created: Number,
     years: String,
-  },
-  setup() {
-    return {};
   },
 });
 </script>

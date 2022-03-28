@@ -1,24 +1,13 @@
 <template>
-  <div>
-    App
-
-    <PictureCardVue
-      :author="'assasdass'"
-      :name="'Painting'"
-      :imgUrl="'card_mock.jpeg'"
-    />
-  </div>
+  <div>App</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import PictureCardVue from "./ui/PictureCard.vue";
 
 export default defineComponent({
   name: "App",
-  components: {
-    PictureCardVue,
-  },
+  components: {},
 });
 </script>
 
