@@ -117,5 +117,17 @@ export default defineComponent({
       }
     }
   }
+
+  &:disabled {
+    cursor: default;
+
+    &.dark {
+      background-color: $ButonFilledBackgroundDark;
+    }
+
+    &.light {
+      background-color: $ButonFilledBackgroundLight;
+    }
+  }
 }
 </style>
