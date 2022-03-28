@@ -42,6 +42,12 @@ export default defineComponent({
 
   transition: all 0.3s ease;
 
+  :slotted(svg) {
+    path {
+      transition: fill 0.3s ease;
+    }
+  }
+
   &.dark {
     &.filled {
       color: $ButtonTextDark;
@@ -52,6 +58,12 @@ export default defineComponent({
       border: 1px solid $ButtonBorderDark;
       background-color: $ButtonOutlinedBackgroundDark;
       color: $ButtonOutlinedTextDark;
+
+      :slotted(svg) {
+        path {
+          fill: $ButtonOutlinedTextDark;
+        }
+      }
     }
   }
 
@@ -65,6 +77,12 @@ export default defineComponent({
       border: 1px solid $ButtonBorderLight;
       background-color: $ButtonOutlinedBackgroundLight;
       color: $ButtonOutlinedTextLight;
+
+      :slotted(svg) {
+        path {
+          fill: $ButtonOutlinedTextLight;
+        }
+      }
     }
   }
 
@@ -78,6 +96,12 @@ export default defineComponent({
         &.outlined {
           color: $ButtonOutlinedHoveredColorDark;
           border-color: $ButtonOutlinedHoveredColorDark;
+
+          :slotted(svg) {
+            path {
+              fill: $ButtonOutlinedHoveredColorDark;
+            }
+          }
         }
       }
 
@@ -89,6 +113,12 @@ export default defineComponent({
         &.outlined {
           color: $ButtonOutlinedHoveredColorLight;
           border-color: $ButtonOutlinedHoveredColorLight;
+
+          :slotted(svg) {
+            path {
+              fill: $ButtonOutlinedHoveredColorLight;
+            }
+          }
         }
       }
     }
@@ -103,6 +133,12 @@ export default defineComponent({
       &.outlined {
         color: $ButtonOutlinedHoveredColorDark;
         border-color: $ButtonOutlinedHoveredColorDark;
+
+        :slotted(svg) {
+          path {
+            fill: $ButtonOutlinedHoveredColorDark;
+          }
+        }
       }
     }
 
@@ -114,6 +150,12 @@ export default defineComponent({
       &.outlined {
         color: $ButtonOutlinedHoveredColorLight;
         border-color: $ButtonOutlinedHoveredColorLight;
+
+        :slotted(svg) {
+          path {
+            fill: $ButtonOutlinedHoveredColorLight;
+          }
+        }
       }
     }
   }
