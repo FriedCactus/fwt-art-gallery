@@ -29,7 +29,9 @@ export default {
 };
 
 export const DarkFilled = Template.bind({});
-DarkFilled.args = {};
+DarkFilled.args = {
+  theme: "dark",
+};
 
 export const LightFilled = Template.bind({});
 LightFilled.args = {
@@ -38,6 +40,7 @@ LightFilled.args = {
 
 export const DarkOutlined = Template.bind({});
 DarkOutlined.args = {
+  theme: "dark",
   style: "outlined",
 };
 
@@ -45,6 +48,18 @@ export const LightOutlined = Template.bind({});
 LightOutlined.args = {
   theme: "light",
   style: "outlined",
+};
+
+export const DarkText = Template.bind({});
+DarkText.args = {
+  theme: "dark",
+  style: "text",
+};
+
+export const LightText = Template.bind({});
+LightText.args = {
+  theme: "light",
+  style: "text",
 };
 
 export const DarkIcon = IconTemplate.bind({});

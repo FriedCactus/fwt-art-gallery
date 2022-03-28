@@ -58,11 +58,17 @@ export default defineComponent({
       border: 1px solid $ButtonBorderDark;
       background-color: $ButtonOutlinedBackgroundDark;
       color: $ButtonOutlinedTextDark;
+    }
 
-      :slotted(svg) {
-        path {
-          fill: $ButtonOutlinedTextDark;
-        }
+    &.text {
+      border: none;
+      background-color: transparent;
+      color: $ButtonOutlinedTextDark;
+    }
+
+    :slotted(svg) {
+      path {
+        fill: $ButtonOutlinedTextDark;
       }
     }
   }
@@ -77,11 +83,17 @@ export default defineComponent({
       border: 1px solid $ButtonBorderLight;
       background-color: $ButtonOutlinedBackgroundLight;
       color: $ButtonOutlinedTextLight;
+    }
 
-      :slotted(svg) {
-        path {
-          fill: $ButtonOutlinedTextLight;
-        }
+    &.text {
+      border: none;
+      background-color: transparent;
+      color: $ButtonOutlinedTextLight;
+    }
+
+    :slotted(svg) {
+      path {
+        fill: $ButtonOutlinedTextLight;
       }
     }
   }
@@ -96,11 +108,15 @@ export default defineComponent({
         &.outlined {
           color: $ButtonOutlinedHoveredColorDark;
           border-color: $ButtonOutlinedHoveredColorDark;
+        }
 
-          :slotted(svg) {
-            path {
-              fill: $ButtonOutlinedHoveredColorDark;
-            }
+        &.text {
+          color: $ButtonOutlinedHoveredColorDark;
+        }
+
+        :slotted(svg) {
+          path {
+            fill: $ButtonOutlinedHoveredColorDark;
           }
         }
       }
@@ -113,11 +129,15 @@ export default defineComponent({
         &.outlined {
           color: $ButtonOutlinedHoveredColorLight;
           border-color: $ButtonOutlinedHoveredColorLight;
+        }
 
-          :slotted(svg) {
-            path {
-              fill: $ButtonOutlinedHoveredColorLight;
-            }
+        &.text {
+          color: $ButtonOutlinedHoveredColorLight;
+        }
+
+        :slotted(svg) {
+          path {
+            fill: $ButtonOutlinedHoveredColorLight;
           }
         }
       }
@@ -133,11 +153,15 @@ export default defineComponent({
       &.outlined {
         color: $ButtonOutlinedHoveredColorDark;
         border-color: $ButtonOutlinedHoveredColorDark;
+      }
 
-        :slotted(svg) {
-          path {
-            fill: $ButtonOutlinedHoveredColorDark;
-          }
+      &.text {
+        color: $ButtonOutlinedHoveredColorDark;
+      }
+
+      :slotted(svg) {
+        path {
+          fill: $ButtonOutlinedHoveredColorDark;
         }
       }
     }
@@ -150,11 +174,15 @@ export default defineComponent({
       &.outlined {
         color: $ButtonOutlinedHoveredColorLight;
         border-color: $ButtonOutlinedHoveredColorLight;
+      }
 
-        :slotted(svg) {
-          path {
-            fill: $ButtonOutlinedHoveredColorLight;
-          }
+      &.text {
+        color: $ButtonOutlinedHoveredColorLight;
+      }
+
+      :slotted(svg) {
+        path {
+          fill: $ButtonOutlinedHoveredColorLight;
         }
       }
     }
