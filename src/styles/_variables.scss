@@ -13,6 +13,9 @@ $laptop: "min-width: 1024px";
 $desktop: "min-width: 1366px";
 
 // Dark theme
+$MainColorDark: $black;
+$SecondaryColorDark: $white;
+$BackgroundDark: $black;
 $ButtonTextDark: $black;
 $ButtonOutlinedTextDark: $white;
 $ButtonBorderDark: $white;
@@ -22,8 +25,14 @@ $ButonFilledBackgroundDark: $bluishGrey;
 $ButtonOutlinedHoveredColorDark: $bluishGrey;
 $LinkDark: $white;
 $LinkActiveDark: $bluishGrey;
+$HeaderDark: $white;
+$FooterColorDark: #ffffff4d;
+$FooterIconDark: $white;
 
 // Light theme
+$MainColorLight: $white;
+$SecondaryColorLight: $black;
+$BackgroundLight: $white;
 $ButtonTextLight: $white;
 $ButtonOutlinedTextLight: $black;
 $ButtonBorderLight: $black;
@@ -33,6 +42,9 @@ $ButonFilledBackgroundLight: $darkGrey;
 $ButtonOutlinedHoveredColorLight: $darkGrey;
 $LinkLight: $black;
 $LinkActiveLight: $darkGrey;
+$HeaderLight: $black;
+$FooterColorLight: #0000004d;
+$FooterIconLight: $black;
 
 // Both
 $IconButtonBackground: #ffffff1a;

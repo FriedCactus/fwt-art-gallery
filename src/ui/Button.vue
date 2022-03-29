@@ -31,6 +31,7 @@ export default defineComponent({
   cursor: pointer;
   width: 100%;
   height: 100%;
+  padding: 12px;
   border-radius: 6px;
   border: none;
   outline: none;
@@ -38,7 +39,7 @@ export default defineComponent({
   font-family: Roboto;
   font-weight: 700;
   font-size: 14px;
-  line-height: 114%;
+  text-transform: uppercase;
 
   transition: all 0.3s ease;
 
