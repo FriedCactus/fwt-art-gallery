@@ -1,11 +1,41 @@
-$RobotoBlack: "RobotoBlack", sans-serif;
-$RobotoBold: "RobotoBold", sans-serif;
-$RobotoLight: "RobotoLight", sans-serif;
-$RobotoMedium: "RobotoMedium", sans-serif;
-$RobotoRegular: "RobotoRegular", sans-serif;
-
+// Colors
 $black: #000000;
 $white: #ffffff;
 $lightGrey: #9c9c9c;
 $darkGrey: #4c4c4c;
+$bluishGrey: #aaaaaa;
 $beige: #fafad2;
+
+// Breakpoints
+$mobile: "min-width: 320px";
+$tablet: "min-width: 768px";
+$laptop: "min-width: 1024px";
+$desktop: "min-width: 1366px";
+
+// Dark theme
+$ButtonTextDark: $black;
+$ButtonOutlinedTextDark: $white;
+$ButtonBorderDark: $white;
+$ButtonBackgroundDark: $white;
+$ButtonOutlinedBackgroundDark: $black;
+$ButonFilledBackgroundDark: $bluishGrey;
+$ButtonOutlinedHoveredColorDark: $bluishGrey;
+$LinkDark: $white;
+$LinkActiveDark: $bluishGrey;
+
+// Light theme
+$ButtonTextLight: $white;
+$ButtonOutlinedTextLight: $black;
+$ButtonBorderLight: $black;
+$ButtonBackgroundLight: $black;
+$ButtonOutlinedBackgroundLight: $white;
+$ButonFilledBackgroundLight: $darkGrey;
+$ButtonOutlinedHoveredColorLight: $darkGrey;
+$LinkLight: $black;
+$LinkActiveLight: $darkGrey;
+
+// Both
+$IconButtonBackground: #ffffff1a;
+$StarColor: #ffff00;
+$TrashColor: $black;
+$EditColor: $bluishGrey;

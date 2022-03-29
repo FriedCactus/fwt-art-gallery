@@ -1,5 +1,5 @@
 <template>
-  <div>Apps</div>
+  <div>App</div>
 </template>
 
 <script lang="ts">
@@ -12,20 +12,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-body {
-  min-height: 100vh;
-  font-family: $RobotoRegular;
-}
-
-*,
-*::after,
-*::before {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-img {
-  max-width: 100%;
-}
+@import "./styles/global.scss";
 </style>
