@@ -3,11 +3,11 @@
     <img :src="require(`../assets/mocks/images/${imgUrl}`)" alt="" />
 
     <div class="label">
-      <div class="label-row">
+      <div class="top-row">
         <h3 class="title">{{ author }}</h3>
         <div class="years" v-if="years">{{ years }}</div>
       </div>
-      <div class="label-row">
+      <div class="bottom-row">
         <div class="item">
           <span>Name: </span>
           <p class="text">{{ name }}</p>
@@ -63,14 +63,19 @@ export default defineComponent({
 
     cursor: pointer;
     position: absolute;
-    top: calc(100% - 30px);
+    top: calc(100% - 26px);
     left: 0;
     width: 100%;
+    height: 26px;
 
+    background-color: #ffffffbf;
     padding: 5px 15px;
     transition: all 0.3s ease;
 
-    background-color: #ffffffbf;
+    @media ($tablet) {
+      height: auto;
+      top: calc(100% - 30px);
+    }
 
     @media ($laptop) {
       &:hover {
@@ -79,20 +84,22 @@ export default defineComponent({
       }
     }
 
-    .label-row {
-      margin-bottom: 15px;
-
-      &:last-child {
-        margin-bottom: 0;
+    .top-row {
+      @media ($tablet) {
+        margin-bottom: 15px;
       }
 
       .title {
-        font-weight: 700;
-        font-size: 18px;
+        font-weight: 500;
+        font-size: 12px;
         line-height: 111%;
         text-transform: capitalize;
-        margin-bottom: 5px;
         color: $black;
+
+        @media ($tablet) {
+          font-weight: 700;
+          font-size: 18px;
+        }
       }
       .years {
         font-weight: 300;
@@ -100,7 +107,14 @@ export default defineComponent({
         line-height: 115%;
         color: $darkGrey;
       }
+    }
 
+    .bottom-row {
+      display: none;
+
+      @media ($tablet) {
+        display: block;
+      }
       .item {
         display: flex;
         margin-bottom: 5px;
