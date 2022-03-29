@@ -25,6 +25,19 @@ export default defineComponent({
   flex-direction: column;
   padding: 15px;
   min-height: 100vh;
+  margin: 0 auto;
+
+  @media ($tablet) {
+    max-width: 728px;
+  }
+
+  @media ($laptop) {
+    max-width: 984px;
+  }
+
+  @media ($desktop) {
+    max-width: 1120px;
+  }
 
   &.dark {
     background-color: $BackgroundDark;

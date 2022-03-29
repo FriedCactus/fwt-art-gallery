@@ -53,8 +53,7 @@ export default defineComponent({
 
   img {
     display: block;
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
   }
 
   .label {
@@ -74,7 +73,7 @@ export default defineComponent({
 
     @media ($tablet) {
       height: auto;
-      top: calc(100% - 30px);
+      top: calc(100% - 29px);
     }
 
     @media ($laptop) {
