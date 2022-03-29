@@ -99,7 +99,7 @@ export default defineComponent({
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      align-items: end;
+      align-items: flex-end;
       width: 24px;
       height: 18px;
       background: none;

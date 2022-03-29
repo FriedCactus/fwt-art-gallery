@@ -1,5 +1,5 @@
 <template>
-  <a href="" class="link" :class="theme"><slot /></a>
+  <a href="" class="link" :class="{ [theme]: theme, bold: bold }"><slot /></a>
 </template>
 
 <script lang="ts">
@@ -12,18 +12,26 @@ export default defineComponent({
       type: String,
       default: "dark",
     },
+    bold: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 .link {
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13px;
   line-height: 115%;
   text-transform: uppercase;
   font-variant: small-caps;
   transition: color 0.3s ease;
+
+  &.bold {
+    font-weight: bold;
+  }
 
   &.dark {
     color: $LinkDark;

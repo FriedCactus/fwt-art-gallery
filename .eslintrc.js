@@ -19,6 +19,7 @@ module.exports = {
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "vue/no-unused-components": "warn",
     "vue/multi-word-component-names": "off",
+    "vuejs-accessibility/anchor-has-content": "warn",
     "@typescript-eslint/no-empty-function": "off",
   },
 };
