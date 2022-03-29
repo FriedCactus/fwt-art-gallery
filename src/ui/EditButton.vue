@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import EditIcon from "@/assets/icons/edit_icon.svg";
+import EditIcon from "../assets/icons/edit_icon.svg";
 import IconButton from "./IconButton.vue";
 
 export default defineComponent({

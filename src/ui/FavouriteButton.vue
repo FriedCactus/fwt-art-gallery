@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import StarIcon from "@/assets/icons/star_icon.svg";
-import FullStarIcon from "@/assets/icons/fullstar_icon.svg";
+import StarIcon from "../assets/icons/star_icon.svg";
+import FullStarIcon from "../assets/icons/fullstar_icon.svg";
 import IconButton from "./IconButton.vue";
 
 export default defineComponent({

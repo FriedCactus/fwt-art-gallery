@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import TrashIcon from "@/assets/icons/trash_icon.svg";
+import TrashIcon from "../assets/icons/trash_icon.svg";
 import IconButton from "./IconButton.vue";
 
 export default defineComponent({
