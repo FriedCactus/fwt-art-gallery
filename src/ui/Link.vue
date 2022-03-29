@@ -3,19 +3,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
   name: "Link",
   props: {
-    theme: {
-      type: String,
-      default: "dark",
-    },
     bold: {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const store = useStore();
+
+    return {
+      theme: computed(() => store.getters.getTheme),
+    };
   },
 });
 </script>
