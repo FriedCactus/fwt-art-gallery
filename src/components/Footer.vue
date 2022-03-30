@@ -3,7 +3,7 @@
     <div class="top">
       <p class="text">
         Проект реализован в рамках стажировки для Frontend-разработчиков от
-        компании <Link :theme="theme" :bold="true">Framework Team</Link>
+        компании <Link :bold="true">Framework Team</Link>
       </p>
       <div class="social">
         <a href="#" class="link" aria-label="FB">
@@ -28,13 +28,14 @@
 
 <script lang="ts">
 import Link from "@/ui/Link.vue";
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
 import FbDark from "@/assets/icons/fb_dark.svg";
 import VkDark from "@/assets/icons/vk_dark.svg";
 import InstDark from "@/assets/icons/inst_dark.svg";
 import FbLight from "@/assets/icons/fb_light.svg";
 import VkLight from "@/assets/icons/vk_light.svg";
 import InstLight from "@/assets/icons/inst_light.svg";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "Footer",
@@ -48,10 +49,10 @@ export default defineComponent({
     InstLight,
   },
   setup() {
-    const theme = ref("light");
+    const store = useStore();
 
     return {
-      theme,
+      theme: computed(() => store.state.theme.theme),
     };
   },
 });

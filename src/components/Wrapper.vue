@@ -1,21 +1,14 @@
 <template>
-  <div class="wrapper" :class="theme">
+  <div class="wrapper">
     <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Wrapper",
-  setup() {
-    const theme = ref("light");
-
-    return {
-      theme,
-    };
-  },
 });
 </script>
 
@@ -24,7 +17,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   padding: 15px;
-  min-height: 100vh;
   margin: 0 auto;
 
   @media ($tablet) {
@@ -37,14 +29,6 @@ export default defineComponent({
 
   @media ($desktop) {
     max-width: 1120px;
-  }
-
-  &.dark {
-    background-color: $BackgroundDark;
-  }
-
-  &.light {
-    background-color: $BackgroundLight;
   }
 
   @media ($tablet) {

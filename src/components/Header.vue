@@ -1,19 +1,19 @@
 <template>
-  <header class="header light">
+  <header class="header" :class="theme">
     <div class="logo-row">
       <Logo class="logo" />
     </div>
     <div class="buttons-row">
       <div class="button">
-        <Button :theme="'light'" :style="'outlined'">
+        <Button :onClick="onThemeChangeClick" :style="'outlined'">
           <ThemeIcon />
         </Button>
       </div>
       <div class="button">
-        <Button :theme="'light'" :style="'outlined'">Log in</Button>
+        <Button :style="'outlined'">Log in</Button>
       </div>
       <div class="button">
-        <Button :theme="'light'">Sign up</Button>
+        <Button>Sign up</Button>
       </div>
       <button
         @click="onBurgerClick"
@@ -30,7 +30,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { useStore } from "@/store";
+import { computed, defineComponent, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
 import Button from "@/ui/Button.vue";
@@ -45,15 +46,22 @@ export default defineComponent({
     BurgerMenu,
   },
   setup() {
+    const store = useStore();
     const isMenuOpen = ref(false);
 
     const onBurgerClick = () => {
       isMenuOpen.value = !isMenuOpen.value;
     };
 
+    const onThemeChangeClick = () => {
+      store.commit("changeTheme");
+    };
+
     return {
       isMenuOpen,
       onBurgerClick,
+      onThemeChangeClick,
+      theme: computed(() => store.state.theme.theme),
     };
   },
 });
@@ -72,6 +80,9 @@ export default defineComponent({
 
   .logo-row {
     .logo {
+      :deep(path) {
+        transition: stroke 0.3s ease;
+      }
     }
   }
 

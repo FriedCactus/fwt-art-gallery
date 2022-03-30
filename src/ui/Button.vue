@@ -5,15 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { useStore } from "@/store";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "Button",
   props: {
-    theme: {
-      type: String,
-      default: "dark",
-    },
     style: {
       type: String,
       default: "filled",
@@ -22,6 +19,13 @@ export default defineComponent({
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    const store = useStore();
+
+    return {
+      theme: computed(() => store.state.theme.theme),
+    };
   },
 });
 </script>

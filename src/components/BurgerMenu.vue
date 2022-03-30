@@ -2,15 +2,15 @@
   <div class="burger-menu" :class="{ [theme]: theme, active: isOpen }">
     <div class="buttons-row">
       <div class="button">
-        <Button :theme="theme" :style="'outlined'">
+        <Button :style="'outlined'">
           <ThemeIcon />
         </Button>
       </div>
       <div class="button">
-        <Button :theme="theme" :style="'outlined'">Log in</Button>
+        <Button :style="'outlined'">Log in</Button>
       </div>
       <div class="button">
-        <Button :theme="theme">Sign up</Button>
+        <Button>Sign up</Button>
       </div>
     </div>
   </div>
@@ -19,7 +19,8 @@
 <script lang="ts">
 import Button from "@/ui/Button.vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "BurgerMenu",
@@ -34,10 +35,10 @@ export default defineComponent({
     ThemeIcon,
   },
   setup() {
-    const theme = ref("light");
+    const store = useStore();
 
     return {
-      theme,
+      theme: computed(() => store.state.theme.theme),
     };
   },
 });
@@ -53,6 +54,7 @@ export default defineComponent({
   padding: 109px 15px;
   transform: translateY(-100%);
   transition: transform 0.3s ease;
+  z-index: 1;
 
   @media ($tablet) {
     display: none;
