@@ -20,7 +20,7 @@
 import Button from "@/ui/Button.vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "BurgerMenu",

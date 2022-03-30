@@ -35,7 +35,7 @@ import InstDark from "@/assets/icons/inst_dark.svg";
 import FbLight from "@/assets/icons/fb_light.svg";
 import VkLight from "@/assets/icons/vk_light.svg";
 import InstLight from "@/assets/icons/inst_light.svg";
-import { useStore } from "vuex";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "Footer",

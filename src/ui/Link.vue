@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts">
+import { useStore } from "@/store";
 import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
 
 export default defineComponent({
   name: "Link",

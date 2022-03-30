@@ -1,8 +1,14 @@
-import { createStore } from "vuex";
+import { createStore, Store, useStore as baseUseStore } from "vuex";
+import type { TRootState } from "@/types";
+import { InjectionKey } from "vue";
 import themeModule from "./modules/themeModule";
 
-export default createStore({
+export const key: InjectionKey<Store<TRootState>> = Symbol("store");
+
+export default createStore<TRootState>({
   modules: {
-    themeModule,
+    theme: themeModule,
   },
 });
+
+export const useStore = () => baseUseStore(key);

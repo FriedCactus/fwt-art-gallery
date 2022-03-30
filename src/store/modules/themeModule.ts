@@ -1,14 +1,17 @@
-const themeModule = {
+import { TRootState, TThemeState } from "@/types";
+import { Module } from "vuex";
+
+const themeModule: Module<TThemeState, TRootState> = {
   state: () => ({
     theme: "light",
   }),
   mutations: {
-    changeTheme(state: any) {
+    changeTheme(state) {
       state.theme = state.theme === "dark" ? "light" : "dark";
     },
   },
   getters: {
-    getTheme(state: any) {
+    getTheme(state) {
       return state.theme;
     },
   },

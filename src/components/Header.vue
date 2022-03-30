@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { useStore } from "vuex";
+import { useStore } from "@/store";
 import { computed, defineComponent, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
