@@ -61,7 +61,7 @@ export default defineComponent({
       isMenuOpen,
       onBurgerClick,
       onThemeChangeClick,
-      theme: computed(() => store.getters.getTheme),
+      theme: computed(() => store.state.theme.theme),
     };
   },
 });

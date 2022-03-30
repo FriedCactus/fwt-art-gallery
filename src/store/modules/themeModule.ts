@@ -10,11 +10,6 @@ const themeModule: Module<TThemeState, TRootState> = {
       state.theme = state.theme === "dark" ? "light" : "dark";
     },
   },
-  getters: {
-    getTheme(state) {
-      return state.theme;
-    },
-  },
 };
 
 export default themeModule;

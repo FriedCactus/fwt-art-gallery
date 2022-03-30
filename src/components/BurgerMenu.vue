@@ -38,7 +38,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      theme: computed(() => store.getters.getTheme),
+      theme: computed(() => store.state.theme.theme),
     };
   },
 });
