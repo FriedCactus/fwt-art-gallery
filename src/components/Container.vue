@@ -23,6 +23,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .container {
   min-height: 100vh;
+  transition: background-color 0.3s ease;
 
   &.dark {
     background-color: $BackgroundDark;

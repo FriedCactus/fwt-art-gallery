@@ -5,7 +5,7 @@
     </div>
     <div class="buttons-row">
       <div class="button">
-        <Button :style="'outlined'">
+        <Button :onClick="onThemeChangeClick" :style="'outlined'">
           <ThemeIcon />
         </Button>
       </div>
@@ -53,9 +53,14 @@ export default defineComponent({
       isMenuOpen.value = !isMenuOpen.value;
     };
 
+    const onThemeChangeClick = () => {
+      store.commit("changeTheme");
+    };
+
     return {
       isMenuOpen,
       onBurgerClick,
+      onThemeChangeClick,
       theme: computed(() => store.getters.getTheme),
     };
   },
@@ -75,6 +80,9 @@ export default defineComponent({
 
   .logo-row {
     .logo {
+      :deep(path) {
+        transition: stroke 0.3s ease;
+      }
     }
   }
 

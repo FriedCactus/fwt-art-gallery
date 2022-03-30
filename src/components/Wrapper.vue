@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Wrapper",
