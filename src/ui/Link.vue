@@ -18,7 +18,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      theme: computed(() => store.state.theme),
+      theme: computed(() => store.state.theme.theme),
     };
   },
 });
@@ -45,7 +45,8 @@ export default defineComponent({
     color: $LinkLight;
   }
 
-  &:active {
+  &:active,
+  &:visited {
     &.dark {
       color: $LinkActiveDark;
     }
