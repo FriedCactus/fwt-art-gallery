@@ -31,7 +31,8 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { computed, defineComponent, ref } from "vue";
+import { useCookies } from "@vueuse/integrations/useCookies";
+import { computed, defineComponent, ref, watch } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
 import Button from "@/ui/Button.vue";
@@ -47,6 +48,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+
     const isMenuOpen = ref(false);
 
     const onBurgerClick = () => {

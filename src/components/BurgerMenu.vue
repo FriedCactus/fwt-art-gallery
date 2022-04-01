@@ -2,7 +2,7 @@
   <div class="burger-menu" :class="{ [theme]: theme, active: isOpen }">
     <div class="buttons-row">
       <div class="button">
-        <Button :style="'outlined'">
+        <Button @click="onThemeChangeClick" :style="'outlined'">
           <ThemeIcon />
         </Button>
       </div>
@@ -37,8 +37,13 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
+    const onThemeChangeClick = () => {
+      store.commit("changeTheme");
+    };
+
     return {
       theme: computed(() => store.state.theme.theme),
+      onThemeChangeClick,
     };
   },
 });

@@ -9,6 +9,10 @@ const themeModule: Module<TThemeState, TRootState> = {
     changeTheme(state) {
       state.theme = state.theme === "dark" ? "light" : "dark";
     },
+
+    setTheme(state, payload: TThemeState["theme"]) {
+      state.theme = payload;
+    },
   },
 };
 

@@ -21,5 +21,6 @@ module.exports = {
     "vue/multi-word-component-names": "off",
     "vuejs-accessibility/anchor-has-content": "warn",
     "@typescript-eslint/no-empty-function": "off",
+    "object-curly-newline": "off",
   },
 };
