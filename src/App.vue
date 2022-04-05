@@ -2,7 +2,9 @@
   <Container>
     <Wrapper>
       <Header />
-      <Gallery />
+      <main class="main">
+        <router-view />
+      </main>
       <Footer />
     </Wrapper>
   </Container>
@@ -50,4 +52,13 @@ export default defineComponent({
 
 <style lang="scss">
 @import "./styles/global.scss";
+
+.main {
+  flex: 1 1 auto;
+  margin-bottom: 30px;
+
+  @media ($tablet) {
+    margin-bottom: 40px;
+  }
+}
 </style>

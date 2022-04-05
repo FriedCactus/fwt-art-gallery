@@ -1,7 +1,5 @@
 <template>
-  <main class="gallery">
-    <CardsGrid v-if="artists.length" :artists="artists" />
-  </main>
+  <CardsGrid v-if="artists.length" :artists="artists" />
 </template>
 
 <script lang="ts">
@@ -36,14 +34,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.gallery {
-  flex: 1 1 auto;
-  margin-bottom: 30px;
-
-  @media ($tablet) {
-    margin-bottom: 40px;
-  }
-}
-</style>
