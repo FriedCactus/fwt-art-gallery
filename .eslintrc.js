@@ -22,5 +22,7 @@ module.exports = {
     "vuejs-accessibility/anchor-has-content": "warn",
     "@typescript-eslint/no-empty-function": "off",
     "object-curly-newline": "off",
+    "import/prefer-default-export": "warn",
+    "implicit-arrow-linebreak": "warn",
   },
 };
