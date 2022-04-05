@@ -4,13 +4,13 @@
 
     <div class="label">
       <div class="top-row">
-        <h3 class="title">{{ author }}</h3>
+        <h3 class="title">{{ name }}</h3>
         <div class="years" v-if="years">{{ years }}</div>
       </div>
       <div class="bottom-row">
         <div class="item">
           <span>Name: </span>
-          <p class="text">{{ name }}</p>
+          <p class="text">{{ paintingName }}</p>
         </div>
         <div class="item" v-if="created">
           <span>Created: </span>
@@ -27,7 +27,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "PictureCard",
   props: {
-    author: {
+    name: {
       type: String,
       required: true,
     },
@@ -35,11 +35,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    name: {
+    paintingName: {
       type: String,
       required: true,
     },
-    created: Number,
+    created: String,
     years: String,
   },
 });

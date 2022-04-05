@@ -1,5 +1,5 @@
 import { getArtistsStatic } from "@/api";
-import type { TArtisStatic, TGalleryState, TRootState } from "@/types";
+import type { TArtistStatic, TGalleryState, TRootState } from "@/types";
 import { Module } from "vuex";
 
 const galleryModule: Module<TGalleryState, TRootState> = {
@@ -7,7 +7,7 @@ const galleryModule: Module<TGalleryState, TRootState> = {
     artistsStatic: [],
   },
   mutations: {
-    setArtistsStatic(state, payload: TArtisStatic) {
+    setArtistsStatic(state, payload: TArtistStatic[]) {
       state.artistsStatic = payload;
     },
   },

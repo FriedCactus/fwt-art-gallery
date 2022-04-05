@@ -15,12 +15,13 @@ export type TPainting = {
   };
 };
 
-export type TArtisStatic = {
+export type TArtistStatic = {
   _id: string;
   name: string;
   description: string;
   yearsOfLife: string;
   genres: TGenre[];
+  mainPainting: TPainting;
 };
 
 // Стор
@@ -29,10 +30,10 @@ export type TThemeState = {
 };
 
 export type TGalleryState = {
-  artistsStatic: TArtisStatic | [];
+  artistsStatic: TArtistStatic[] | [];
 };
 
 export type TRootState = {
   theme: TThemeState;
-  galery: TGalleryState;
+  gallery: TGalleryState;
 };

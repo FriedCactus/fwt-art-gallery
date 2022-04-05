@@ -1,4 +1,4 @@
-import { TArtisStatic } from "@/types";
+import { TArtistStatic } from "@/types";
 import axios from "axios";
 
 const instance = axios.create({
@@ -6,4 +6,4 @@ const instance = axios.create({
 });
 
 export const getArtistsStatic = () =>
-  instance.get<TArtisStatic[]>("artists/static").then(({ data }) => data);
+  instance.get<TArtistStatic[]>("artists/static").then(({ data }) => data);
