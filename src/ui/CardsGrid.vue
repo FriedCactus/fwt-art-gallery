@@ -6,7 +6,7 @@
         :paintingName="artist.mainPainting.name"
         :created="artist.mainPainting.yearOfCreation"
         :years="artist.yearsOfLife"
-        :imgUrl="artist.mainPainting.image.src"
+        :imgUrls="artist.mainPainting.image"
       />
     </div>
   </section>

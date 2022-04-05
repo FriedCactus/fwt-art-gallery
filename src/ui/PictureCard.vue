@@ -1,6 +1,15 @@
 <template>
   <div class="picture-card">
-    <img :src="`${api}${imgUrl}`" alt="" />
+    <picture>
+      <source
+        :srcset="`${api}${imgUrls.webp}, ${api}${imgUrls.webp2x} 2x`"
+        type="image/webp"
+      />
+      <img
+        :srcset="`${api}${imgUrls.src}, ${api}${imgUrls.src2x} 2x`"
+        :alt="paintingName"
+      />
+    </picture>
 
     <div class="label">
       <div class="top-row">
@@ -22,7 +31,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import type { TPainting } from "@/types";
 
 export default defineComponent({
   name: "PictureCard",
@@ -31,8 +41,8 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    imgUrl: {
-      type: String,
+    imgUrls: {
+      type: Object as PropType<TPainting["image"]>,
       required: true,
     },
     paintingName: {
