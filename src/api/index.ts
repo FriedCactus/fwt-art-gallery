@@ -1,4 +1,4 @@
-import { TArtistStatic } from "@/types";
+import { TArtistStatic, TPainting } from "@/types";
 import axios from "axios";
 
 const instance = axios.create({
@@ -8,4 +8,5 @@ const instance = axios.create({
 export const getArtistsStatic = () =>
   instance.get<TArtistStatic[]>("artists/static", {}).then(({ data }) => data);
 
-export const asd = 0;
+export const getPaintingsByArtist = (id: TArtistStatic["_id"]) =>
+  instance.get<TPainting[]>(`artists/${id}/paintings`).then(({ data }) => data);

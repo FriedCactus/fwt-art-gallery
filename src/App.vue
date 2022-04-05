@@ -15,7 +15,6 @@ import { defineComponent, onBeforeMount, watch } from "vue";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import Container from "./components/Container.vue";
 import Footer from "./components/Footer.vue";
-import Gallery from "./components/Gallery.vue";
 import Header from "./components/Header.vue";
 import Wrapper from "./components/Wrapper.vue";
 import { useStore } from "./store";
@@ -26,7 +25,7 @@ export default defineComponent({
     Container,
     Wrapper,
     Header,
-    Gallery,
+
     Footer,
   },
   setup() {

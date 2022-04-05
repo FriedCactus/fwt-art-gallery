@@ -1,13 +1,15 @@
 <template>
   <section class="cards-grid">
     <div v-for="artist in artists" :key="artist._id" class="card">
-      <PictureCard
-        :name="artist.name"
-        :paintingName="artist.mainPainting.name"
-        :created="artist.mainPainting.yearOfCreation"
-        :years="artist.yearsOfLife"
-        :imgUrls="artist.mainPainting.image"
-      />
+      <router-link :to="`${basePath}/${artist._id}`">
+        <PictureCard
+          :name="artist.name"
+          :paintingName="artist.mainPainting.name"
+          :created="artist.mainPainting.yearOfCreation"
+          :years="artist.yearsOfLife"
+          :imgUrls="artist.mainPainting.image"
+        />
+      </router-link>
     </div>
   </section>
 </template>
@@ -27,6 +29,11 @@ export default defineComponent({
       type: Array as PropType<TArtistStatic[]>,
       required: true,
     },
+  },
+  setup() {
+    return {
+      basePath: process.env.VUE_APP_BASE_PATH,
+    };
   },
 });
 </script>

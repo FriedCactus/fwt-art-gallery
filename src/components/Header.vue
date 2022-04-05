@@ -1,7 +1,7 @@
 <template>
   <header class="header" :class="theme">
     <div class="logo-row">
-      <Logo class="logo" />
+      <router-link :to="basePath"><Logo class="logo" /></router-link>
     </div>
     <div class="buttons-row">
       <div class="button">
@@ -31,7 +31,6 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { useCookies } from "@vueuse/integrations/useCookies";
 import { computed, defineComponent, ref, watch } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
@@ -64,6 +63,7 @@ export default defineComponent({
       onBurgerClick,
       onThemeChangeClick,
       theme: computed(() => store.state.theme.theme),
+      basePath: process.env.VUE_APP_BASE_PATH,
     };
   },
 });
