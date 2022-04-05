@@ -1,6 +1,6 @@
 <template>
   <div class="picture-card">
-    <img :src="require(`../assets/mocks/images/${imgUrl}`)" alt="" />
+    <img :src="`${api}${imgUrl}`" alt="" />
 
     <div class="label">
       <div class="top-row">
@@ -42,6 +42,13 @@ export default defineComponent({
     created: String,
     years: String,
   },
+  setup() {
+    const api = process.env.VUE_APP_BASE_URL;
+
+    return {
+      api,
+    };
+  },
 });
 </script>
 
@@ -59,6 +66,7 @@ export default defineComponent({
   .label {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
     cursor: pointer;
     position: absolute;
@@ -89,31 +97,47 @@ export default defineComponent({
       }
 
       .title {
+        height: 100%;
+
         font-weight: 500;
         font-size: 12px;
         line-height: 111%;
         text-transform: capitalize;
         color: $black;
 
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
         @media ($tablet) {
           font-weight: 700;
           font-size: 18px;
         }
+
+        @media ($laptop) {
+          margin-bottom: 5px;
+        }
       }
       .years {
+        display: none;
         font-weight: 300;
         font-size: 13px;
         line-height: 115%;
         color: $darkGrey;
+
+        @media ($laptop) {
+          display: block;
+        }
       }
     }
 
     .bottom-row {
       display: none;
 
-      @media ($tablet) {
+      @media ($laptop) {
         display: block;
       }
+
       .item {
         display: flex;
         margin-bottom: 5px;

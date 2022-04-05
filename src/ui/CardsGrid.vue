@@ -6,7 +6,7 @@
         :paintingName="artist.mainPainting.name"
         :created="artist.mainPainting.yearOfCreation"
         :years="artist.yearsOfLife"
-        :imgUrl="'card_mock.jpeg'"
+        :imgUrl="artist.mainPainting.image.src"
       />
     </div>
   </section>
