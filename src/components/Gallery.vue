@@ -8,6 +8,7 @@
 import { useStore } from "@/store";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import { computed, defineComponent, onBeforeMount, onMounted } from "vue";
+import { paintingsPerPage } from "@/utils/gallery";
 
 export default defineComponent({
   name: "Gallery",
@@ -18,10 +19,10 @@ export default defineComponent({
     const store = useStore();
 
     onBeforeMount(() => {
-      const screenWidth = window.screen.width;
+      const perPage = paintingsPerPage();
 
-      if (screenWidth < 768) {
-        store.commit("setPerPage", 8);
+      if (perPage !== store.state.gallery.perPage) {
+        store.commit("setPerPage", perPage);
       }
     });
 
