@@ -7,7 +7,7 @@
 <script lang="ts">
 import { useStore } from "@/store";
 import CardsGrid from "@/ui/CardsGrid.vue";
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onBeforeMount, onMounted } from "vue";
 
 export default defineComponent({
   name: "Gallery",
@@ -17,12 +17,20 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
+    onBeforeMount(() => {
+      const screenWidth = window.screen.width;
+
+      if (screenWidth < 768) {
+        store.commit("setPerPage", 8);
+      }
+    });
+
     onMounted(() => {
       store.dispatch("fetchArtistsStatic");
     });
 
     return {
-      artists: computed(() => store.state.gallery.artistsStatic),
+      artists: computed(() => store.getters.getArtistsStatic),
     };
   },
 });
