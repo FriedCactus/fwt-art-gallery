@@ -31,6 +31,7 @@ export type TThemeState = {
 
 export type TGalleryState = {
   artistsStatic: TArtistStatic[] | [];
+  perPage: number;
 };
 
 export type TRootState = {

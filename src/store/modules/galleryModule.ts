@@ -5,10 +5,18 @@ import { Module } from "vuex";
 const galleryModule: Module<TGalleryState, TRootState> = {
   state: {
     artistsStatic: [],
+    perPage: 9,
+  },
+  getters: {
+    getArtistsStatic: (state) => state.artistsStatic.slice(0, state.perPage),
   },
   mutations: {
-    setArtistsStatic(state, payload: TArtistStatic[]) {
+    setArtistsStatic: (state, payload: TArtistStatic[]) => {
       state.artistsStatic = payload;
+    },
+
+    setPerPage(state, payload: number) {
+      state.perPage = payload;
     },
   },
   actions: {

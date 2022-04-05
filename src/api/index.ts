@@ -6,4 +6,6 @@ const instance = axios.create({
 });
 
 export const getArtistsStatic = () =>
-  instance.get<TArtistStatic[]>("artists/static").then(({ data }) => data);
+  instance.get<TArtistStatic[]>("artists/static", {}).then(({ data }) => data);
+
+export const asd = 0;
