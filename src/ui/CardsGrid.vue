@@ -1,78 +1,32 @@
 <template>
   <section class="cards-grid">
-    <div class="card">
+    <div v-for="artist in artists" :key="artist._id" class="card">
       <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
-      />
-    </div>
-    <div class="card">
-      <PictureCard
-        :author="'Author'"
-        :name="'Name'"
-        :imgUrl="'card_mock.jpeg'"
+        :name="artist.name"
+        :paintingName="artist.mainPainting.name"
+        :created="artist.mainPainting.yearOfCreation"
+        :years="artist.yearsOfLife"
+        :imgUrls="artist.mainPainting.image"
       />
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import type { TArtistStatic } from "@/types";
+
+import { defineComponent, PropType } from "vue";
 import PictureCard from "./PictureCard.vue";
 
 export default defineComponent({
   components: {
     PictureCard,
+  },
+  props: {
+    artists: {
+      type: Array as PropType<TArtistStatic[]>,
+      required: true,
+    },
   },
 });
 </script>

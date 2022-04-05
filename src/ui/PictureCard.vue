@@ -1,16 +1,25 @@
 <template>
   <div class="picture-card">
-    <img :src="require(`../assets/mocks/images/${imgUrl}`)" alt="" />
+    <picture>
+      <source
+        :srcset="`${api}${imgUrls.webp}, ${api}${imgUrls.webp2x} 2x`"
+        type="image/webp"
+      />
+      <img
+        :srcset="`${api}${imgUrls.src}, ${api}${imgUrls.src2x} 2x`"
+        :alt="paintingName"
+      />
+    </picture>
 
     <div class="label">
       <div class="top-row">
-        <h3 class="title">{{ author }}</h3>
+        <h3 class="title">{{ name }}</h3>
         <div class="years" v-if="years">{{ years }}</div>
       </div>
       <div class="bottom-row">
         <div class="item">
           <span>Name: </span>
-          <p class="text">{{ name }}</p>
+          <p class="text">{{ paintingName }}</p>
         </div>
         <div class="item" v-if="created">
           <span>Created: </span>
@@ -22,25 +31,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import type { TPainting } from "@/types";
 
 export default defineComponent({
   name: "PictureCard",
   props: {
-    author: {
-      type: String,
-      required: true,
-    },
-    imgUrl: {
-      type: String,
-      required: true,
-    },
     name: {
       type: String,
       required: true,
     },
-    created: Number,
+    imgUrls: {
+      type: Object as PropType<TPainting["image"]>,
+      required: true,
+    },
+    paintingName: {
+      type: String,
+      required: true,
+    },
+    created: String,
     years: String,
+  },
+  setup() {
+    const api = process.env.VUE_APP_BASE_URL;
+
+    return {
+      api,
+    };
   },
 });
 </script>
@@ -59,6 +76,7 @@ export default defineComponent({
   .label {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
     cursor: pointer;
     position: absolute;
@@ -89,31 +107,47 @@ export default defineComponent({
       }
 
       .title {
+        height: 100%;
+
         font-weight: 500;
         font-size: 12px;
         line-height: 111%;
         text-transform: capitalize;
         color: $black;
 
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
         @media ($tablet) {
           font-weight: 700;
           font-size: 18px;
         }
+
+        @media ($laptop) {
+          margin-bottom: 5px;
+        }
       }
       .years {
+        display: none;
         font-weight: 300;
         font-size: 13px;
         line-height: 115%;
         color: $darkGrey;
+
+        @media ($laptop) {
+          display: block;
+        }
       }
     }
 
     .bottom-row {
       display: none;
 
-      @media ($tablet) {
+      @media ($laptop) {
         display: block;
       }
+
       .item {
         display: flex;
         margin-bottom: 5px;

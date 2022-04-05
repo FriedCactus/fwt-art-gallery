@@ -18,6 +18,7 @@ export default defineComponent({
   flex-direction: column;
   padding: 15px;
   margin: 0 auto;
+  min-height: inherit;
 
   @media ($tablet) {
     max-width: 728px;
