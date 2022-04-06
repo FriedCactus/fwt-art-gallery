@@ -1,49 +1,57 @@
 <template>
   <div class="artist-page" :class="theme">
     <div class="artist-info">
-      <div class="portrait">
-        <img src="@/assets/mocks/images/artist.jpeg" alt="Mock" />
-      </div>
-      <button class="edit-button">
-        <EditIcon />
-        EDIT
-      </button>
-
-      <div class="bio">
+      <div class="left">
+        <div class="portrait">
+          <img src="@/assets/mocks/images/artist.jpeg" alt="Mock" />
+        </div>
+        <button class="edit-button">
+          <EditIcon />
+          EDIT
+        </button>
         <h3 class="artist-name">James Whistler</h3>
         <div class="years">July 11, 1834 - July 17, 1903</div>
+      </div>
+
+      <div class="right">
         <div class="biography">
           <p class="first-part">
             He studied in the Russian Empire and the United States, but spent
             most of his active life in England. He is best known for his
             portraits of his contemporaries.
           </p>
-          <p class="second-part">
+          <p class="second-part" :class="{ active: isTextShown }">
             Experienced the influence of realists in the person of his friend
             Gustave Courbet and the Pre-Raphaelites, as well as Japanese art. In
             a number of creative methods it was close to impressionism.
           </p>
-          <button class="show-all">
-            <span class="text">SHOW ALL</span>
+          <button
+            @click="onShowButtonClick"
+            class="show-all"
+            :class="{ active: isTextShown }"
+          >
+            <span class="text">{{
+              isTextShown ? "SHOW LESS" : "SHOW ALL"
+            }}</span>
             <ArrowIcon />
           </button>
           <div class="country">London, Great Britain</div>
         </div>
-      </div>
 
-      <div class="tags">
-        <span class="tag-item">
-          <Tag>weapons</Tag>
-        </span>
-        <span class="tag-item">
-          <Tag>realistic</Tag>
-        </span>
-        <span class="tag-item">
-          <Tag>anime & manga</Tag>
-        </span>
-        <span class="tag-item">
-          <Tag> Unreal engine </Tag>
-        </span>
+        <div class="tags">
+          <span class="tag-item">
+            <Tag>weapons</Tag>
+          </span>
+          <span class="tag-item">
+            <Tag>realistic</Tag>
+          </span>
+          <span class="tag-item">
+            <Tag>anime & manga</Tag>
+          </span>
+          <span class="tag-item">
+            <Tag> Unreal engine </Tag>
+          </span>
+        </div>
       </div>
     </div>
     <div class="paintings">
@@ -54,7 +62,7 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import EditIcon from "@/assets/icons/edit_icon.svg";
 import ArrowIcon from "@/assets/icons/arrow.svg";
@@ -76,15 +84,23 @@ export default defineComponent({
 
     const store = useStore();
 
+    const isTextShown = ref(false);
+
     onMounted(() => {
       if (typeof artistId === "string") {
         store.dispatch("fetchPaintingsByArtist", artistId);
       }
     });
 
+    const onShowButtonClick = () => {
+      isTextShown.value = !isTextShown.value;
+    };
+
     return {
       theme: computed(() => store.state.theme.theme),
       paintings: computed(() => store.state.gallery.artistPaintings),
+      onShowButtonClick,
+      isTextShown,
     };
   },
 });
@@ -95,38 +111,60 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 
+  @media ($desktop) {
+    flex-direction: row;
+  }
+
   .artist-info {
     display: flex;
     flex-direction: column;
 
-    .portrait {
-      margin-bottom: 10px;
+    @media ($tablet) {
+      flex-direction: row;
     }
 
-    .edit-button {
-      cursor: pointer;
-      align-self: flex-end;
-      margin-bottom: 20px;
-      font-family: Roboto;
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 114%;
-      transition: color 0.3s ease;
-      background-color: transparent;
-      border: none;
-      outline: none;
+    @media ($desktop) {
+      flex-direction: column;
+      margin-right: 95px;
+    }
 
-      svg {
-        margin-right: 5px;
+    .left {
+      display: flex;
+      flex-direction: column;
 
-        :deep(path) {
-          transition: fill 0.3s ease;
+      @media ($tablet) {
+        margin-right: 20px;
+      }
+
+      @media ($desktop) {
+        margin-right: 0;
+      }
+
+      .portrait {
+        margin-bottom: 10px;
+      }
+
+      .edit-button {
+        cursor: pointer;
+        align-self: flex-end;
+        margin-bottom: 20px;
+        font-family: Roboto;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 114%;
+        transition: color 0.3s ease;
+        background-color: transparent;
+        border: none;
+        outline: none;
+
+        svg {
+          margin-right: 5px;
+
+          :deep(path) {
+            transition: fill 0.3s ease;
+          }
         }
       }
-    }
-
-    .bio {
-      font-size: 14px;
 
       .artist-name {
         font-weight: 900;
@@ -135,15 +173,36 @@ export default defineComponent({
         text-transform: uppercase;
         text-align: center;
         margin-bottom: 10px;
+
+        @media ($tablet) {
+          text-align: left;
+          font-size: 26px;
+        }
       }
 
       .years {
         font-weight: 400;
+        font-size: 14px;
         line-height: 114%;
         color: $lightGrey;
         text-align: center;
         margin-bottom: 30px;
+
+        @media ($tablet) {
+          text-align: left;
+          margin-bottom: 0;
+        }
+
+        @media ($desktop) {
+          margin-bottom: 22px;
+        }
       }
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
 
       .biography {
         line-height: 200%;
@@ -154,6 +213,12 @@ export default defineComponent({
         }
 
         .second-part {
+          display: none;
+          margin-bottom: 5px;
+
+          &.active {
+            display: inline;
+          }
         }
 
         .show-all {
@@ -172,9 +237,16 @@ export default defineComponent({
           }
 
           svg {
+            transition: transform 0.3s ease;
             margin-left: 5px;
             width: 13px;
             height: 7px;
+          }
+
+          &.active {
+            svg {
+              transform: rotate(180deg);
+            }
           }
         }
 
@@ -186,20 +258,29 @@ export default defineComponent({
           font-variant: small-caps;
           text-transform: uppercase;
           margin-bottom: 30px;
+
+          @media ($tablet) {
+            margin-bottom: 40px;
+          }
         }
       }
-    }
 
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      margin-bottom: 13px;
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 13px;
 
-      .tag-item {
-        margin: 0 30px 20px 0;
+        .tag-item {
+          margin: 0 20px 20px 0;
+          width: auto;
 
-        &:last-child {
-          margin-right: 0;
+          &:last-child {
+            margin-right: 0;
+          }
+
+          @media ($tablet) {
+            margin-right: 20px;
+          }
         }
       }
     }
@@ -210,43 +291,33 @@ export default defineComponent({
 
   &.dark {
     .artist-info {
-      .edit-button {
-        color: $SecondaryColorDark;
+      color: $SecondaryColorDark;
 
-        svg {
-          :deep(path) {
-            fill: $SecondaryColorDark;
-          }
-        }
-
-        &:hover,
-        &:active {
-          color: $LinkActiveDark;
+      .left {
+        .edit-button {
+          color: $SecondaryColorDark;
 
           svg {
             :deep(path) {
-              fill: $LinkActiveDark;
+              fill: $SecondaryColorDark;
+            }
+          }
+
+          &:hover,
+          &:active {
+            color: $LinkActiveDark;
+
+            svg {
+              :deep(path) {
+                fill: $LinkActiveDark;
+              }
             }
           }
         }
       }
 
-      .bio {
-        color: $SecondaryColorDark;
-
-        .artist-name {
-        }
-
-        .years {
-        }
-
+      .right {
         .biography {
-          .first-part {
-          }
-
-          .second-part {
-          }
-
           .show-all {
             color: $ShowAllDark;
 
@@ -256,58 +327,40 @@ export default defineComponent({
               }
             }
           }
-
-          .country {
-          }
-        }
-      }
-
-      .tags {
-        .tag {
         }
       }
     }
   }
 
   &.light {
+    color: $SecondaryColorLight;
+
     .artist-info {
-      .edit-button {
-        color: $SecondaryColorLight;
-
-        svg {
-          :deep(path) {
-            fill: $SecondaryColorLight;
-          }
-        }
-
-        &:hover,
-        &:active {
-          color: $LinkActiveLight;
+      .left {
+        .edit-button {
+          color: $SecondaryColorLight;
 
           svg {
             :deep(path) {
-              fill: $LinkActiveLight;
+              fill: $SecondaryColorLight;
+            }
+          }
+
+          &:hover,
+          &:active {
+            color: $LinkActiveLight;
+
+            svg {
+              :deep(path) {
+                fill: $LinkActiveLight;
+              }
             }
           }
         }
       }
 
-      .bio {
-        color: $SecondaryColorLight;
-
-        .artist-name {
-        }
-
-        .years {
-        }
-
+      .right {
         .biography {
-          .first-part {
-          }
-
-          .second-part {
-          }
-
           .show-all {
             color: $ShowAllLight;
 
@@ -317,14 +370,6 @@ export default defineComponent({
               }
             }
           }
-
-          .country {
-          }
-        }
-      }
-
-      .tags {
-        .tag {
         }
       }
     }

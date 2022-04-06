@@ -15,6 +15,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tag {
   display: inline-block;
+  text-align: center;
   width: 100%;
   height: 100%;
   padding: 10px;
