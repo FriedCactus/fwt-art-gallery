@@ -1,56 +1,70 @@
 <template>
+  <!-- eslint-disable max-len -->
   <div class="picture-card">
-    <picture>
-      <source
-        :srcset="`${api}${imgUrls.webp}, ${api}${imgUrls.webp2x} 2x`"
-        type="image/webp"
-      />
-      <img
-        :srcset="`${api}${imgUrls.src}, ${api}${imgUrls.src2x} 2x`"
-        :alt="paintingName"
-      />
-    </picture>
+    <template v-if="artist">
+      <picture>
+        <source
+          :srcset="`${api}${artist.mainPainting.image.webp}, ${api}${artist.mainPainting.image.webp2x} 2x`"
+          type="image/webp"
+        />
+        <img
+          :srcset="`${api}${artist.mainPainting.image.src}, ${api}${artist.mainPainting.image.src2x} 2x`"
+          :alt="artist.name"
+        />
+      </picture>
 
-    <div class="label">
-      <div class="top-row">
-        <h3 class="title">{{ name }}</h3>
-        <div class="years" v-if="years">{{ years }}</div>
-      </div>
-      <div class="bottom-row">
-        <div class="item">
-          <span>Name: </span>
-          <p class="text">{{ paintingName }}</p>
+      <div class="label full">
+        <div class="top-row">
+          <h3 class="title">{{ artist.name }}</h3>
+          <div class="years" v-if="artist.yearsOfLife">
+            {{ artist.yearsOfLife }}
+          </div>
         </div>
-        <div class="item" v-if="created">
-          <span>Created: </span>
-          <p class="text">{{ created }}</p>
+        <div class="bottom-row">
+          <div class="item">
+            <span>Name: </span>
+            <p class="text">{{ artist.mainPainting.name }}</p>
+          </div>
+          <div class="item" v-if="artist.mainPainting.yearOfCreation">
+            <span>Created: </span>
+            <p class="text">{{ artist.mainPainting.yearOfCreation }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
+
+    <template v-if="painting">
+      <picture>
+        <source
+          :srcset="`${api}${painting.image.webp}, ${api}${painting.image.webp2x} 2x`"
+          type="image/webp"
+        />
+        <img
+          :srcset="`${api}${painting.image.src}, ${api}${painting.image.src2x} 2x`"
+          :alt="painting.name"
+        />
+      </picture>
+
+      <div class="label">
+        <div class="top-row">
+          <h3 class="title">
+            {{ painting.name }}, {{ painting.yearOfCreation }}
+          </h3>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import type { TPainting } from "@/types";
+import type { TArtistStatic, TPainting } from "@/types";
 
 export default defineComponent({
   name: "PictureCard",
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    imgUrls: {
-      type: Object as PropType<TPainting["image"]>,
-      required: true,
-    },
-    paintingName: {
-      type: String,
-      required: true,
-    },
-    created: String,
-    years: String,
+    artist: Object as PropType<TArtistStatic>,
+    painting: Object as PropType<TPainting>,
   },
   setup() {
     const api = process.env.VUE_APP_BASE_URL;
@@ -78,7 +92,6 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
 
-    cursor: pointer;
     position: absolute;
     top: calc(100% - 26px);
     left: 0;
@@ -94,10 +107,13 @@ export default defineComponent({
       top: calc(100% - 29px);
     }
 
-    @media ($laptop) {
-      &:hover {
-        padding: 10px 15px;
-        transform: translateY(calc(-100% + 30px));
+    &.full {
+      cursor: pointer;
+      @media ($laptop) {
+        &:hover {
+          padding: 10px 15px;
+          transform: translateY(calc(-100% + 30px));
+        }
       }
     }
 

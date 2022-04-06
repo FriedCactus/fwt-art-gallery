@@ -1,21 +1,23 @@
 <template>
   <section class="cards-grid">
-    <div v-for="artist in artists" :key="artist._id" class="card">
-      <router-link :to="`${basePath}/${artist._id}`">
-        <PictureCard
-          :name="artist.name"
-          :paintingName="artist.mainPainting.name"
-          :created="artist.mainPainting.yearOfCreation"
-          :years="artist.yearsOfLife"
-          :imgUrls="artist.mainPainting.image"
-        />
-      </router-link>
-    </div>
+    <template v-if="artists">
+      <div v-for="artist in artists" :key="artist._id" class="card">
+        <router-link :to="`${basePath}/${artist._id}`">
+          <PictureCard :artist="artist" />
+        </router-link>
+      </div>
+    </template>
+
+    <template v-if="paintings">
+      <div v-for="painting in paintings" :key="painting._id" class="card">
+        <PictureCard :painting="painting" />
+      </div>
+    </template>
   </section>
 </template>
 
 <script lang="ts">
-import type { TArtistStatic } from "@/types";
+import type { TArtistStatic, TPainting } from "@/types";
 
 import { defineComponent, PropType } from "vue";
 import PictureCard from "./PictureCard.vue";
@@ -27,7 +29,9 @@ export default defineComponent({
   props: {
     artists: {
       type: Array as PropType<TArtistStatic[]>,
-      required: true,
+    },
+    paintings: {
+      type: Array as PropType<TPainting[]>,
     },
   },
   setup() {
