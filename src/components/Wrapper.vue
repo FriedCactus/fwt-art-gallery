@@ -22,6 +22,7 @@ export default defineComponent({
 
   @media ($tablet) {
     max-width: 728px;
+    padding: 20px 0;
   }
 
   @media ($laptop) {
@@ -30,10 +31,6 @@ export default defineComponent({
 
   @media ($desktop) {
     max-width: 1120px;
-  }
-
-  @media ($tablet) {
-    padding: 20px;
   }
 }
 </style>

@@ -121,11 +121,13 @@ export default defineComponent({
 
     @media ($tablet) {
       flex-direction: row;
+      margin-bottom: 40px;
     }
 
     @media ($desktop) {
+      flex: 0 0 455px;
       flex-direction: column;
-      margin-right: 95px;
+      margin: 0 95px 0 0;
     }
 
     .left {
@@ -133,10 +135,12 @@ export default defineComponent({
       flex-direction: column;
 
       @media ($tablet) {
+        flex: 0 0 calc(50% - 20px);
         margin-right: 20px;
       }
 
       @media ($desktop) {
+        flex: 1 1 auto;
         margin-right: 0;
       }
 
@@ -268,7 +272,6 @@ export default defineComponent({
       .tags {
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: 13px;
 
         .tag-item {
           margin: 0 20px 20px 0;
