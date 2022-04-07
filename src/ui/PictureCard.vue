@@ -4,11 +4,11 @@
     <template v-if="artist">
       <picture>
         <source
-          :srcset="`${api}${artist.mainPainting.image.webp}, ${api}${artist.mainPainting.image.webp2x} 2x`"
+          :srcset="`${api}${artist.mainPainting.image.webp}`"
           type="image/webp"
         />
         <img
-          :srcset="`${api}${artist.mainPainting.image.src}, ${api}${artist.mainPainting.image.src2x} 2x`"
+          :srcset="`${api}${artist.mainPainting.image.src}`"
           :alt="artist.name"
         />
       </picture>
@@ -85,6 +85,7 @@ export default defineComponent({
   img {
     display: block;
     width: 100%;
+    height: 100%;
   }
 
   .label {
