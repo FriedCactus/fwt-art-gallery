@@ -56,7 +56,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 
   &.paintings {
