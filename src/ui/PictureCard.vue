@@ -108,7 +108,7 @@ export default defineComponent({
     width: 100%;
   }
 
-  @media ($desktop) {
+  @media ($laptop) {
     &:hover {
       .top-menu {
         transform: translateY(0);

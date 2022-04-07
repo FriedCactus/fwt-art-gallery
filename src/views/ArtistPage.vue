@@ -55,8 +55,9 @@
       </div>
     </div>
     <div class="paintings">
-      <CardsGrid :paintings="paintings" />
+      <CardsGrid :paintings="paintings" :onPaintingClick="onPaintingClick" />
     </div>
+    <PaintingModal v-if="isPaintingModalOpen" />
   </div>
 </template>
 
@@ -68,6 +69,7 @@ import EditIcon from "@/assets/icons/edit_icon.svg";
 import ArrowIcon from "@/assets/icons/arrow.svg";
 import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
+import PaintingModal from "@/components/PaintingModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -76,6 +78,7 @@ export default defineComponent({
     ArrowIcon,
     Tag,
     CardsGrid,
+    PaintingModal,
   },
 
   setup() {
@@ -84,7 +87,8 @@ export default defineComponent({
 
     const store = useStore();
 
-    const isTextShown = ref(false);
+    const isTextShown = ref<boolean>(false);
+    const isPaintingModalOpen = ref<boolean>(false);
 
     onMounted(() => {
       if (typeof artistId === "string") {
@@ -96,11 +100,17 @@ export default defineComponent({
       isTextShown.value = !isTextShown.value;
     };
 
+    const onPaintingClick = () => {
+      isPaintingModalOpen.value = !isPaintingModalOpen.value;
+    };
+
     return {
       theme: computed(() => store.state.theme.theme),
       paintings: computed(() => store.state.gallery.artistPaintings),
       onShowButtonClick,
       isTextShown,
+      isPaintingModalOpen,
+      onPaintingClick,
     };
   },
 });
