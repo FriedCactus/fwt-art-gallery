@@ -1,5 +1,5 @@
 <template>
-  <IconButton class="icon-button" :isActive="isActive">
+  <IconButton @click.stop="onClick()" class="icon-button" :isActive="isActive">
     <FullStarIcon v-if="isActive" />
     <StarIcon class="star" v-else />
   </IconButton>
@@ -19,8 +19,10 @@ export default defineComponent({
     StarIcon,
   },
   props: {
-    isActive: {
-      type: Boolean,
+    isActive: Boolean,
+    onClick: {
+      type: Function,
+      default: () => {},
     },
   },
 });

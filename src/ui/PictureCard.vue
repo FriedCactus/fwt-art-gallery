@@ -45,6 +45,18 @@
         />
       </picture>
 
+      <div class="top-menu">
+        <div class="button-container">
+          <FavouriteButton />
+        </div>
+        <div class="button-container">
+          <RemoveButton />
+        </div>
+        <div class="button-container">
+          <EditButton />
+        </div>
+      </div>
+
       <div class="label">
         <div class="top-row">
           <h3 class="title">
@@ -59,12 +71,20 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import type { TArtistStatic, TPainting } from "@/types";
+import EditButton from "./EditButton.vue";
+import FavouriteButton from "./FavouriteButton.vue";
+import RemoveButton from "./RemoveButton.vue";
 
 export default defineComponent({
   name: "PictureCard",
   props: {
     artist: Object as PropType<TArtistStatic>,
     painting: Object as PropType<TPainting>,
+  },
+  components: {
+    EditButton,
+    FavouriteButton,
+    RemoveButton,
   },
   setup() {
     const api = process.env.VUE_APP_BASE_URL;
@@ -78,6 +98,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .picture-card {
+  cursor: pointer;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
@@ -86,6 +107,33 @@ export default defineComponent({
     display: block;
     width: 100%;
     height: 100%;
+  }
+
+  @media ($laptop) {
+    &:hover {
+      .top-menu {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .top-menu {
+    position: absolute;
+    display: flex;
+    top: 20px;
+    right: 20px;
+    transform: translateY(-300%);
+    transition: transform 0.5s ease;
+
+    .button-container {
+      margin-right: 10px;
+      width: 30px;
+      height: 30px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 
   .label {
@@ -109,7 +157,6 @@ export default defineComponent({
     }
 
     &.full {
-      cursor: pointer;
       @media ($laptop) {
         &:hover {
           padding: 10px 15px;

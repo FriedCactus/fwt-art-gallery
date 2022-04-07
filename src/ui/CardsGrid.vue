@@ -14,7 +14,13 @@
           <AddImage />
         </div>
       </div>
-      <div v-for="painting in paintings" :key="painting._id" class="card">
+      <div
+        @click="onPaintingClick()"
+        @keyup.enter="onPaintingClick()"
+        v-for="painting in paintings"
+        :key="painting._id"
+        class="card"
+      >
         <PictureCard :painting="painting" />
       </div>
     </template>
@@ -35,11 +41,13 @@ export default defineComponent({
     AddImage,
   },
   props: {
-    artists: {
-      type: Array as PropType<TArtistStatic[]>,
-    },
-    paintings: {
-      type: Array as PropType<TPainting[]>,
+    artists: Array as PropType<TArtistStatic[]>,
+    paintings: Array as PropType<TPainting[]>,
+    onPaintingClick: {
+      type: Function,
+      default: () => {
+        console.log(123);
+      },
     },
   },
   setup() {
@@ -56,7 +64,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 
   &.paintings {

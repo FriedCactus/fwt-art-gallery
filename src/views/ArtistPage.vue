@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="paintings">
-      <CardsGrid :paintings="paintings" />
+      <CardsGrid :paintings="paintings" :onPaintingClick="onPaintingClick" />
     </div>
   </div>
 </template>
@@ -84,7 +84,7 @@ export default defineComponent({
 
     const store = useStore();
 
-    const isTextShown = ref(false);
+    const isTextShown = ref<boolean>(false);
 
     onMounted(() => {
       if (typeof artistId === "string") {

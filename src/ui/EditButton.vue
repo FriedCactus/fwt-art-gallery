@@ -1,5 +1,5 @@
 <template>
-  <IconButton class="icon-button" :isActive="isActive">
+  <IconButton @click.stop="onClick()" class="icon-button">
     <EditIcon />
   </IconButton>
 </template>
@@ -14,6 +14,12 @@ export default defineComponent({
   components: {
     IconButton,
     EditIcon,
+  },
+  props: {
+    onClick: {
+      type: Function,
+      default: () => {},
+    },
   },
 });
 </script>
