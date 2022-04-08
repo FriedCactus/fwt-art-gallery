@@ -1,5 +1,8 @@
 <template>
   <div class="slider">
+    <button class="slider-prev-button">
+      <PrevIcon />
+    </button>
     <Swiper
       @slideChange="onSlideChange"
       :initialSlide="activeSlide"
@@ -9,6 +12,11 @@
         horizontalClass: `slider-pagination-horizontal`,
         bulletClass: `slider-bullet`,
         bulletActiveClass: `slider-active-bullet`,
+      }"
+      :navigation="{
+        prevEl: `.slider-prev-button`,
+        nextEl: `.slider-next-button`,
+        disabledClass: `slider-button-disabled`,
       }"
       :keyboard="{
         enabled: true,
@@ -38,21 +46,28 @@
       </SwiperSlide>
     </Swiper>
   </div>
+  <button class="slider-next-button">
+    <NextIcon />
+  </button>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Pagination, Keyboard } from "swiper";
+import { Pagination, Keyboard, Navigation } from "swiper";
 import "swiper/css";
-import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 import { useStore } from "@/store";
+import PrevIcon from "@/assets/icons/prev-arrow.svg";
+import NextIcon from "@/assets/icons/next-arrow.svg";
 
 export default defineComponent({
   components: {
     Swiper,
     SwiperSlide,
+    PrevIcon,
+    NextIcon,
   },
 
   setup() {
@@ -60,14 +75,14 @@ export default defineComponent({
 
     const api = process.env.VUE_APP_BASE_URL;
 
-    const onSlideChange = (swiper: any) => {
-      store.commit("setActiveSlide", swiper.realIndex);
+    const onSlideChange = (swiperInstance: any) => {
+      store.commit("setActiveSlide", swiperInstance.realIndex);
     };
 
     return {
       api,
       paintings: computed(() => store.state.gallery.artistPaintings),
-      modules: [Pagination, Keyboard],
+      modules: [Pagination, Keyboard, Navigation],
       onSlideChange,
       activeSlide: computed(() => store.state.artist.activeSlide),
     };
@@ -81,6 +96,10 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   bottom: 1px !important;
+
+  @media ($tablet) {
+    bottom: 25px !important;
+  }
 }
 
 .slider-bullet {
@@ -97,13 +116,48 @@ export default defineComponent({
   height: 15px;
   background-color: $SliderBulletActive;
 }
+
+.slider-prev-button,
+.slider-next-button {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  width: 30px;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: $SliderButton;
+
+  @media ($tablet) {
+    display: block;
+  }
+}
+
+.slider-prev-button {
+  top: 0;
+  left: 0;
+}
+
+.slider-next-button {
+  top: 0;
+  right: 0;
+}
+
+.slider-button-disabled {
+  background-color: $SliderDisabledButton;
+}
 </style>
 
 <style lang="scss" scoped>
 .slider {
   .slide {
     display: flex;
+    justify-content: center;
     padding-bottom: 30px;
+
+    @media ($tablet) {
+      padding-bottom: 0;
+    }
 
     picture,
     img {

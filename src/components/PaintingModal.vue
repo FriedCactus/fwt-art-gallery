@@ -87,12 +87,24 @@ export default defineComponent({
   background-color: $ModalBackgroundMobile;
   z-index: 2;
 
+  @media ($tablet) {
+    padding: 20px 50px;
+  }
+
   .top-row {
     align-self: flex-end;
     margin-bottom: 95px;
 
+    @media (orientation: landscape) {
+      margin-bottom: 10px;
+    }
+
     @media ($tablet) {
       margin-bottom: 170px;
+
+      @media (orientation: landscape) {
+        margin-bottom: 20px;
+      }
     }
 
     .close-button {
@@ -108,6 +120,32 @@ export default defineComponent({
   .bottom-row {
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+    max-width: 100%;
+
+    @media (orientation: landscape) {
+      margin-bottom: 10px;
+      max-width: 310px;
+    }
+
+    @media ($tablet) {
+      @media (orientation: portrait) {
+        max-width: 620px;
+      }
+
+      @media (orientation: landscape) {
+      }
+    }
+
+    @media ($laptop) {
+      @media (orientation: portrait) {
+        max-width: 700px;
+      }
+
+      @media (orientation: landscape) {
+        max-width: 700px;
+      }
+    }
 
     .menu {
       align-self: flex-end;
@@ -127,6 +165,10 @@ export default defineComponent({
 
     .slider-item {
       margin-bottom: 45px;
+
+      @media ($tablet) {
+        margin-bottom: 20px;
+      }
     }
 
     .info {
@@ -141,10 +183,23 @@ export default defineComponent({
       line-height: 115%;
       color: $ArtisPageInfo;
 
+      @media ($tablet) {
+        flex-direction: row;
+      }
+
       .item {
         margin-bottom: 15px;
         padding: 12px 20px;
         border-radius: 8px;
+
+        @media ($tablet) {
+          margin-bottom: 0;
+          margin-right: 20px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
 
         background-color: $ArtisPageInfoBackground;
 
