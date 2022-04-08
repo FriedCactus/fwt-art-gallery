@@ -89,7 +89,7 @@ export default defineComponent({
     const store = useStore();
 
     const isTextShown = ref<boolean>(false);
-    const isPaintingModalOpen = ref<boolean>(true);
+    const isPaintingModalOpen = ref<boolean>(false);
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {

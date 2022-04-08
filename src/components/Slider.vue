@@ -10,6 +10,9 @@
         bulletClass: `slider-bullet`,
         bulletActiveClass: `slider-active-bullet`,
       }"
+      :keyboard="{
+        enabled: true,
+      }"
       :slider-per-view="1"
       :space-between="50"
     >
@@ -40,7 +43,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Pagination } from "swiper";
+import { Pagination, Keyboard } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -64,7 +67,7 @@ export default defineComponent({
     return {
       api,
       paintings: computed(() => store.state.gallery.artistPaintings),
-      modules: [Pagination],
+      modules: [Pagination, Keyboard],
       onSlideChange,
       activeSlide: computed(() => store.state.artist.activeSlide),
     };

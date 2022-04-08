@@ -131,11 +131,15 @@ export default defineComponent({
 
     .info {
       align-self: center;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
       font-weight: 500;
       font-size: 13px;
       line-height: 115%;
       color: $ArtisPageInfo;
-      text-align: center;
 
       .item {
         margin-bottom: 15px;
