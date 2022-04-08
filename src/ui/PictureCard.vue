@@ -46,15 +46,15 @@
       </picture>
 
       <div class="top-menu">
-        <div class="button-container">
+        <span class="button-container">
           <FavouriteButton />
-        </div>
-        <div class="button-container">
+        </span>
+        <span class="button-container">
           <RemoveButton />
-        </div>
-        <div class="button-container">
+        </span>
+        <span class="button-container">
           <EditButton />
-        </div>
+        </span>
       </div>
 
       <div class="label">

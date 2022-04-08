@@ -24,5 +24,6 @@ module.exports = {
     "object-curly-newline": "off",
     "import/prefer-default-export": "warn",
     "implicit-arrow-linebreak": "warn",
+    "import/extensions": "off",
   },
 };

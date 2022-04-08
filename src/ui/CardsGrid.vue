@@ -45,9 +45,7 @@ export default defineComponent({
     paintings: Array as PropType<TPainting[]>,
     onPaintingClick: {
       type: Function,
-      default: () => {
-        console.log(123);
-      },
+      default: () => {},
     },
   },
   setup() {

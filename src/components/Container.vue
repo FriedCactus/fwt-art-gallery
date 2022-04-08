@@ -24,6 +24,7 @@ export default defineComponent({
 .container {
   min-height: 100vh;
   transition: background-color 0.3s ease;
+  overflow: hidden;
 
   &.dark {
     background-color: $BackgroundDark;

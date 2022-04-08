@@ -57,17 +57,20 @@
     <div class="paintings">
       <CardsGrid :paintings="paintings" :onPaintingClick="onPaintingClick" />
     </div>
+    <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
   </div>
 </template>
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import EditIcon from "@/assets/icons/edit_icon.svg";
 import ArrowIcon from "@/assets/icons/arrow.svg";
 import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
+import PaintingModal from "@/components/PaintingModal.vue";
+import bodyLock from "@/utils/bodyLock";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -76,6 +79,7 @@ export default defineComponent({
     ArrowIcon,
     Tag,
     CardsGrid,
+    PaintingModal,
   },
 
   setup() {
@@ -85,6 +89,12 @@ export default defineComponent({
     const store = useStore();
 
     const isTextShown = ref<boolean>(false);
+    const isPaintingModalOpen = ref<boolean>(true);
+
+    // Скролл лок при открытии модалки
+    watch(isPaintingModalOpen, (value) => {
+      bodyLock(value);
+    });
 
     onMounted(() => {
       if (typeof artistId === "string") {
@@ -96,11 +106,28 @@ export default defineComponent({
       isTextShown.value = !isTextShown.value;
     };
 
+    const onModalCLose = () => {
+      isPaintingModalOpen.value = false;
+    };
+
+    const onPaintingClick = () => {
+      if (isPaintingModalOpen.value) {
+        isPaintingModalOpen.value = false;
+        bodyLock(false);
+      } else {
+        isPaintingModalOpen.value = true;
+        bodyLock(true);
+      }
+    };
+
     return {
       theme: computed(() => store.state.theme.theme),
       paintings: computed(() => store.state.gallery.artistPaintings),
       onShowButtonClick,
       isTextShown,
+      isPaintingModalOpen,
+      onPaintingClick,
+      onModalCLose,
     };
   },
 });
