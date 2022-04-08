@@ -15,9 +15,9 @@
         </div>
       </div>
       <div
-        @click="onPaintingClick()"
-        @keyup.enter="onPaintingClick()"
-        v-for="painting in paintings"
+        @click="onPaintingClick(index)"
+        @keyup.enter="onPaintingClick(index)"
+        v-for="(painting, index) in paintings"
         :key="painting._id"
         class="card"
       >

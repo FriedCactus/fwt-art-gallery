@@ -110,14 +110,10 @@ export default defineComponent({
       isPaintingModalOpen.value = false;
     };
 
-    const onPaintingClick = () => {
-      if (isPaintingModalOpen.value) {
-        isPaintingModalOpen.value = false;
-        bodyLock(false);
-      } else {
-        isPaintingModalOpen.value = true;
-        bodyLock(true);
-      }
+    const onPaintingClick = (index: number) => {
+      store.commit("setActiveSlide", index);
+      isPaintingModalOpen.value = true;
+      bodyLock(true);
     };
 
     return {

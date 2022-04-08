@@ -1,6 +1,8 @@
 <template>
   <div class="slider">
     <Swiper
+      @slideChange="onSlideChange"
+      :initialSlide="activeSlide"
       :modules="modules"
       :pagination="{
         clickable: true,
@@ -55,10 +57,16 @@ export default defineComponent({
 
     const api = process.env.VUE_APP_BASE_URL;
 
+    const onSlideChange = (swiper: any) => {
+      store.commit("setActiveSlide", swiper.realIndex);
+    };
+
     return {
       api,
       paintings: computed(() => store.state.gallery.artistPaintings),
       modules: [Pagination],
+      onSlideChange,
+      activeSlide: computed(() => store.state.artist.activeSlide),
     };
   },
 });

@@ -19,18 +19,21 @@
         </span>
       </div>
 
-      <div class="slider-item"><Slider /></div>
+      <div class="slider-item">
+        <Slider />
+      </div>
 
       <div class="info">
-        <div class="item">Arrangement in Grey and Black</div>
-        <div class="item">1871</div>
+        <div class="item">{{ info.description }}</div>
+        <div class="item">{{ info.year }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import FavouriteButton from "@/ui/FavouriteButton.vue";
 import RemoveButton from "@/ui/RemoveButton.vue";
@@ -52,7 +55,21 @@ export default defineComponent({
     },
   },
   setup() {
-    return {};
+    const store = useStore();
+
+    const info = computed(() => {
+      const { activeSlide } = store.state.artist;
+      const description =
+        store.state.gallery.artistPaintings[activeSlide]?.name;
+      const year =
+        store.state.gallery.artistPaintings[activeSlide]?.yearOfCreation;
+
+      return { description, year };
+    });
+
+    return {
+      info,
+    };
   },
 });
 </script>

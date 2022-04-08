@@ -37,7 +37,12 @@ export type TGalleryState = {
   perPage: number;
 };
 
+export type TArtistState = {
+  activeSlide: number;
+};
+
 export type TRootState = {
   theme: TThemeState;
   gallery: TGalleryState;
+  artist: TArtistState;
 };
