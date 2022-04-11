@@ -1,7 +1,7 @@
-import { TRootState, TThemeState } from "@/types";
+import { TRootState, TSettingsState } from "@/types";
 import { Module } from "vuex";
 
-const themeModule: Module<TThemeState, TRootState> = {
+const settingsModule: Module<TSettingsState, TRootState> = {
   state: {
     theme: "light",
   },
@@ -10,10 +10,10 @@ const themeModule: Module<TThemeState, TRootState> = {
       state.theme = state.theme === "dark" ? "light" : "dark";
     },
 
-    setTheme(state, payload: TThemeState["theme"]) {
+    setTheme(state, payload: TSettingsState["theme"]) {
       state.theme = payload;
     },
   },
 };
 
-export default themeModule;
+export default settingsModule;

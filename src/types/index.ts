@@ -27,7 +27,7 @@ export type TArtistStatic = {
 };
 
 // Стор
-export type TThemeState = {
+export type TSettingsState = {
   theme: "dark" | "light";
 };
 
@@ -42,7 +42,7 @@ export type TArtistState = {
 };
 
 export type TRootState = {
-  theme: TThemeState;
+  settings: TSettingsState;
   gallery: TGalleryState;
   artist: TArtistState;
 };

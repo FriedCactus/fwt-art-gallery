@@ -53,7 +53,7 @@ export default defineComponent({
 
     return {
       basePath: process.env.VUE_APP_BASE_PATH,
-      theme: computed(() => store.state.theme.theme),
+      theme: computed(() => store.state.settings.theme),
     };
   },
 });

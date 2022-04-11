@@ -117,7 +117,7 @@ export default defineComponent({
     };
 
     return {
-      theme: computed(() => store.state.theme.theme),
+      theme: computed(() => store.state.settings.theme),
       paintings: computed(() => store.state.gallery.artistPaintings),
       onShowButtonClick,
       isTextShown,

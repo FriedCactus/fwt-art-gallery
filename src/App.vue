@@ -7,6 +7,7 @@
       </main>
       <Footer />
     </Wrapper>
+    <AuthorizationModals />
   </Container>
 </template>
 
@@ -18,6 +19,7 @@ import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import Wrapper from "./components/Wrapper.vue";
 import { useStore } from "./store";
+import AuthorizationModals from "./components/AuthorizationModals.vue";
 
 export default defineComponent({
   name: "App",
@@ -25,14 +27,14 @@ export default defineComponent({
     Container,
     Wrapper,
     Header,
-
     Footer,
+    AuthorizationModals,
   },
   setup() {
     const cookies = useCookies();
     const store = useStore();
 
-    watch(store.state.theme, (newValue) => {
+    watch(store.state.settings, (newValue) => {
       cookies.set("theme", newValue.theme);
     });
 
@@ -42,7 +44,7 @@ export default defineComponent({
       if (theme) {
         store.commit("setTheme", theme);
       } else {
-        cookies.set("theme", store.state.theme.theme);
+        cookies.set("theme", store.state.settings.theme);
       }
     });
   },

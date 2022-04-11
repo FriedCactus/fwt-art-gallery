@@ -42,7 +42,7 @@ export default defineComponent({
     };
 
     return {
-      theme: computed(() => store.state.theme.theme),
+      theme: computed(() => store.state.settings.theme),
       onThemeChangeClick,
     };
   },

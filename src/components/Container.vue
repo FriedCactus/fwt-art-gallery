@@ -14,7 +14,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      theme: computed(() => store.state.theme.theme),
+      theme: computed(() => store.state.settings.theme),
     };
   },
 });

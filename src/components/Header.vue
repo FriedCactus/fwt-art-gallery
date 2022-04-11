@@ -25,13 +25,13 @@
         <span class="line" />
       </button>
     </div>
+    <BurgerMenu :isOpen="isMenuOpen" />
   </header>
-  <BurgerMenu :isOpen="isMenuOpen" />
 </template>
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
 import Button from "@/ui/Button.vue";
@@ -62,7 +62,7 @@ export default defineComponent({
       isMenuOpen,
       onBurgerClick,
       onThemeChangeClick,
-      theme: computed(() => store.state.theme.theme),
+      theme: computed(() => store.state.settings.theme),
       basePath: process.env.VUE_APP_BASE_PATH,
     };
   },
