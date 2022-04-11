@@ -1,5 +1,5 @@
 <template>
-  <a href="" class="link" :class="{ [theme]: theme, bold: bold }"><slot /></a>
+  <a href="#" class="link" :class="{ [theme]: theme, bold: bold }"><slot /></a>
 </template>
 
 <script lang="ts">

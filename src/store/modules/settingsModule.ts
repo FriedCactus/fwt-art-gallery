@@ -4,6 +4,7 @@ import { Module } from "vuex";
 const settingsModule: Module<TSettingsState, TRootState> = {
   state: {
     theme: "light",
+    authorizationModal: "",
   },
   mutations: {
     changeTheme(state) {
@@ -12,6 +13,13 @@ const settingsModule: Module<TSettingsState, TRootState> = {
 
     setTheme(state, payload: TSettingsState["theme"]) {
       state.theme = payload;
+    },
+
+    setAuthorizationModal(
+      state,
+      payload: TSettingsState["authorizationModal"],
+    ) {
+      state.authorizationModal = payload;
     },
   },
 };

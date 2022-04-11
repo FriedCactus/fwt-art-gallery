@@ -29,6 +29,7 @@ export type TArtistStatic = {
 // Стор
 export type TSettingsState = {
   theme: "dark" | "light";
+  authorizationModal: "auth" | "register" | "";
 };
 
 export type TGalleryState = {

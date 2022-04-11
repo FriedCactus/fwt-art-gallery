@@ -2,15 +2,15 @@
   <div class="burger-menu" :class="{ [theme]: theme, active: isOpen }">
     <div class="buttons-row">
       <div class="button">
-        <Button @click="onThemeChangeClick" :style="'outlined'">
+        <Button :onClick="onThemeChangeClick" :style="'outlined'">
           <ThemeIcon />
         </Button>
       </div>
       <div class="button">
-        <Button :style="'outlined'">Log in</Button>
+        <Button :onClick="onLogInClick" :style="'outlined'">Log in</Button>
       </div>
       <div class="button">
-        <Button>Sign up</Button>
+        <Button :onClick="onSignUpClick">Sign up</Button>
       </div>
     </div>
   </div>
@@ -21,6 +21,7 @@ import Button from "@/ui/Button.vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
+import { TSettingsState } from "@/types";
 
 export default defineComponent({
   name: "BurgerMenu",
@@ -41,9 +42,25 @@ export default defineComponent({
       store.commit("changeTheme");
     };
 
+    const authorizationModal = (
+      modal: TSettingsState["authorizationModal"],
+    ) => {
+      store.commit("setAuthorizationModal", modal);
+    };
+
+    const onLogInClick = () => {
+      authorizationModal("auth");
+    };
+
+    const onSignUpClick = () => {
+      authorizationModal("register");
+    };
+
     return {
       theme: computed(() => store.state.settings.theme),
       onThemeChangeClick,
+      onLogInClick,
+      onSignUpClick,
     };
   },
 });
@@ -51,7 +68,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .burger-menu {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

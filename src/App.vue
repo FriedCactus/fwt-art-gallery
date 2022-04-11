@@ -20,6 +20,7 @@ import Header from "./components/Header.vue";
 import Wrapper from "./components/Wrapper.vue";
 import { useStore } from "./store";
 import AuthorizationModals from "./components/AuthorizationModals.vue";
+import bodyLock from "./utils/bodyLock";
 
 export default defineComponent({
   name: "App",
@@ -34,9 +35,21 @@ export default defineComponent({
     const cookies = useCookies();
     const store = useStore();
 
-    watch(store.state.settings, (newValue) => {
-      cookies.set("theme", newValue.theme);
-    });
+    // Слежение за темой
+    watch(
+      () => store.state.settings.theme,
+      (newValue) => {
+        cookies.set("theme", newValue);
+      },
+    );
+
+    // Слежение за модалками авторизации
+    watch(
+      () => store.state.settings.authorizationModal,
+      (newValue) => {
+        bodyLock(!!newValue);
+      },
+    );
 
     onBeforeMount(() => {
       const theme = cookies.get("theme");

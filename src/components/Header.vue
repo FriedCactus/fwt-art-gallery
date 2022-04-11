@@ -10,10 +10,10 @@
         </Button>
       </div>
       <div class="button">
-        <Button :style="'outlined'">Log in</Button>
+        <Button :onClick="onLogInClick" :style="'outlined'">Log in</Button>
       </div>
       <div class="button">
-        <Button>Sign up</Button>
+        <Button :onClick="onSignUpClick">Sign up</Button>
       </div>
       <button
         @click="onBurgerClick"
@@ -30,7 +30,10 @@
 </template>
 
 <script lang="ts">
+import type { TSettingsState } from "@/types";
+
 import { useStore } from "@/store";
+import bodyLock from "@/utils/bodyLock";
 import { computed, defineComponent, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
@@ -52,10 +55,25 @@ export default defineComponent({
 
     const onBurgerClick = () => {
       isMenuOpen.value = !isMenuOpen.value;
+      bodyLock(isMenuOpen.value);
     };
 
     const onThemeChangeClick = () => {
       store.commit("changeTheme");
+    };
+
+    const authorizationModal = (
+      modal: TSettingsState["authorizationModal"],
+    ) => {
+      store.commit("setAuthorizationModal", modal);
+    };
+
+    const onLogInClick = () => {
+      authorizationModal("auth");
+    };
+
+    const onSignUpClick = () => {
+      authorizationModal("register");
     };
 
     return {
@@ -64,6 +82,8 @@ export default defineComponent({
       onThemeChangeClick,
       theme: computed(() => store.state.settings.theme),
       basePath: process.env.VUE_APP_BASE_PATH,
+      onLogInClick,
+      onSignUpClick,
     };
   },
 });
