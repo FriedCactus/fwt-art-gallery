@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, watch } from "vue";
+import { computed, defineComponent, onBeforeMount, watch } from "vue";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import Container from "./components/Container.vue";
 import Footer from "./components/Footer.vue";
@@ -51,6 +51,13 @@ export default defineComponent({
       },
     );
 
+    watch(
+      () => store.state.auth.isAuth,
+      (newValue) => {
+        if (newValue) store.commit("setAuthorizationModal", "");
+      },
+    );
+
     onBeforeMount(() => {
       const theme = cookies.get("theme");
 
@@ -60,6 +67,8 @@ export default defineComponent({
         cookies.set("theme", store.state.settings.theme);
       }
     });
+
+    return {};
   },
 });
 </script>
