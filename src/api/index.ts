@@ -1,4 +1,4 @@
-import { TArtistStatic, TPainting } from "@/types";
+import { TArtistStatic, TPainting, TAuthBody, TAuthResponse } from "@/types";
 import axios from "axios";
 
 const instance = axios.create({
@@ -10,3 +10,9 @@ export const getArtistsStatic = () =>
 
 export const getPaintingsByArtist = (id: TArtistStatic["_id"]) =>
   instance.get<TPainting[]>(`artists/${id}/paintings`).then(({ data }) => data);
+
+export const register = (body: TAuthBody) =>
+  instance.post<TAuthResponse>("auth/register", body);
+
+export const login = (body: TAuthBody) =>
+  instance.post<TAuthResponse>("auth/login", body);

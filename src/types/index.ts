@@ -47,3 +47,13 @@ export type TRootState = {
   gallery: TGalleryState;
   artist: TArtistState;
 };
+
+export type TAuthBody = {
+  username: string;
+  password: string;
+};
+
+export type TAuthResponse = {
+  accessToken: string;
+  refreshToken: string;
+};
