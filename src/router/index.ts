@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import GalleryPage from "../views/GalleryPage.vue";
 import ArtistPage from "../views/ArtistPage.vue";
 
-const basePath = process.env.VUE_APP_BASE_PATH;
+const basePath = "/fwt-art-gallery";
 
 const routes = [
   {
