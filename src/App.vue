@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, watch } from "vue";
+import { defineComponent, onBeforeMount, watch } from "vue";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import Container from "./components/Container.vue";
 import Footer from "./components/Footer.vue";
