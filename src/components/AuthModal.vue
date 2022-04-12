@@ -7,7 +7,7 @@
     </div>
 
     <template v-if="type === 'auth'">
-      <form class="form">
+      <form @submit.prevent="" class="form">
         <h3 class="title">AUTHORIZATION</h3>
         <div class="slot"><slot /></div>
         <div class="submit-button">
@@ -24,7 +24,7 @@
     </template>
 
     <template v-if="type === 'register'">
-      <form class="form">
+      <form @submit.prevent="" class="form">
         <h3 class="title">СREATE YOUR PROFILE</h3>
         <div class="slot"><slot /></div>
         <div class="submit-button">
@@ -88,6 +88,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .auth-modal {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,19 +97,35 @@ export default defineComponent({
   border-radius: 35px 35px 0px 0px;
   width: 100%;
   height: 100%;
-  padding: 28px 15px;
+  padding: 67px 15px 15px;
   overflow: hidden;
 
+  @media ($tablet) {
+    padding: 38px 85px;
+    border-radius: 35px;
+    width: auto;
+    height: auto;
+  }
+
   .top {
-    align-self: flex-end;
+    position: absolute;
+    top: 28px;
+    right: 28px;
     padding-right: 16px;
     margin-bottom: 57px;
+
+    @media ($tablet) {
+      top: 22px;
+      right: 22px;
+    }
 
     .close-button {
       cursor: pointer;
       background-color: transparent;
       border: none;
       outline: none;
+      height: 12px;
+      width: 12px;
 
       svg {
         :deep(path) {
