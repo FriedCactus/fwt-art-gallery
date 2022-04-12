@@ -26,6 +26,16 @@ export type TArtistStatic = {
   mainPainting: TPainting;
 };
 
+export type TAuthBody = {
+  username: string;
+  password: string;
+};
+
+export type TAuthResponse = {
+  accessToken: string;
+  refreshToken: string;
+};
+
 // Стор
 export type TSettingsState = {
   theme: "dark" | "light";
@@ -42,18 +52,18 @@ export type TArtistState = {
   activeSlide: number;
 };
 
+export type TAuthState = {
+  isAuth: boolean;
+  isLoading: boolean;
+  error: {
+    type: "password" | "username" | "";
+    message: string;
+  };
+};
+
 export type TRootState = {
   settings: TSettingsState;
   gallery: TGalleryState;
   artist: TArtistState;
-};
-
-export type TAuthBody = {
-  username: string;
-  password: string;
-};
-
-export type TAuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+  auth: TAuthState;
 };

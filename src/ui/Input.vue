@@ -7,34 +7,42 @@
       :placeholder="placeholder"
       class="input"
       :id="placeholder"
-      type="text"
-      v-model="message"
+      :type="typeValue"
+      :value="value"
+      @input="onInput($event)"
     />
     <p v-if="error" class="error">{{ error }}</p>
   </label>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Input",
-  components: {},
   props: {
     placeholder: {
       type: String,
       required: true,
     },
+    typeValue: {
+      type: String,
+      default: "text",
+    },
     error: {
       type: String,
     },
+    value: {
+      type: String,
+      required: true,
+    },
+    onInput: {
+      type: Function,
+      required: true,
+    },
   },
   setup() {
-    const message = ref("");
-
-    return {
-      message,
-    };
+    return {};
   },
 });
 </script>

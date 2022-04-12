@@ -7,22 +7,35 @@
     </div>
 
     <template v-if="type === 'auth'">
-      <form @submit.prevent="" class="form">
+      <form @submit.prevent="onAuthSubmit" class="form">
         <h3 class="title">AUTHORIZATION</h3>
         <div class="inputs">
           <div class="input">
-            <Input :placeholder="'Email'">
+            <Input
+              :onInput="setLoginName"
+              :value="loginName"
+              :placeholder="'Email'"
+              :error="usernameError"
+            >
               <PersonIcon />
             </Input>
           </div>
           <div class="input">
-            <Input :placeholder="'Password'">
+            <Input
+              :onInput="setLoginPassword"
+              :value="loginPassword"
+              :placeholder="'Password'"
+              :error="passwordError"
+              :typeValue="'password'"
+            >
               <LockIcon />
             </Input>
           </div>
         </div>
         <div class="submit-button">
-          <Button :style="'filled'" type="submit">Log in</Button>
+          <Button :disabled="isLoading" :style="'filled'" type="submit"
+            >Log in</Button
+          >
         </div>
       </form>
       <span class="separating-line" />
@@ -35,27 +48,43 @@
     </template>
 
     <template v-if="type === 'register'">
-      <form @submit.prevent="" class="form">
+      <form @submit.prevent="onRegisterSubmit" class="form">
         <h3 class="title">СREATE YOUR PROFILE</h3>
         <div class="inputs">
           <div class="input">
-            <Input :placeholder="'Email'">
+            <Input
+              :value="registerName"
+              :onInput="setRegisterName"
+              :placeholder="'Email'"
+            >
               <PersonIcon />
             </Input>
           </div>
           <div class="input">
-            <Input :placeholder="'Password'">
+            <Input
+              :value="registerPassword"
+              :onInput="setRegisterPassword"
+              :placeholder="'Password'"
+              :typeValue="'password'"
+            >
               <LockIcon />
             </Input>
           </div>
           <div class="input">
-            <Input :placeholder="'Confirm password'">
+            <Input
+              :value="registerConfirmPassword"
+              :onInput="setRegisterConfirmPassword"
+              :placeholder="'Confirm password'"
+              :typeValue="'password'"
+            >
               <LockIcon />
             </Input>
           </div>
         </div>
         <div class="submit-button">
-          <Button :style="'filled'" type="submit">Registration</Button>
+          <Button :disabled="isLoading" :style="'filled'" type="submit"
+            >Registration</Button
+          >
         </div>
       </form>
       <span class="separating-line" />
@@ -70,7 +99,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Link from "@/ui/Link.vue";
@@ -103,6 +132,36 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
+    const loginName = ref("");
+    const loginPassword = ref("");
+
+    const registerName = ref("");
+    const registerPassword = ref("");
+    const registerConfirmPassword = ref("");
+
+    const isError = computed(() => store.getters.isError);
+
+    const setLoginName = (event: Event) => {
+      if (isError.value) store.commit("clearError");
+      loginName.value = (event.target as HTMLInputElement).value;
+    };
+
+    const setLoginPassword = (event: Event) => {
+      loginPassword.value = (event.target as HTMLInputElement).value;
+    };
+
+    const setRegisterName = (event: Event) => {
+      registerName.value = (event.target as HTMLInputElement).value;
+    };
+
+    const setRegisterPassword = (event: Event) => {
+      registerPassword.value = (event.target as HTMLInputElement).value;
+    };
+
+    const setRegisterConfirmPassword = (event: Event) => {
+      registerConfirmPassword.value = (event.target as HTMLInputElement).value;
+    };
+
     const onLogInClick = () => {
       store.commit("setAuthorizationModal", "auth");
     };
@@ -111,9 +170,39 @@ export default defineComponent({
       store.commit("setAuthorizationModal", "register");
     };
 
+    const onAuthSubmit = async () => {
+      await store.dispatch("tryToLogin", {
+        username: loginName.value,
+        password: loginPassword.value,
+      });
+    };
+
+    const onRegisterSubmit = () => {
+      store.dispatch("tryToRegister", {
+        username: registerName.value,
+        password: registerPassword.value,
+      });
+    };
+
     return {
+      isLoading: computed(() => store.state.auth.isLoading),
+      error: computed(() => store.state.auth.error),
+      usernameError: computed(() => store.getters.getUsernameError),
+      passwordError: computed(() => store.getters.getPasswordError),
       onLogInClick,
       onSignUpClick,
+      loginName,
+      loginPassword,
+      registerName,
+      registerPassword,
+      registerConfirmPassword,
+      setLoginName,
+      setLoginPassword,
+      setRegisterName,
+      setRegisterPassword,
+      setRegisterConfirmPassword,
+      onAuthSubmit,
+      onRegisterSubmit,
     };
   },
 });

@@ -9,12 +9,19 @@
           <ThemeIcon />
         </Button>
       </div>
-      <div class="button">
-        <Button :onClick="onLogInClick" :style="'outlined'">Log in</Button>
+
+      <template v-if="!isAuth">
+        <div class="button">
+          <Button :onClick="onLogInClick" :style="'outlined'">Log in</Button>
+        </div>
+        <div class="button">
+          <Button :onClick="onSignUpClick">Sign up</Button>
+        </div>
+      </template>
+      <div v-else class="button">
+        <Button :onClick="onLogOutClick" :style="'outlined'">Log out</Button>
       </div>
-      <div class="button">
-        <Button :onClick="onSignUpClick">Sign up</Button>
-      </div>
+
       <button
         @click="onBurgerClick"
         class="burger"
@@ -76,7 +83,12 @@ export default defineComponent({
       authorizationModal("register");
     };
 
+    const onLogOutClick = () => {
+      store.commit("setIsAuth", false);
+    };
+
     return {
+      isAuth: computed(() => store.state.auth.isAuth),
       isMenuOpen,
       onBurgerClick,
       onThemeChangeClick,
@@ -84,6 +96,7 @@ export default defineComponent({
       basePath: process.env.VUE_APP_BASE_PATH,
       onLogInClick,
       onSignUpClick,
+      onLogOutClick,
     };
   },
 });

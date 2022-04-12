@@ -6,11 +6,17 @@
           <ThemeIcon />
         </Button>
       </div>
-      <div class="button">
-        <Button :onClick="onLogInClick" :style="'outlined'">Log in</Button>
-      </div>
-      <div class="button">
-        <Button :onClick="onSignUpClick">Sign up</Button>
+
+      <template v-if="!isAuth">
+        <div class="button">
+          <Button :onClick="onLogInClick" :style="'outlined'">Log in</Button>
+        </div>
+        <div class="button">
+          <Button :onClick="onSignUpClick">Sign up</Button>
+        </div>
+      </template>
+      <div v-else class="button">
+        <Button :onClick="onLogOutClick" :style="'outlined'">Log out</Button>
       </div>
     </div>
   </div>
@@ -56,11 +62,17 @@ export default defineComponent({
       authorizationModal("register");
     };
 
+    const onLogOutClick = () => {
+      store.commit("setIsAuth", false);
+    };
+
     return {
+      isAuth: computed(() => store.state.auth.isAuth),
       theme: computed(() => store.state.settings.theme),
       onThemeChangeClick,
       onLogInClick,
       onSignUpClick,
+      onLogOutClick,
     };
   },
 });

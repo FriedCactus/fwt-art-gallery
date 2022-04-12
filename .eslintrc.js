@@ -26,5 +26,6 @@ module.exports = {
     "implicit-arrow-linebreak": "warn",
     "import/extensions": "off",
     "operator-linebreak": "off",
+    "no-confusing-arrow": "off",
   },
 };
