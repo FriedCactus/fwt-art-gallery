@@ -27,5 +27,6 @@ module.exports = {
     "import/extensions": "off",
     "operator-linebreak": "off",
     "no-confusing-arrow": "off",
+    "consistent-return": "off",
   },
 };

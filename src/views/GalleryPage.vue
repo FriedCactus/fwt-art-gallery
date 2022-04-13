@@ -6,7 +6,7 @@
 import { useStore } from "@/store";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import { computed, defineComponent, onBeforeMount, onMounted } from "vue";
-import paintingsPerPage from "@/utils/gallery";
+import paintingsPerPage from "@/utils/paintingsPerPage";
 
 export default defineComponent({
   name: "GalleryPage",

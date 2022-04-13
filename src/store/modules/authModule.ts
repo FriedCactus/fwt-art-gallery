@@ -47,14 +47,14 @@ const authModule: Module<TAuthState, TRootState> = {
         if (axios.isAxiosError(e)) {
           const message: string = e.response?.data.message;
 
-          if (message.includes("username")) {
+          if (message.toLowerCase().includes("username")) {
             state.error = {
               type: "username",
               message: "Имя пользователя не найдено",
             };
           }
 
-          if (message.includes("password")) {
+          if (message.toLowerCase().includes("password")) {
             state.error = {
               type: "password",
               message: "Пароль введен неправильно",
@@ -75,8 +75,9 @@ const authModule: Module<TAuthState, TRootState> = {
       } catch (e) {
         if (axios.isAxiosError(e)) {
           const message: string = e.response?.data.message;
+          console.log(message);
 
-          if (message.includes("username")) {
+          if (message.toLowerCase().includes("username")) {
             state.error = {
               type: "username",
               message: "Имя пользователя уже используется",

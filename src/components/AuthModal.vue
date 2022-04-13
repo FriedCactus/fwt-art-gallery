@@ -15,7 +15,7 @@
               :onInput="setLoginName"
               :value="loginName"
               :placeholder="'Email'"
-              :error="usernameError"
+              :error="loginNameError || usernameError"
             >
               <PersonIcon />
             </Input>
@@ -25,7 +25,7 @@
               :onInput="setLoginPassword"
               :value="loginPassword"
               :placeholder="'Password'"
-              :error="passwordError"
+              :error="loginPasswordError || passwordError"
               :typeValue="'password'"
             >
               <LockIcon />
@@ -56,6 +56,7 @@
               :value="registerName"
               :onInput="setRegisterName"
               :placeholder="'Email'"
+              :error="registerNameError || usernameError"
             >
               <PersonIcon />
             </Input>
@@ -66,6 +67,7 @@
               :onInput="setRegisterPassword"
               :placeholder="'Password'"
               :typeValue="'password'"
+              :error="registerPasswordError"
             >
               <LockIcon />
             </Input>
@@ -76,6 +78,7 @@
               :onInput="setRegisterConfirmPassword"
               :placeholder="'Confirm password'"
               :typeValue="'password'"
+              :error="registerConfirmPasswordError"
             >
               <LockIcon />
             </Input>
@@ -107,6 +110,10 @@ import { useStore } from "@/store";
 import Input from "@/ui/Input.vue";
 import PersonIcon from "@/assets/icons/person-icon.svg";
 import LockIcon from "@/assets/icons/lock-icon.svg";
+import {
+  authFormValidation,
+  registerFormValidation,
+} from "@/utils/formsValidation";
 
 type Props = {
   type: "auth" | "register";
@@ -134,31 +141,62 @@ export default defineComponent({
 
     const loginName = ref("");
     const loginPassword = ref("");
+    const loginNameError = ref("");
+    const loginPasswordError = ref("");
 
     const registerName = ref("");
     const registerPassword = ref("");
     const registerConfirmPassword = ref("");
+    const registerNameError = ref("");
+    const registerPasswordError = ref("");
+    const registerConfirmPasswordError = ref("");
 
     const isError = computed(() => store.getters.isError);
 
-    const setLoginName = (event: Event) => {
+    const clearLoginErrors = () => {
       if (isError.value) store.commit("clearError");
+
+      if (loginNameError.value) loginNameError.value = "";
+      if (loginPasswordError.value) loginPasswordError.value = "";
+    };
+
+    const clearRegisterErrors = () => {
+      if (isError.value) store.commit("clearError");
+
+      if (registerNameError.value) registerNameError.value = "";
+      if (registerPasswordError.value) registerPasswordError.value = "";
+      if (registerConfirmPasswordError.value) {
+        registerConfirmPasswordError.value = "";
+      }
+    };
+
+    const setLoginName = (event: Event) => {
+      clearLoginErrors();
+
       loginName.value = (event.target as HTMLInputElement).value;
     };
 
     const setLoginPassword = (event: Event) => {
+      clearLoginErrors();
+
       loginPassword.value = (event.target as HTMLInputElement).value;
     };
 
     const setRegisterName = (event: Event) => {
+      clearRegisterErrors();
+
       registerName.value = (event.target as HTMLInputElement).value;
     };
 
     const setRegisterPassword = (event: Event) => {
+      clearRegisterErrors();
+
       registerPassword.value = (event.target as HTMLInputElement).value;
     };
 
     const setRegisterConfirmPassword = (event: Event) => {
+      clearRegisterErrors();
+
       registerConfirmPassword.value = (event.target as HTMLInputElement).value;
     };
 
@@ -171,17 +209,44 @@ export default defineComponent({
     };
 
     const onAuthSubmit = async () => {
-      await store.dispatch("tryToLogin", {
-        username: loginName.value,
-        password: loginPassword.value,
-      });
+      clearLoginErrors();
+
+      const error = authFormValidation(loginName.value, loginPassword.value);
+
+      if (error) {
+        const { type, message } = error;
+
+        if (type === "login") loginNameError.value = message;
+        if (type === "password") loginPasswordError.value = message;
+      } else {
+        await store.dispatch("tryToLogin", {
+          username: loginName.value,
+          password: loginPassword.value,
+        });
+      }
     };
 
     const onRegisterSubmit = () => {
-      store.dispatch("tryToRegister", {
-        username: registerName.value,
-        password: registerPassword.value,
-      });
+      clearRegisterErrors();
+
+      const error = registerFormValidation(
+        registerName.value,
+        registerPassword.value,
+        registerConfirmPassword.value,
+      );
+
+      if (error) {
+        const { type, message } = error;
+
+        if (type === "login") registerNameError.value = message;
+        if (type === "password") registerPasswordError.value = message;
+        if (type === "confirm") registerConfirmPasswordError.value = message;
+      } else {
+        store.dispatch("tryToRegister", {
+          username: registerName.value,
+          password: registerPassword.value,
+        });
+      }
     };
 
     return {
@@ -193,9 +258,14 @@ export default defineComponent({
       onSignUpClick,
       loginName,
       loginPassword,
+      loginNameError,
+      loginPasswordError,
       registerName,
       registerPassword,
       registerConfirmPassword,
+      registerNameError,
+      registerPasswordError,
+      registerConfirmPasswordError,
       setLoginName,
       setLoginPassword,
       setRegisterName,
