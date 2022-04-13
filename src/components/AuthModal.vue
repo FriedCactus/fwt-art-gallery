@@ -14,7 +14,7 @@
             <Input
               :onInput="setLoginName"
               :value="loginName"
-              :placeholder="'Email'"
+              :placeholder="'Login'"
               :error="loginNameError || usernameError"
             >
               <PersonIcon />
@@ -55,7 +55,7 @@
             <Input
               :value="registerName"
               :onInput="setRegisterName"
-              :placeholder="'Email'"
+              :placeholder="'Login'"
               :error="registerNameError || usernameError"
             >
               <PersonIcon />

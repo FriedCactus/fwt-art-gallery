@@ -1,11 +1,12 @@
-import { login, register } from "@/api";
+import { login, refresh, register } from "@/api";
 import { TAuthBody, TAuthState, TRootState } from "@/types";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Module } from "vuex";
 
 type TTokenPayload = {
   accessToken: string;
   refreshToken: string;
+  expires: number;
 };
 
 const authModule: Module<TAuthState, TRootState> = {
@@ -14,6 +15,7 @@ const authModule: Module<TAuthState, TRootState> = {
     isLoading: false,
     accessToken: "",
     refreshToken: "",
+    expires: 0,
     error: {
       type: "",
       message: "",
@@ -43,6 +45,7 @@ const authModule: Module<TAuthState, TRootState> = {
     setTokens(state, payload: TTokenPayload) {
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
+      state.expires = payload.expires;
     },
   },
   actions: {
@@ -51,12 +54,13 @@ const authModule: Module<TAuthState, TRootState> = {
       commit("clearError");
 
       try {
-        const { data } = await login(payload);
+        const response = await login(payload);
 
-        commit("setIsAuth", true);
+        state.isAuth = true;
 
-        state.accessToken = data.accessToken;
-        state.refreshToken = data.refreshToken;
+        state.accessToken = response.data.accessToken;
+        state.refreshToken = response.data.refreshToken;
+        state.expires = Date.now() + 60 * 60 * 24 * 1000;
       } catch (e) {
         if (axios.isAxiosError(e)) {
           const message: string = e.response?.data.message;
@@ -87,14 +91,14 @@ const authModule: Module<TAuthState, TRootState> = {
       try {
         const { data } = await register(payload);
 
-        commit("setIsAuth", true);
+        state.isAuth = true;
 
         state.accessToken = data.accessToken;
         state.refreshToken = data.refreshToken;
+        state.expires = Date.now() + 60 * 60 * 24 * 1000;
       } catch (e) {
         if (axios.isAxiosError(e)) {
           const message: string = e.response?.data.message;
-          console.log(message);
 
           if (message.toLowerCase().includes("username")) {
             state.error = {
@@ -102,6 +106,31 @@ const authModule: Module<TAuthState, TRootState> = {
               message: "Имя пользователя уже используется",
             };
           }
+        }
+      }
+
+      state.isLoading = false;
+    },
+
+    async tryToRefresh({ state }, payload: string) {
+      state.isLoading = true;
+
+      try {
+        const { data } = await refresh({
+          refreshToken: payload,
+        });
+
+        console.log(data);
+
+        state.isAuth = true;
+
+        // Новый токен не обновляется в базе, пока юзать старый
+        // state.accessToken = data.accessToken;
+        // state.refreshToken = data.refreshToken;
+        state.expires = Date.now() + 60 * 60 * 24 * 1000;
+      } catch (e) {
+        if (axios.isAxiosError(e)) {
+          console.log(e.response);
         }
       }
 

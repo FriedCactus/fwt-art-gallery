@@ -4,12 +4,21 @@
 
 <script lang="ts">
 import useAuth from "@/hooks/useAuth";
-import { defineComponent, watch } from "vue";
+import { useStore } from "@/store";
+import { defineComponent, onMounted, watch } from "vue";
 
 export default defineComponent({
   name: "AuthProvider",
   setup() {
-    const { isAccess, setLoginCookies } = useAuth();
+    const store = useStore();
+
+    const { isAccess, setLoginCookies, refreshToken } = useAuth();
+
+    onMounted(() => {
+      if (!isAccess.value && refreshToken) {
+        store.dispatch("tryToRefresh", refreshToken);
+      }
+    });
 
     watch(isAccess, (newValue) => {
       if (newValue) {

@@ -11,9 +11,11 @@
     "storybook": "start-storybook -p 6006"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.1",
     "@vueuse/integrations": "^8.2.3",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "js-cookie": "^3.0.1",
     "swiper": "^8.0.7",
     "universal-cookie": "^4.0.4",
     "vue": "^3.2.13",

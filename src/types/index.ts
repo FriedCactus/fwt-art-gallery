@@ -36,6 +36,10 @@ export type TAuthResponse = {
   refreshToken: string;
 };
 
+export type TRefreshBody = {
+  refreshToken: string;
+};
+
 // Стор
 export type TSettingsState = {
   theme: "dark" | "light";
@@ -57,6 +61,7 @@ export type TAuthState = {
   isLoading: boolean;
   accessToken: string;
   refreshToken: string;
+  expires: number;
   error: {
     type: "password" | "username" | "";
     message: string;
