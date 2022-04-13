@@ -23,10 +23,11 @@
 </template>
 
 <script lang="ts">
+import { useStore } from "@/store";
+import useAuth from "@/hooks/useAuth";
 import Button from "@/ui/Button.vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import { computed, defineComponent } from "vue";
-import { useStore } from "@/store";
 import { TSettingsState } from "@/types";
 
 export default defineComponent({
@@ -43,6 +44,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const { clearLoginCookies } = useAuth();
 
     const onThemeChangeClick = () => {
       store.commit("changeTheme");
@@ -64,6 +66,7 @@ export default defineComponent({
 
     const onLogOutClick = () => {
       store.commit("setIsAuth", false);
+      clearLoginCookies();
     };
 
     return {

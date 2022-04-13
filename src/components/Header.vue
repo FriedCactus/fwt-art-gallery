@@ -40,6 +40,7 @@
 import type { TSettingsState } from "@/types";
 
 import { useStore } from "@/store";
+import useAuth from "@/hooks/useAuth";
 import bodyLock from "@/utils/bodyLock";
 import { computed, defineComponent, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
@@ -57,6 +58,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const { clearLoginCookies } = useAuth();
 
     const isMenuOpen = ref(false);
 
@@ -85,6 +87,7 @@ export default defineComponent({
 
     const onLogOutClick = () => {
       store.commit("setIsAuth", false);
+      clearLoginCookies();
     };
 
     return {

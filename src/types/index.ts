@@ -55,6 +55,8 @@ export type TArtistState = {
 export type TAuthState = {
   isAuth: boolean;
   isLoading: boolean;
+  accessToken: string;
+  refreshToken: string;
   error: {
     type: "password" | "username" | "";
     message: string;

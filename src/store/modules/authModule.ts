@@ -3,10 +3,17 @@ import { TAuthBody, TAuthState, TRootState } from "@/types";
 import axios from "axios";
 import { Module } from "vuex";
 
+type TTokenPayload = {
+  accessToken: string;
+  refreshToken: string;
+};
+
 const authModule: Module<TAuthState, TRootState> = {
   state: {
     isAuth: false,
     isLoading: false,
+    accessToken: "",
+    refreshToken: "",
     error: {
       type: "",
       message: "",
@@ -33,6 +40,10 @@ const authModule: Module<TAuthState, TRootState> = {
         message: "",
       };
     },
+    setTokens(state, payload: TTokenPayload) {
+      state.accessToken = payload.accessToken;
+      state.refreshToken = payload.refreshToken;
+    },
   },
   actions: {
     async tryToLogin({ commit, state }, payload: TAuthBody) {
@@ -40,9 +51,12 @@ const authModule: Module<TAuthState, TRootState> = {
       commit("clearError");
 
       try {
-        await login(payload);
+        const { data } = await login(payload);
 
         commit("setIsAuth", true);
+
+        state.accessToken = data.accessToken;
+        state.refreshToken = data.refreshToken;
       } catch (e) {
         if (axios.isAxiosError(e)) {
           const message: string = e.response?.data.message;
@@ -71,7 +85,12 @@ const authModule: Module<TAuthState, TRootState> = {
       commit("clearError");
 
       try {
-        await register(payload);
+        const { data } = await register(payload);
+
+        commit("setIsAuth", true);
+
+        state.accessToken = data.accessToken;
+        state.refreshToken = data.refreshToken;
       } catch (e) {
         if (axios.isAxiosError(e)) {
           const message: string = e.response?.data.message;

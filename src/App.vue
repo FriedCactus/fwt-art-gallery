@@ -1,14 +1,16 @@
 <template>
-  <Container>
-    <Wrapper>
-      <Header />
-      <main class="main">
-        <router-view />
-      </main>
-      <Footer />
-    </Wrapper>
-    <AuthorizationModals />
-  </Container>
+  <AuthProvider>
+    <Container>
+      <Wrapper>
+        <Header />
+        <main class="main">
+          <router-view />
+        </main>
+        <Footer />
+      </Wrapper>
+      <AuthorizationModals />
+    </Container>
+  </AuthProvider>
 </template>
 
 <script lang="ts">
@@ -21,6 +23,7 @@ import Wrapper from "./components/Wrapper.vue";
 import { useStore } from "./store";
 import AuthorizationModals from "./components/AuthorizationModals.vue";
 import bodyLock from "./utils/bodyLock";
+import AuthProvider from "./components/AuthProvider.vue";
 
 export default defineComponent({
   name: "App",
@@ -30,6 +33,7 @@ export default defineComponent({
     Header,
     Footer,
     AuthorizationModals,
+    AuthProvider,
   },
   setup() {
     const cookies = useCookies();

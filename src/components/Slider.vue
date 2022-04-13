@@ -119,6 +119,7 @@ export default defineComponent({
 
 .slider-prev-button,
 .slider-next-button {
+  cursor: pointer;
   display: none;
   position: absolute;
   z-index: 5;
@@ -144,6 +145,7 @@ export default defineComponent({
 }
 
 .slider-button-disabled {
+  cursor: auto;
   background-color: $SliderDisabledButton;
 }
 </style>
