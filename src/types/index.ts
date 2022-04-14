@@ -77,7 +77,7 @@ export type TArtistState = {
 };
 
 export type TAuthState = {
-  isAuth: boolean;
+  isAccess: boolean;
   isLoading: boolean;
   accessToken: string;
   refreshToken: string;

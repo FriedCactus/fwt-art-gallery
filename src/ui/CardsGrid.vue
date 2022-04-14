@@ -2,9 +2,10 @@
   <section class="cards-grid" :class="{ paintings, [theme]: theme }">
     <template v-if="artists">
       <div v-for="artist in artists" :key="artist._id" class="card">
-        <router-link :to="`${basePath}/${artist._id}`">
+        <router-link v-if="isAccess" :to="`${basePath}/${artist._id}`">
           <PictureCard :artist="artist" />
         </router-link>
+        <PictureCard v-else :artist="artist" />
       </div>
     </template>
 
@@ -14,13 +15,7 @@
           <AddImage />
         </div>
       </div>
-      <div
-        @click="onPaintingClick(index)"
-        @keyup.enter="onPaintingClick(index)"
-        v-for="(painting, index) in paintings"
-        :key="painting._id"
-        class="card"
-      >
+      <div v-for="painting in paintings" :key="painting._id" class="card">
         <PictureCard :painting="painting" />
       </div>
     </template>
@@ -43,10 +38,6 @@ export default defineComponent({
   props: {
     artists: Array as PropType<TArtistStatic[]>,
     paintings: Array as PropType<TPainting[]>,
-    onPaintingClick: {
-      type: Function,
-      default: () => {},
-    },
   },
   setup() {
     const store = useStore();
@@ -54,6 +45,7 @@ export default defineComponent({
     return {
       basePath: process.env.VUE_APP_BASE_PATH,
       theme: computed(() => store.state.settings.theme),
+      isAccess: computed(() => store.state.auth.isAccess),
     };
   },
 });

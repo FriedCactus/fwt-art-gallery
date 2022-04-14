@@ -56,7 +56,7 @@ export default defineComponent({
     );
 
     watch(
-      () => store.state.auth.isAuth,
+      () => store.state.auth.isAccess,
       (newValue) => {
         if (newValue) store.commit("setAuthorizationModal", "");
       },

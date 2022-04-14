@@ -1,6 +1,6 @@
 import { login, refresh, register } from "@/api";
 import { TAuthBody, TAuthState, TRootState } from "@/types";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Module } from "vuex";
 
 type TTokenPayload = {
@@ -11,7 +11,7 @@ type TTokenPayload = {
 
 const authModule: Module<TAuthState, TRootState> = {
   state: {
-    isAuth: false,
+    isAccess: false,
     isLoading: false,
     accessToken: "",
     refreshToken: "",
@@ -31,7 +31,7 @@ const authModule: Module<TAuthState, TRootState> = {
   },
   mutations: {
     setIsAuth(state, payload: boolean) {
-      state.isAuth = payload;
+      state.isAccess = payload;
     },
     setError(state, payload: TAuthState["error"]) {
       state.error = payload;
@@ -56,7 +56,7 @@ const authModule: Module<TAuthState, TRootState> = {
       try {
         const response = await login(payload);
 
-        state.isAuth = true;
+        state.isAccess = true;
 
         state.accessToken = response.data.accessToken;
         state.refreshToken = response.data.refreshToken;
@@ -91,7 +91,7 @@ const authModule: Module<TAuthState, TRootState> = {
       try {
         const { data } = await register(payload);
 
-        state.isAuth = true;
+        state.isAccess = true;
 
         state.accessToken = data.accessToken;
         state.refreshToken = data.refreshToken;
@@ -116,13 +116,11 @@ const authModule: Module<TAuthState, TRootState> = {
       state.isLoading = true;
 
       try {
-        const { data } = await refresh({
+        await refresh({
           refreshToken: payload,
         });
 
-        console.log(data);
-
-        state.isAuth = true;
+        state.isAccess = true;
 
         // Новый токен не обновляется в базе, пока юзать старый
         // state.accessToken = data.accessToken;

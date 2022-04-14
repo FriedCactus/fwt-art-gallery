@@ -98,7 +98,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .picture-card {
-  cursor: pointer;
   position: relative;
   border-radius: 4px;
   overflow: hidden;
@@ -137,6 +136,7 @@ export default defineComponent({
   }
 
   .label {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: center;

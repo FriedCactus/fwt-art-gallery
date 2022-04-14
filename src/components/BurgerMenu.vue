@@ -70,7 +70,7 @@ export default defineComponent({
     };
 
     return {
-      isAuth: computed(() => store.state.auth.isAuth),
+      isAuth: computed(() => store.state.auth.isAccess),
       theme: computed(() => store.state.settings.theme),
       onThemeChangeClick,
       onLogInClick,

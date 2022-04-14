@@ -91,7 +91,7 @@ export default defineComponent({
     };
 
     return {
-      isAuth: computed(() => store.state.auth.isAuth),
+      isAuth: computed(() => store.state.auth.isAccess),
       isMenuOpen,
       onBurgerClick,
       onThemeChangeClick,

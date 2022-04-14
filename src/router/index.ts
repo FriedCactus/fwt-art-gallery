@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import { basePath } from "@/utils/constants";
 import GalleryPage from "../views/GalleryPage.vue";
 import ArtistPage from "../views/ArtistPage.vue";
 
-const basePath = "/fwt-art-gallery";
-
 const routes = [
   {
+    name: "home",
     path: basePath,
     component: GalleryPage,
   },
