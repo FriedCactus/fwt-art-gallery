@@ -74,6 +74,7 @@ import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingModal from "@/components/PaintingModal.vue";
 import bodyLock from "@/utils/bodyLock";
+import { getArtists } from "@/api";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -101,6 +102,8 @@ export default defineComponent({
     });
 
     onMounted(() => {
+      getArtists().then(({ data }) => console.log(data));
+
       if (typeof artistId === "string") {
         store.dispatch("fetchArtistById", artistId);
       }

@@ -15,7 +15,13 @@
           <AddImage />
         </div>
       </div>
-      <div v-for="painting in paintings" :key="painting._id" class="card">
+      <div
+        @click="onPaintingClick(index)"
+        @keyup.enter="onPaintingClick(index)"
+        v-for="(painting, index) in paintings"
+        :key="painting._id"
+        class="card clickable"
+      >
         <PictureCard :painting="painting" />
       </div>
     </template>
@@ -38,6 +44,10 @@ export default defineComponent({
   props: {
     artists: Array as PropType<TArtistStatic[]>,
     paintings: Array as PropType<TPainting[]>,
+    onPaintingClick: {
+      type: Function,
+      default: () => {},
+    },
   },
   setup() {
     const store = useStore();
@@ -69,6 +79,10 @@ export default defineComponent({
   }
 
   .card {
+    &.clickable {
+      cursor: pointer;
+    }
+
     .add-card {
       cursor: pointer;
       display: flex;
