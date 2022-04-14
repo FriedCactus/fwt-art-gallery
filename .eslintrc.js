@@ -28,5 +28,6 @@ module.exports = {
     "operator-linebreak": "off",
     "no-confusing-arrow": "off",
     "consistent-return": "off",
+    "no-underscore-dangle": "off",
   },
 };

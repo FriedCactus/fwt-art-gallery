@@ -47,7 +47,10 @@
 
       <div class="top-menu">
         <span class="button-container">
-          <FavouriteButton />
+          <FavouriteButton
+            :onClick="onFavouriteClick"
+            :isActive="isFavourite"
+          />
         </span>
         <span class="button-container">
           <RemoveButton />
@@ -69,6 +72,8 @@
 </template>
 
 <script lang="ts">
+import { useRoute } from "vue-router";
+import { useStore } from "@/store";
 import { defineComponent, PropType } from "vue";
 import type { TArtistStatic, TPainting } from "@/types";
 import EditButton from "./EditButton.vue";
@@ -80,17 +85,32 @@ export default defineComponent({
   props: {
     artist: Object as PropType<TArtistStatic>,
     painting: Object as PropType<TPainting>,
+    isFavourite: Boolean,
   },
   components: {
     EditButton,
     FavouriteButton,
     RemoveButton,
   },
-  setup() {
+  setup(props) {
     const api = process.env.VUE_APP_BASE_URL;
+
+    const store = useStore();
+    const route = useRoute();
+    const { artistId } = route.params;
+
+    const onFavouriteClick = () => {
+      if (props.painting) {
+        store.dispatch("tryToPatchMainPainting", {
+          artistId,
+          paintingId: props.painting._id,
+        });
+      }
+    };
 
     return {
       api,
+      onFavouriteClick,
     };
   },
 });

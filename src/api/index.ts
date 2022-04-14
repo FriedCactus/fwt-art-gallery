@@ -9,6 +9,10 @@ import {
 } from "@/types";
 import axios from "./axios";
 
+type TPatchMainPaintingBody = {
+  mainPainting: string;
+};
+
 // Художник
 export const getArtists = () => axios.get("artists");
 
@@ -19,6 +23,11 @@ export const getArtistsStatic = () =>
   axios
     .get<TArtistStaticRespone[]>("artists/static", {})
     .then(({ data }) => data);
+
+export const patchMainPainting = (
+  artistId: string,
+  body: TPatchMainPaintingBody,
+) => axios.patch<void>(`artists/${artistId}/main-painting`, body);
 
 // Картины
 export const getPaintingsByArtist = (id: TArtistStatic["_id"]) =>

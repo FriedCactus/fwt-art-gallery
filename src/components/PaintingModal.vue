@@ -9,7 +9,10 @@
     <div class="bottom-row">
       <div class="menu">
         <span class="button-container">
-          <FavouriteButton />
+          <FavouriteButton
+            :isActive="isFavourite"
+            :onClick="onFavouriteClick"
+          />
         </span>
         <span class="button-container">
           <EditButton />
@@ -33,6 +36,7 @@
 
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+import { useRoute } from "vue-router";
 import { useStore } from "@/store";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import FavouriteButton from "@/ui/FavouriteButton.vue";
@@ -56,6 +60,20 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+
+    const { artistId } = route.params;
+    const paintingId = computed(
+      () =>
+        store.state.artist.artist?.paintings[store.state.artist.activeSlide]
+          ._id,
+    );
+    const mainPaintingId = computed(
+      () => store.state.artist.artist?.mainPainting._id,
+    );
+    const isFavourite = computed(
+      () => mainPaintingId.value === paintingId.value,
+    );
 
     const info = computed(() => {
       const { activeSlide } = store.state.artist;
@@ -67,8 +85,19 @@ export default defineComponent({
       return { description, year };
     });
 
+    const onFavouriteClick = () => {
+      if (paintingId.value) {
+        store.dispatch("tryToPatchMainPainting", {
+          artistId,
+          paintingId: paintingId.value,
+        });
+      }
+    };
+
     return {
       info,
+      onFavouriteClick,
+      isFavourite,
     };
   },
 });

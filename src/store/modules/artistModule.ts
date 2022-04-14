@@ -1,6 +1,11 @@
-import { getArtistById } from "@/api";
+import { getArtistById, patchMainPainting } from "@/api";
 import { TArtistState, TRootState } from "@/types";
 import { Module } from "vuex";
+
+type TPatchMainPaintingPayload = {
+  artistId: string;
+  paintingId: string;
+};
 
 const artistModule: Module<TArtistState, TRootState> = {
   state: {
@@ -18,6 +23,25 @@ const artistModule: Module<TArtistState, TRootState> = {
         const { data } = await getArtistById(payload);
 
         state.artist = data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async tryToPatchMainPainting(
+      { state },
+      payload: TPatchMainPaintingPayload,
+    ) {
+      try {
+        const { artistId, paintingId } = payload;
+
+        await patchMainPainting(artistId, {
+          mainPainting: paintingId,
+        });
+
+        if (state.artist) {
+          state.artist.mainPainting._id = paintingId;
+        }
       } catch (e) {
         console.log(e);
       }

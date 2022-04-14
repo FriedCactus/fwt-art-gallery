@@ -22,7 +22,10 @@
         :key="painting._id"
         class="card clickable"
       >
-        <PictureCard :painting="painting" />
+        <PictureCard
+          :isFavourite="favouriteId === painting._id"
+          :painting="painting"
+        />
       </div>
     </template>
   </section>
@@ -44,6 +47,7 @@ export default defineComponent({
   props: {
     artists: Array as PropType<TArtistStatic[]>,
     paintings: Array as PropType<TPainting[]>,
+    favouriteId: String,
     onPaintingClick: {
       type: Function,
       default: () => {},
