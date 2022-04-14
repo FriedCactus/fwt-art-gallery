@@ -1,4 +1,9 @@
-export type TGenre = string;
+export type TGenreStatic = string;
+
+export type TGenre = {
+  _id: string;
+  name: string;
+};
 
 export type TImage = {
   _id: string;
@@ -22,14 +27,29 @@ export type TArtistStatic = {
   name: string;
   description: string;
   yearsOfLife: string;
-  genres: TGenre[];
+  genres: TGenreStatic[];
   mainPainting: TPainting;
 };
+
+export interface TArtist {
+  _id: string;
+  avatar: TImage;
+  paintings: TPainting[];
+  name: string;
+  description: string;
+  yearsOfLife: string;
+  genres: TGenre[];
+  mainPainting: TPainting;
+}
 
 export type TAuthBody = {
   username: string;
   password: string;
 };
+
+export type TArtistStaticRespone = TArtistStatic[];
+
+export type TArtistResponse = TArtist;
 
 export type TAuthResponse = {
   accessToken: string;
@@ -47,13 +67,13 @@ export type TSettingsState = {
 };
 
 export type TGalleryState = {
-  artistsStatic: TArtistStatic[] | [];
-  artistPaintings: TPainting[] | [];
+  artistsStatic: TArtistStaticRespone | [];
   perPage: number;
 };
 
 export type TArtistState = {
   activeSlide: number;
+  artist?: TArtistResponse;
 };
 
 export type TAuthState = {

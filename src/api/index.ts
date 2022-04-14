@@ -4,17 +4,21 @@ import {
   TAuthBody,
   TAuthResponse,
   TRefreshBody,
+  TArtistStaticRespone,
+  TArtistResponse,
 } from "@/types";
 import axios from "./axios";
 
 // Художник
-export const getArtists = () => axios.get("artists").then(({ data }) => data);
+export const getArtists = () => axios.get("artists");
 
 export const getArtistById = (id: string) =>
-  axios.get(`artists/${id}`).then(({ data }) => data);
+  axios.get<TArtistResponse>(`artists/${id}`);
 
 export const getArtistsStatic = () =>
-  axios.get<TArtistStatic[]>("artists/static", {}).then(({ data }) => data);
+  axios
+    .get<TArtistStaticRespone[]>("artists/static", {})
+    .then(({ data }) => data);
 
 // Картины
 export const getPaintingsByArtist = (id: TArtistStatic["_id"]) =>

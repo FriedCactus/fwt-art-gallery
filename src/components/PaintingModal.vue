@@ -60,9 +60,9 @@ export default defineComponent({
     const info = computed(() => {
       const { activeSlide } = store.state.artist;
       const description =
-        store.state.gallery.artistPaintings[activeSlide]?.name;
+        store.state.artist.artist?.paintings[activeSlide]?.name;
       const year =
-        store.state.gallery.artistPaintings[activeSlide]?.yearOfCreation;
+        store.state.artist?.artist?.paintings[activeSlide].yearOfCreation;
 
       return { description, year };
     });

@@ -2,6 +2,7 @@ import { useStore } from "@/store";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import { computed } from "vue";
 
+// Логика слишком разбросана по хуку, может получится сделать получше
 const useAuth = () => {
   const store = useStore();
   const cookies = useCookies();

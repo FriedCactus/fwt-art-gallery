@@ -3,24 +3,29 @@
     <div class="artist-info">
       <div class="left">
         <div class="portrait">
-          <img src="@/assets/mocks/images/artist.jpeg" alt="Mock" />
+          <picture v-if="artist?.avatar">
+            <source
+              :srcset="`${api}/${artist.avatar.webp}`"
+              type="image/webp"
+            />
+            <img :srcset="`${api}/${artist.avatar.src}`" alt="artist.name" />
+          </picture>
         </div>
         <button class="edit-button">
           <EditIcon />
           EDIT
         </button>
-        <h3 class="artist-name">James Whistler</h3>
-        <div class="years">July 11, 1834 - July 17, 1903</div>
+        <h3 class="artist-name">{{ artist?.name }}</h3>
+        <div class="years">{{ artist?.yearsOfLife }}</div>
       </div>
 
       <div class="right">
         <div class="biography">
           <p class="first-part">
-            He studied in the Russian Empire and the United States, but spent
-            most of his active life in England. He is best known for his
-            portraits of his contemporaries.
+            {{ artist?.description }}
           </p>
-          <p class="second-part" :class="{ active: isTextShown }">
+          <!-- Вторая часть описания, раскомментить если будет -->
+          <!--  <p class="second-part" :class="{ active: isTextShown }">
             Experienced the influence of realists in the person of his friend
             Gustave Courbet and the Pre-Raphaelites, as well as Japanese art. In
             a number of creative methods it was close to impressionism.
@@ -34,28 +39,26 @@
               isTextShown ? "SHOW LESS" : "SHOW ALL"
             }}</span>
             <ArrowIcon />
-          </button>
+          </button> -->
           <div class="country">London, Great Britain</div>
         </div>
 
-        <div class="tags">
-          <span class="tag-item">
-            <Tag>weapons</Tag>
-          </span>
-          <span class="tag-item">
-            <Tag>realistic</Tag>
-          </span>
-          <span class="tag-item">
-            <Tag>anime & manga</Tag>
-          </span>
-          <span class="tag-item">
-            <Tag> Unreal engine </Tag>
+        <div v-if="artist?.genres.length" class="tags">
+          <span
+            v-for="genre in artist.genres"
+            :key="genre._id"
+            class="tag-item"
+          >
+            <Tag>{{ genre.name }}</Tag>
           </span>
         </div>
       </div>
     </div>
     <div class="paintings">
-      <CardsGrid :paintings="paintings" :onPaintingClick="onPaintingClick" />
+      <CardsGrid
+        :paintings="artist?.paintings"
+        :onPaintingClick="onPaintingClick"
+      />
     </div>
     <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
   </div>
@@ -83,10 +86,11 @@ export default defineComponent({
   },
 
   setup() {
+    const store = useStore();
     const route = useRoute();
     const { artistId } = route.params;
 
-    const store = useStore();
+    const api = process.env.VUE_APP_BASE_URL;
 
     const isTextShown = ref<boolean>(false);
     const isPaintingModalOpen = ref<boolean>(false);
@@ -98,7 +102,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (typeof artistId === "string") {
-        store.dispatch("fetchPaintingsByArtist", artistId);
+        store.dispatch("fetchArtistById", artistId);
       }
     });
 
@@ -118,12 +122,13 @@ export default defineComponent({
 
     return {
       theme: computed(() => store.state.settings.theme),
-      paintings: computed(() => store.state.gallery.artistPaintings),
+      artist: computed(() => store.state.artist.artist),
       onShowButtonClick,
       isTextShown,
       isPaintingModalOpen,
       onPaintingClick,
       onModalCLose,
+      api,
     };
   },
 });

@@ -81,7 +81,7 @@ export default defineComponent({
 
     return {
       api,
-      paintings: computed(() => store.state.gallery.artistPaintings),
+      paintings: computed(() => store.state.artist.artist?.paintings),
       modules: [Pagination, Keyboard, Navigation],
       onSlideChange,
       activeSlide: computed(() => store.state.artist.activeSlide),
