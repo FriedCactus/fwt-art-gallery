@@ -59,9 +59,15 @@
         :favouriteId="artist?.mainPainting._id"
         :paintings="artist?.paintings"
         :onPaintingClick="onPaintingClick"
+        :onAddPaintingClick="onAddPaintingClick"
       />
     </div>
     <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
+    <div class="upload-modal" v-if="isAddPaintingModalOpen">
+      <div class="container">
+        <UploadImageForm :onCloseClick="closeUploadModal" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -75,6 +81,7 @@ import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingModal from "@/components/PaintingModal.vue";
 import bodyLock from "@/utils/bodyLock";
+import UploadImageForm from "@/ui/UploadImageForm.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -84,6 +91,7 @@ export default defineComponent({
     Tag,
     CardsGrid,
     PaintingModal,
+    UploadImageForm,
   },
 
   setup() {
@@ -95,6 +103,7 @@ export default defineComponent({
 
     const isTextShown = ref<boolean>(false);
     const isPaintingModalOpen = ref<boolean>(false);
+    const isAddPaintingModalOpen = ref<boolean>(true);
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {
@@ -121,13 +130,25 @@ export default defineComponent({
       bodyLock(true);
     };
 
+    const onAddPaintingClick = () => {
+      isAddPaintingModalOpen.value = true;
+      bodyLock(true);
+    };
+
+    const closeUploadModal = () => {
+      isAddPaintingModalOpen.value = false;
+    };
+
     return {
       theme: computed(() => store.state.settings.theme),
       artist: computed(() => store.state.artist.artist),
       onShowButtonClick,
       isTextShown,
       isPaintingModalOpen,
+      isAddPaintingModalOpen,
       onPaintingClick,
+      onAddPaintingClick,
+      closeUploadModal,
       onModalCLose,
       api,
     };
@@ -319,6 +340,23 @@ export default defineComponent({
   }
 
   .paintings {
+  }
+
+  .upload-modal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+
+    .container {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &.dark {

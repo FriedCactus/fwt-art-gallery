@@ -33,7 +33,11 @@
           </div>
         </div>
         <div class="submit-button">
-          <Button :disabled="isLoading" :style="'filled'" type="submit"
+          <Button
+            :disabled="isLoading"
+            :style="'filled'"
+            :staticTheme="'light'"
+            type="submit"
             >Log in</Button
           >
         </div>
@@ -85,7 +89,11 @@
           </div>
         </div>
         <div class="submit-button">
-          <Button :disabled="isLoading" :style="'filled'" type="submit"
+          <Button
+            :disabled="isLoading"
+            :style="'filled'"
+            :staticTheme="'light'"
+            type="submit"
             >Registration</Button
           >
         </div>

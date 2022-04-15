@@ -11,9 +11,9 @@
 
     <template v-if="paintings">
       <div class="card">
-        <div class="add-card">
+        <button @click="onAddPaintingClick()" class="add-card">
           <AddImage />
-        </div>
+        </button>
       </div>
       <div
         @click="onPaintingClick(index)"
@@ -49,6 +49,10 @@ export default defineComponent({
     paintings: Array as PropType<TPainting[]>,
     favouriteId: String,
     onPaintingClick: {
+      type: Function,
+      default: () => {},
+    },
+    onAddPaintingClick: {
       type: Function,
       default: () => {},
     },
@@ -94,6 +98,9 @@ export default defineComponent({
       align-items: center;
       height: 100%;
       width: 100%;
+      border: none;
+      outline: none;
+      background-color: transparent;
 
       border-radius: 4px;
     }

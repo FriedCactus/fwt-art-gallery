@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { useStore } from "@/store";
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "Button",
@@ -15,16 +15,19 @@ export default defineComponent({
       type: String,
       default: "filled",
     },
+    staticTheme: {
+      type: String as PropType<"dark" | "light">,
+    },
     onClick: {
       type: Function,
       default: () => {},
     },
   },
-  setup() {
+  setup(props) {
     const store = useStore();
 
     return {
-      theme: computed(() => store.state.settings.theme),
+      theme: computed(() => props.staticTheme || store.state.settings.theme),
     };
   },
 });
