@@ -1,10 +1,16 @@
-import { getArtistById, patchMainPainting } from "@/api";
+import { addPaintingByAuthorId, getArtistById, patchMainPainting } from "@/api";
 import { TArtistState, TRootState } from "@/types";
 import { Module } from "vuex";
 
 type TPatchMainPaintingPayload = {
   artistId: string;
   paintingId: string;
+};
+
+type TAddPaintingPayload = {
+  name: string;
+  yearOfCreation: string;
+  image: File;
 };
 
 const artistModule: Module<TArtistState, TRootState> = {
@@ -46,6 +52,24 @@ const artistModule: Module<TArtistState, TRootState> = {
         if (state.artist) {
           state.artist.mainPainting._id = paintingId;
         }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async tryToAddPainting({ state }, payload: TAddPaintingPayload) {
+      const authorId = state.artist?._id;
+      const formData = new FormData();
+
+      if (!authorId) return;
+
+      Object.entries(payload).forEach((item) => {
+        formData.append(item[0], item[1]);
+      });
+
+      try {
+        const { data } = await addPaintingByAuthorId(authorId, formData);
+        state.artist?.paintings.push(data);
       } catch (e) {
         console.log(e);
       }

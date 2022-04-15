@@ -65,7 +65,10 @@
     <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
     <div class="upload-modal" v-if="isAddPaintingModalOpen">
       <div class="container">
-        <UploadImageForm :onCloseClick="closeUploadModal" />
+        <UploadImageForm
+          :onUpload="closeUploadModal"
+          :onCloseClick="closeUploadModal"
+        />
       </div>
     </div>
   </div>
@@ -103,7 +106,7 @@ export default defineComponent({
 
     const isTextShown = ref<boolean>(false);
     const isPaintingModalOpen = ref<boolean>(false);
-    const isAddPaintingModalOpen = ref<boolean>(true);
+    const isAddPaintingModalOpen = ref<boolean>(false);
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {
@@ -137,6 +140,7 @@ export default defineComponent({
 
     const closeUploadModal = () => {
       isAddPaintingModalOpen.value = false;
+      bodyLock(false);
     };
 
     return {

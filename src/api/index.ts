@@ -1,11 +1,11 @@
 import {
-  TArtistStatic,
   TPainting,
   TAuthBody,
   TAuthResponse,
   TRefreshBody,
   TArtistStaticRespone,
   TArtistResponse,
+  TArtist,
 } from "@/types";
 import axios from "./axios";
 
@@ -16,7 +16,7 @@ type TPatchMainPaintingBody = {
 // Художник
 export const getArtists = () => axios.get("artists");
 
-export const getArtistById = (id: string) =>
+export const getArtistById = (id: TArtist["_id"]) =>
   axios.get<TArtistResponse>(`artists/${id}`);
 
 export const getArtistsStatic = () =>
@@ -30,8 +30,15 @@ export const patchMainPainting = (
 ) => axios.patch<void>(`artists/${artistId}/main-painting`, body);
 
 // Картины
-export const getPaintingsByArtist = (id: TArtistStatic["_id"]) =>
+export const getPaintingsByArtist = (id: TArtist["_id"]) =>
   axios.get<TPainting[]>(`artists/${id}/paintings`).then(({ data }) => data);
+
+export const addPaintingByAuthorId = (id: TArtist["_id"], body: FormData) =>
+  axios.post<TPainting>(`artists/${id}/paintings`, body, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
 // Авторизация
 export const register = (body: TAuthBody) =>

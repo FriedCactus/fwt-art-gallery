@@ -1,5 +1,5 @@
 <template>
-  <form class="upload-form" @submit.prevent="">
+  <form class="upload-form" @submit.prevent="onFormSubmit">
     <div class="top">
       <div class="left">
         <UploadIcon />
@@ -21,6 +21,7 @@
             id="year"
             placeholder="Enter a name"
             type="text"
+            v-model="name"
           />
         </label>
       </div>
@@ -32,6 +33,7 @@
             id="name"
             placeholder="Enter the year"
             type="text"
+            v-model="yearOfCreation"
           />
         </label>
       </div>
@@ -78,8 +80,10 @@
           :disabled="!uploadedImageUrl"
           :staticTheme="'dark'"
           :style="'filled'"
-          >Save</Button
+          type="submit"
         >
+          Save
+        </Button>
       </div>
     </div>
     <span class="types">.jpg, .png</span>
@@ -109,13 +113,21 @@ export default defineComponent({
       type: Function,
       required: true,
     },
+    onUpload: {
+      type: Function,
+      default: () => {},
+    },
   },
-  setup() {
+  setup(props) {
     const conditions = ["jpeg", "jpg", "png"];
     const uploadInputRef = ref<HTMLInputElement>();
 
     const store = useStore();
     const isDropActive = ref<boolean>(false);
+    const name = ref<string>("");
+    const yearOfCreation = ref<string>("");
+
+    const uploadedImage = computed(() => store.state.artist.uploadedFile);
 
     const onDragEnter = () => {
       isDropActive.value = true;
@@ -144,18 +156,36 @@ export default defineComponent({
       }
     };
 
+    const onFormSubmit = () => {
+      if (!uploadedImage.value) return;
+
+      const data = new FormData();
+      data.append("image", uploadedImage.value);
+      data.append("name", "Test");
+      data.append("yearOfCreation", "1856");
+
+      const payload = {
+        name: name.value,
+        yearOfCreation: yearOfCreation.value,
+        image: uploadedImage.value,
+      };
+
+      store.dispatch("tryToAddPainting", payload);
+    };
+
     return {
+      name,
+      yearOfCreation,
       onDragEnter,
       onDragLeave,
       isDropActive,
       uploadedImageUrl: computed(
-        () =>
-          store.state.artist.uploadedFile &&
-          URL.createObjectURL(store.state.artist.uploadedFile),
+        () => uploadedImage.value && URL.createObjectURL(uploadedImage.value),
       ),
       uploadInputRef,
       onUploadInputClick,
       onFileUpload,
+      onFormSubmit,
     };
   },
 });
