@@ -103,7 +103,7 @@ export default defineComponent({
 
     const isTextShown = ref<boolean>(false);
     const isPaintingModalOpen = ref<boolean>(false);
-    const isAddPaintingModalOpen = ref<boolean>(true);
+    const isAddPaintingModalOpen = ref<boolean>(false);
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {
@@ -351,11 +351,17 @@ export default defineComponent({
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: $ModalBackground;
     z-index: 3;
 
     .container {
       width: 100%;
       height: 100%;
+
+      @media ($tablet) {
+        width: 500px;
+        height: 650px;
+      }
     }
   }
 
