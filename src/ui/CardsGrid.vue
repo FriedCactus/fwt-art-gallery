@@ -2,7 +2,11 @@
   <section class="cards-grid" :class="{ paintings, [theme]: theme }">
     <template v-if="artists">
       <div v-for="artist in artists" :key="artist._id" class="card">
-        <router-link v-if="isAccess" :to="`${basePath}/${artist._id}`">
+        <router-link
+          class="link"
+          v-if="isAccess"
+          :to="`${basePath}/${artist._id}`"
+        >
           <PictureCard :artist="artist" />
         </router-link>
         <PictureCard v-else :artist="artist" />
@@ -89,6 +93,10 @@ export default defineComponent({
   .card {
     &.clickable {
       cursor: pointer;
+    }
+
+    .link {
+      text-decoration: none;
     }
 
     .add-card {

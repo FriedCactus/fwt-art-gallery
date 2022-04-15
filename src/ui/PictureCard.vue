@@ -1,8 +1,8 @@
 <template>
   <!-- eslint-disable max-len -->
-  <div class="picture-card">
+  <div class="picture-card" :class="{ static: !artist?.mainPainting }">
     <template v-if="artist">
-      <picture>
+      <picture v-if="artist.mainPainting">
         <source
           :srcset="`${api}${artist.mainPainting?.image.webp}`"
           type="image/webp"
@@ -12,6 +12,12 @@
           :alt="artist.name"
         />
       </picture>
+      <div v-else class="mock">
+        <div class="logo">Logo</div>
+        <p class="text">
+          The paintings of this artist have not been uploaded yet
+        </p>
+      </div>
 
       <div class="label full">
         <div class="top-row">
@@ -131,6 +137,8 @@ export default defineComponent({
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 
   img {
     display: block;
@@ -143,6 +151,57 @@ export default defineComponent({
       .top-menu {
         transform: translateY(0);
       }
+    }
+  }
+
+  &.static {
+    border: 1px solid $StaticPictureCardBorder;
+  }
+
+  .mock {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 8px 13px;
+
+    @media ($tablet) {
+      padding: 16px 37px;
+
+      .text {
+        font-size: 14px;
+      }
+
+      .logo {
+        margin-bottom: 10px;
+      }
+    }
+
+    @media ($laptop) {
+      padding: 27px 40px;
+
+      .text {
+        font-size: 16px;
+      }
+
+      .logo {
+        margin-bottom: 31px;
+      }
+    }
+
+    .logo {
+      margin-bottom: 8px;
+    }
+
+    .text {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 120%;
+      text-transform: uppercase;
+      color: $StaticPictureCardText;
     }
   }
 
