@@ -11,6 +11,7 @@
         </button>
       </div>
     </div>
+
     <div class="inputs">
       <div class="input-row name">
         <label for="year" class="label">
@@ -59,6 +60,7 @@
             class="upload-input"
             id="upload"
             type="file"
+            @change="onFileUpload"
           />
         </label>
 
@@ -109,6 +111,7 @@ export default defineComponent({
     },
   },
   setup() {
+    const conditions = ["jpeg", "jpg", "png"];
     const uploadInputRef = ref<HTMLInputElement>();
 
     const store = useStore();
@@ -123,8 +126,22 @@ export default defineComponent({
     };
 
     const onUploadInputClick = () => {
-      console.log(uploadInputRef);
       uploadInputRef.value?.click();
+    };
+
+    const onFileUpload = (e: Event) => {
+      const input = e.target as HTMLInputElement;
+
+      if (!input.files) return;
+
+      const file = input.files[0];
+      const isFileValid = conditions.some((condition) =>
+        file.type.includes(condition),
+      );
+
+      if (isFileValid) {
+        store.commit("setUploadedFiles", file);
+      }
     };
 
     return {
@@ -138,6 +155,7 @@ export default defineComponent({
       ),
       uploadInputRef,
       onUploadInputClick,
+      onFileUpload,
     };
   },
 });
