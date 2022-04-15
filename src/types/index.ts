@@ -74,6 +74,7 @@ export type TGalleryState = {
 export type TArtistState = {
   activeSlide: number;
   artist?: TArtistResponse;
+  uploadedFile?: File;
 };
 
 export type TAuthState = {

@@ -103,7 +103,7 @@ export default defineComponent({
 
     const isTextShown = ref<boolean>(false);
     const isPaintingModalOpen = ref<boolean>(false);
-    const isAddPaintingModalOpen = ref<boolean>(false);
+    const isAddPaintingModalOpen = ref<boolean>(true);
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {

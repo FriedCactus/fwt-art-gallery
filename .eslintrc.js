@@ -29,5 +29,6 @@ module.exports = {
     "no-confusing-arrow": "off",
     "consistent-return": "off",
     "no-underscore-dangle": "off",
+    "function-paren-newline": "off",
   },
 };

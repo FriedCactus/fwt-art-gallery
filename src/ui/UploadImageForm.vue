@@ -35,20 +35,49 @@
         </label>
       </div>
     </div>
-    <div class="drop-zone">
-      <span class="logo-container">
-        <DropzoneIcon />
-      </span>
-      <div class="label">Drag and Drop file here</div>
-      <div class="button-container">
-        <Button :staticTheme="'dark'">Select file</Button>
+
+    <DropZone
+      :onDragEnter="onDragEnter"
+      :onDragLeave="onDragLeave"
+      class="drop-container"
+      :class="{ active: isDropActive }"
+    >
+      <template v-if="!uploadedImageUrl">
+        <span class="logo-container">
+          <DropzoneIcon />
+        </span>
+        <div class="label">Drag and Drop file here</div>
+
+        <label for="upload" class="upload-label">
+          <div class="button-container">
+            <Button :staticTheme="'dark'" :onClick="onUploadInputClick"
+              >Select file</Button
+            >
+          </div>
+          <input
+            ref="uploadInputRef"
+            class="upload-input"
+            id="upload"
+            type="file"
+          />
+        </label>
+
+        <p class="drop-text">Image weight must be less than 3 MB</p>
+        <span class="drop-types">.jpg, .png</span>
+      </template>
+      <div v-else class="image">
+        <img :src="uploadedImageUrl" alt="" />
       </div>
-      <p class="drop-text">Image weight must be less than 3 MB</p>
-      <span class="drop-types">.jpg, .png</span>
-    </div>
+    </DropZone>
+
     <div class="bottom">
       <div class="button-container">
-        <Button :staticTheme="'dark'" :style="'filled'">Save</Button>
+        <Button
+          :disabled="!uploadedImageUrl"
+          :staticTheme="'dark'"
+          :style="'filled'"
+          >Save</Button
+        >
       </div>
     </div>
     <span class="types">.jpg, .png</span>
@@ -56,7 +85,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { useStore } from "@/store";
+import { computed, defineComponent, ref } from "vue";
+import DropZone from "@/components/DropZone.vue";
 import DropzoneIcon from "@/assets/icons/dropzone-icon.svg";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import UploadIcon from "@/assets/icons/upload-icon.svg";
@@ -69,6 +100,7 @@ export default defineComponent({
     UploadIcon,
     Button,
     DropzoneIcon,
+    DropZone,
   },
   props: {
     onCloseClick: {
@@ -76,11 +108,44 @@ export default defineComponent({
       required: true,
     },
   },
+  setup() {
+    const uploadInputRef = ref<HTMLInputElement>();
+
+    const store = useStore();
+    const isDropActive = ref<boolean>(false);
+
+    const onDragEnter = () => {
+      isDropActive.value = true;
+    };
+
+    const onDragLeave = () => {
+      isDropActive.value = false;
+    };
+
+    const onUploadInputClick = () => {
+      console.log(uploadInputRef);
+      uploadInputRef.value?.click();
+    };
+
+    return {
+      onDragEnter,
+      onDragLeave,
+      isDropActive,
+      uploadedImageUrl: computed(
+        () =>
+          store.state.artist.uploadedFile &&
+          URL.createObjectURL(store.state.artist.uploadedFile),
+      ),
+      uploadInputRef,
+      onUploadInputClick,
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .upload-form {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -175,7 +240,7 @@ export default defineComponent({
     }
   }
 
-  .drop-zone {
+  .drop-container {
     flex: 1 1 auto;
     position: relative;
     display: flex;
@@ -189,6 +254,10 @@ export default defineComponent({
     background-color: $UploadInputBackground;
     border-radius: 8px;
     text-align: center;
+
+    &.active {
+      border: 3px solid $white;
+    }
 
     .logo-container {
       display: none;
@@ -207,10 +276,16 @@ export default defineComponent({
       color: $UploadText;
     }
 
-    .button-container {
-      width: 180px;
-      height: 40px;
-      margin-bottom: 12px;
+    .upload-label {
+      .button-container {
+        width: 180px;
+        height: 40px;
+        margin-bottom: 12px;
+      }
+
+      .upload-input {
+        display: none;
+      }
     }
 
     .drop-text {
@@ -287,7 +362,7 @@ export default defineComponent({
     }
 
     .types {
-      display: inline-block;
+      display: block;
       position: absolute;
       bottom: 32px;
       left: 20px;

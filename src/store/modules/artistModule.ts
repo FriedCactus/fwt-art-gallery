@@ -11,10 +11,14 @@ const artistModule: Module<TArtistState, TRootState> = {
   state: {
     activeSlide: 0,
     artist: undefined,
+    uploadedFile: undefined,
   },
   mutations: {
     setActiveSlide(state, payload: number) {
       state.activeSlide = payload;
+    },
+    setUploadedFiles(state, payload: TArtistState["uploadedFile"]) {
+      state.uploadedFile = payload;
     },
   },
   actions: {
