@@ -28,7 +28,7 @@ export type TArtistStatic = {
   description: string;
   yearsOfLife: string;
   genres: TGenreStatic[];
-  mainPainting: TPainting;
+  mainPainting: TPainting | null;
 };
 
 export interface TArtist {
@@ -39,7 +39,7 @@ export interface TArtist {
   description: string;
   yearsOfLife: string;
   genres: TGenre[];
-  mainPainting: TPainting;
+  mainPainting: TPainting | null;
 }
 
 export type TAuthBody = {

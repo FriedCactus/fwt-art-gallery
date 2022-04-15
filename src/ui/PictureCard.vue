@@ -4,11 +4,11 @@
     <template v-if="artist">
       <picture>
         <source
-          :srcset="`${api}${artist.mainPainting.image.webp}`"
+          :srcset="`${api}${artist.mainPainting?.image.webp}`"
           type="image/webp"
         />
         <img
-          :srcset="`${api}${artist.mainPainting.image.src}`"
+          :srcset="`${api}${artist.mainPainting?.image.src}`"
           :alt="artist.name"
         />
       </picture>
@@ -23,11 +23,11 @@
         <div class="bottom-row">
           <div class="item">
             <span>Name: </span>
-            <p class="text">{{ artist.mainPainting.name }}</p>
+            <p class="text">{{ artist.mainPainting?.name }}</p>
           </div>
-          <div class="item" v-if="artist.mainPainting.yearOfCreation">
+          <div class="item" v-if="artist.mainPainting?.yearOfCreation">
             <span>Created: </span>
-            <p class="text">{{ artist.mainPainting.yearOfCreation }}</p>
+            <p class="text">{{ artist.mainPainting?.yearOfCreation }}</p>
           </div>
         </div>
       </div>
@@ -53,7 +53,7 @@
           />
         </span>
         <span class="button-container">
-          <RemoveButton />
+          <RemoveButton :onClick="onRemoveClick" />
         </span>
         <span class="button-container">
           <EditButton />
@@ -108,9 +108,19 @@ export default defineComponent({
       }
     };
 
+    const onRemoveClick = () => {
+      if (props.painting) {
+        store.dispatch("tryToDeletePainting", {
+          artistId,
+          paintingId: props.painting._id,
+        });
+      }
+    };
+
     return {
       api,
       onFavouriteClick,
+      onRemoveClick,
     };
   },
 });

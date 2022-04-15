@@ -1,4 +1,9 @@
-import { addPaintingByAuthorId, getArtistById, patchMainPainting } from "@/api";
+import {
+  addPaintingByAuthorId,
+  deletePaintingById,
+  getArtistById,
+  patchMainPainting,
+} from "@/api";
 import { TArtistState, TRootState } from "@/types";
 import { Module } from "vuex";
 
@@ -11,6 +16,11 @@ type TAddPaintingPayload = {
   name: string;
   yearOfCreation: string;
   image: File;
+};
+
+type TDeletePaintingPayload = {
+  artistId: string;
+  paintingId: string;
 };
 
 const artistModule: Module<TArtistState, TRootState> = {
@@ -49,7 +59,7 @@ const artistModule: Module<TArtistState, TRootState> = {
           mainPainting: paintingId,
         });
 
-        if (state.artist) {
+        if (state.artist?.mainPainting) {
           state.artist.mainPainting._id = paintingId;
         }
       } catch (e) {
@@ -70,6 +80,22 @@ const artistModule: Module<TArtistState, TRootState> = {
       try {
         const { data } = await addPaintingByAuthorId(authorId, formData);
         state.artist?.paintings.push(data);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async tryToDeletePainting({ state }, payload: TDeletePaintingPayload) {
+      const { artistId, paintingId } = payload;
+      try {
+        const data = await deletePaintingById(artistId, paintingId);
+
+        if (state.artist) {
+          state.artist.paintings = state.artist?.paintings.filter(
+            (painting) => painting._id !== paintingId,
+          );
+        }
+        console.log(data);
       } catch (e) {
         console.log(e);
       }

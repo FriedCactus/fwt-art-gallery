@@ -40,6 +40,11 @@ export const addPaintingByAuthorId = (id: TArtist["_id"], body: FormData) =>
     },
   });
 
+export const deletePaintingById = (
+  artistId: TArtist["_id"],
+  paintingId: TPainting["_id"],
+) => axios.delete(`/artists/${artistId}/paintings/${paintingId}`);
+
 // Авторизация
 export const register = (body: TAuthBody) =>
   axios.post<TAuthResponse>("auth/register", body);

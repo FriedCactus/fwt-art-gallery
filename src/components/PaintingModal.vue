@@ -69,7 +69,7 @@ export default defineComponent({
           ._id,
     );
     const mainPaintingId = computed(
-      () => store.state.artist.artist?.mainPainting._id,
+      () => store.state.artist.artist?.mainPainting?._id,
     );
     const isFavourite = computed(
       () => mainPaintingId.value === paintingId.value,
