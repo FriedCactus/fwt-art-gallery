@@ -63,17 +63,17 @@
       />
     </div>
 
-    <AddPaintingModalVue
+    <PaintingModal
       v-if="isEditPaintingModalOpen"
       :onClose="closeEditModal"
       :type="'edit'"
     />
-    <AddPaintingModalVue
+    <PaintingModal
       v-if="isAddPaintingModalOpen"
       :onClose="closeUploadModal"
       :type="'add'"
     />
-    <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
+    <PaintingSliderModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
     <ConfirmModal v-if="isConfirmModalOpen" />
   </div>
 </template>
@@ -86,10 +86,10 @@ import EditIcon from "@/assets/icons/edit_icon.svg";
 import ArrowIcon from "@/assets/icons/arrow.svg";
 import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
-import PaintingModal from "@/components/PaintingModal.vue";
+import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
 import bodyLock from "@/utils/bodyLock";
 import ConfirmModal from "@/components/ConfirmModal.vue";
-import AddPaintingModalVue from "@/components/AddPaintingModal.vue";
+import PaintingModal from "@/components/PaintingModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -98,9 +98,9 @@ export default defineComponent({
     ArrowIcon,
     Tag,
     CardsGrid,
-    PaintingModal,
+    PaintingSliderModal,
     ConfirmModal,
-    AddPaintingModalVue,
+    PaintingModal,
   },
 
   setup() {
