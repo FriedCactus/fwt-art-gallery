@@ -18,7 +18,7 @@
           <EditButton />
         </span>
         <span class="button-container">
-          <RemoveButton />
+          <RemoveButton @click="onRemoveClick" />
         </span>
       </div>
 
@@ -38,6 +38,7 @@
 import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "@/store";
+import bodyLock from "@/utils/bodyLock";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import FavouriteButton from "@/ui/FavouriteButton.vue";
 import RemoveButton from "@/ui/RemoveButton.vue";
@@ -63,11 +64,7 @@ export default defineComponent({
     const route = useRoute();
 
     const { artistId } = route.params;
-    const paintingId = computed(
-      () =>
-        store.state.artist.artist?.paintings[store.state.artist.activeSlide]
-          ._id,
-    );
+    const paintingId = computed(() => store.state.artist.activePaintingId);
     const mainPaintingId = computed(
       () => store.state.artist.artist?.mainPainting?._id,
     );
@@ -94,10 +91,17 @@ export default defineComponent({
       }
     };
 
+    const onRemoveClick = () => {
+      store.commit("setIsConfirmRemoveModalOpen", true);
+
+      bodyLock(true);
+    };
+
     return {
       info,
       onFavouriteClick,
       isFavourite,
+      onRemoveClick,
     };
   },
 });

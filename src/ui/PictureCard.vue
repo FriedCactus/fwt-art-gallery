@@ -21,21 +21,21 @@
         </p>
       </div>
 
-      <div class="label full">
+      <div class="label full" :class="{ interactive: artist.mainPainting }">
         <div class="top-row">
           <h3 class="title">{{ artist.name }}</h3>
           <div class="years" v-if="artist.yearsOfLife">
             {{ artist.yearsOfLife }}
           </div>
         </div>
-        <div class="bottom-row">
+        <div v-if="artist.mainPainting" class="bottom-row">
           <div class="item">
             <span>Name: </span>
-            <p class="text">{{ artist.mainPainting?.name }}</p>
+            <p class="text">{{ artist.mainPainting.name }}</p>
           </div>
-          <div class="item" v-if="artist.mainPainting?.yearOfCreation">
+          <div class="item" v-if="artist.mainPainting.yearOfCreation">
             <span>Created: </span>
-            <p class="text">{{ artist.mainPainting?.yearOfCreation }}</p>
+            <p class="text">{{ artist.mainPainting.yearOfCreation }}</p>
           </div>
         </div>
       </div>
@@ -125,11 +125,6 @@ export default defineComponent({
         store.commit("setIsConfirmRemoveModalOpen", true);
 
         bodyLock(true);
-
-        /* store.dispatch("tryToDeletePainting", {
-          artistId,
-          paintingId: props.painting._id,
-        }); */
       }
     };
 
@@ -263,10 +258,12 @@ export default defineComponent({
     }
 
     &.full {
-      @media ($laptop) {
-        &:hover {
-          padding: 10px 15px;
-          transform: translateY(calc(-100% + 30px));
+      &.interactive {
+        @media ($laptop) {
+          &:hover {
+            padding: 10px 15px;
+            transform: translateY(calc(-100% + 30px));
+          }
         }
       }
     }
