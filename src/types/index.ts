@@ -65,6 +65,8 @@ export type TSettingsState = {
   theme: "dark" | "light";
   authorizationModal: "auth" | "register" | "";
   isConfirmRemoveModalOpen: boolean;
+  isAddPaintingModalOpen: boolean;
+  isEditPaintingModalOpen: boolean;
 };
 
 export type TGalleryState = {

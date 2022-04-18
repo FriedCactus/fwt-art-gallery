@@ -13,6 +13,11 @@ type TPatchMainPaintingBody = {
   mainPainting: string;
 };
 
+type TEditPaintingBody = {
+  name: string;
+  yearOfCreation: string;
+};
+
 // Художник
 export const getArtists = () => axios.get("artists");
 
@@ -44,6 +49,12 @@ export const deletePaintingById = (
   artistId: TArtist["_id"],
   paintingId: TPainting["_id"],
 ) => axios.delete(`/artists/${artistId}/paintings/${paintingId}`);
+
+export const editPainting = (
+  artistId: TArtist["_id"],
+  paintingId: TPainting["_id"],
+  body: TEditPaintingBody,
+) => axios.put(`/artists/${artistId}/paintings/${paintingId}`, body);
 
 // Авторизация
 export const register = (body: TAuthBody) =>

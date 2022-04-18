@@ -63,16 +63,18 @@
       />
     </div>
 
+    <AddPaintingModalVue
+      v-if="isEditPaintingModalOpen"
+      :onClose="closeEditModal"
+      :type="'edit'"
+    />
+    <AddPaintingModalVue
+      v-if="isAddPaintingModalOpen"
+      :onClose="closeUploadModal"
+      :type="'add'"
+    />
     <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
     <ConfirmModal v-if="isConfirmModalOpen" />
-    <div class="upload-modal" v-if="isAddPaintingModalOpen">
-      <div class="container">
-        <UploadImageForm
-          :onUpload="closeUploadModal"
-          :onCloseClick="closeUploadModal"
-        />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -86,8 +88,8 @@ import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingModal from "@/components/PaintingModal.vue";
 import bodyLock from "@/utils/bodyLock";
-import UploadImageForm from "@/ui/UploadImageForm.vue";
 import ConfirmModal from "@/components/ConfirmModal.vue";
+import AddPaintingModalVue from "@/components/AddPaintingModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -97,8 +99,8 @@ export default defineComponent({
     Tag,
     CardsGrid,
     PaintingModal,
-    UploadImageForm,
     ConfirmModal,
+    AddPaintingModalVue,
   },
 
   setup() {
@@ -110,7 +112,12 @@ export default defineComponent({
 
     const isTextShown = ref<boolean>(false);
     const isPaintingModalOpen = ref<boolean>(false);
-    const isAddPaintingModalOpen = ref<boolean>(false);
+    const isAddPaintingModalOpen = computed(
+      () => store.state.settings.isAddPaintingModalOpen,
+    );
+    const isEditPaintingModalOpen = computed(
+      () => store.state.settings.isEditPaintingModalOpen,
+    );
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {
@@ -142,12 +149,17 @@ export default defineComponent({
     };
 
     const onAddPaintingClick = () => {
-      isAddPaintingModalOpen.value = true;
+      store.commit("setIsAddPaintingModalOpen", true);
       bodyLock(true);
     };
 
     const closeUploadModal = () => {
-      isAddPaintingModalOpen.value = false;
+      store.commit("setIsAddPaintingModalOpen", false);
+      bodyLock(false);
+    };
+
+    const closeEditModal = () => {
+      store.commit("setIsEditPaintingModalOpen", false);
       bodyLock(false);
     };
 
@@ -161,9 +173,11 @@ export default defineComponent({
       isTextShown,
       isPaintingModalOpen,
       isAddPaintingModalOpen,
+      isEditPaintingModalOpen,
       onPaintingClick,
       onAddPaintingClick,
       closeUploadModal,
+      closeEditModal,
       onModalCLose,
       api,
     };
@@ -355,29 +369,6 @@ export default defineComponent({
   }
 
   .paintings {
-  }
-
-  .upload-modal {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $ModalBackground;
-    z-index: 3;
-
-    .container {
-      width: 100%;
-      height: 100%;
-
-      @media ($tablet) {
-        width: 500px;
-        height: 650px;
-      }
-    }
   }
 
   &.dark {

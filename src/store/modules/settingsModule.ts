@@ -6,6 +6,8 @@ const settingsModule: Module<TSettingsState, TRootState> = {
     theme: "light",
     authorizationModal: "",
     isConfirmRemoveModalOpen: false,
+    isAddPaintingModalOpen: false,
+    isEditPaintingModalOpen: false,
   },
   mutations: {
     changeTheme(state) {
@@ -25,6 +27,14 @@ const settingsModule: Module<TSettingsState, TRootState> = {
 
     setIsConfirmRemoveModalOpen(state, payload: boolean) {
       state.isConfirmRemoveModalOpen = payload;
+    },
+
+    setIsAddPaintingModalOpen(state, payload: boolean) {
+      state.isAddPaintingModalOpen = payload;
+    },
+
+    setIsEditPaintingModalOpen(state, payload: boolean) {
+      state.isEditPaintingModalOpen = payload;
     },
   },
 };

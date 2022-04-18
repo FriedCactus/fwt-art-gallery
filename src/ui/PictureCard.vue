@@ -64,7 +64,7 @@
           <RemoveButton :onClick="onRemoveClick" />
         </span>
         <span class="button-container">
-          <EditButton />
+          <EditButton :onClick="onEditClick" />
         </span>
       </div>
 
@@ -110,6 +110,12 @@ export default defineComponent({
     const route = useRoute();
     const { artistId } = route.params;
 
+    const setActivePainting = () => {
+      if (props.painting) {
+        store.commit("setActivePaintingId", props.painting._id);
+      }
+    };
+
     const onFavouriteClick = () => {
       if (props.painting) {
         store.dispatch("tryToPatchMainPainting", {
@@ -120,18 +126,24 @@ export default defineComponent({
     };
 
     const onRemoveClick = () => {
-      if (props.painting) {
-        store.commit("setActivePaintingId", props.painting._id);
-        store.commit("setIsConfirmRemoveModalOpen", true);
+      setActivePainting();
+      store.commit("setIsConfirmRemoveModalOpen", true);
 
-        bodyLock(true);
-      }
+      bodyLock(true);
+    };
+
+    const onEditClick = () => {
+      setActivePainting();
+      store.commit("setIsEditPaintingModalOpen", true);
+
+      bodyLock(true);
     };
 
     return {
       api,
       onFavouriteClick,
       onRemoveClick,
+      onEditClick,
     };
   },
 });

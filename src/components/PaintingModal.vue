@@ -15,10 +15,10 @@
           />
         </span>
         <span class="button-container">
-          <EditButton />
+          <EditButton :onClick="onEditClick" />
         </span>
         <span class="button-container">
-          <RemoveButton @click="onRemoveClick" />
+          <RemoveButton :onClick="onRemoveClick" />
         </span>
       </div>
 
@@ -97,11 +97,18 @@ export default defineComponent({
       bodyLock(true);
     };
 
+    const onEditClick = () => {
+      store.commit("setIsEditPaintingModalOpen", true);
+
+      bodyLock(true);
+    };
+
     return {
       info,
       onFavouriteClick,
       isFavourite,
       onRemoveClick,
+      onEditClick,
     };
   },
 });

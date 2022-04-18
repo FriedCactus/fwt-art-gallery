@@ -1,5 +1,5 @@
 <template>
-  <form class="upload-form" @submit.prevent="onFormSubmit">
+  <form class="painting-form" @submit.prevent="onFormSubmit">
     <div class="top">
       <div class="left">
         <UploadIcon />
@@ -49,7 +49,19 @@
       class="drop-container"
       :class="{ active: isDropActive }"
     >
-      <template v-if="!uploadedImageUrl">
+      <div v-if="uploadedImageUrl" class="image">
+        <img :src="uploadedImageUrl" alt="" />
+      </div>
+      <div else v-if="activePainting" class="image">
+        <picture>
+          <source
+            :srcset="`${api}/${activePainting.image.webp}`"
+            type="image/webp"
+          />
+          <img :srcset="`${api}/${activePainting.image.src}`" alt="" />
+        </picture>
+      </div>
+      <template v-else>
         <span class="logo-container">
           <DropzoneIcon />
         </span>
@@ -73,15 +85,12 @@
         <p class="drop-text">Image weight must be less than 3 MB</p>
         <span class="drop-types">.jpg, .png</span>
       </template>
-      <div v-else class="image">
-        <img :src="uploadedImageUrl" alt="" />
-      </div>
     </DropZone>
 
     <div class="bottom">
       <div class="button-container">
         <Button
-          :disabled="!uploadedImageUrl"
+          :disabled="!uploadedImageUrl && !activePainting"
           :staticTheme="'dark'"
           :style="'filled'"
           type="submit"
@@ -95,8 +104,9 @@
 </template>
 
 <script lang="ts">
+import { TPainting } from "@/types";
 import { useStore } from "@/store";
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onBeforeMount, PropType, ref } from "vue";
 import { paintingFormValidation } from "@/utils/formsValidation";
 import DropZone from "@/components/DropZone.vue";
 import DropzoneIcon from "@/assets/icons/dropzone-icon.svg";
@@ -105,7 +115,7 @@ import UploadIcon from "@/assets/icons/upload-icon.svg";
 import Button from "./Button.vue";
 
 export default defineComponent({
-  name: "UploadImageForm",
+  name: "PaintingForm",
   components: {
     CloseIcon,
     UploadIcon,
@@ -122,8 +132,14 @@ export default defineComponent({
       type: Function,
       default: () => {},
     },
+    type: {
+      type: String as PropType<"add" | "edit">,
+      required: true,
+    },
   },
+
   setup(props) {
+    const api = process.env.VUE_APP_BASE_URL;
     const conditions = ["jpeg", "jpg", "png"];
     const uploadInputRef = ref<HTMLInputElement>();
 
@@ -136,6 +152,16 @@ export default defineComponent({
     const yearError = ref<string>("");
 
     const uploadedImage = computed(() => store.state.artist.uploadedFile);
+    const activePainting = computed<TPainting>(
+      () => store.getters.getActivePainting,
+    );
+
+    onBeforeMount(() => {
+      if (props.type === "edit") {
+        name.value = activePainting.value.name;
+        yearOfCreation.value = activePainting.value.yearOfCreation;
+      }
+    });
 
     const onNameChange = (e: Event) => {
       name.value = (e.target as HTMLInputElement).value;
@@ -175,26 +201,37 @@ export default defineComponent({
     };
 
     const onFormSubmit = async () => {
-      if (!uploadedImage.value) return;
-
       const error = paintingFormValidation(name.value, yearOfCreation.value);
 
       if (error) {
         if (error.type === "name") nameError.value = error.message;
         if (error.type === "year") yearError.value = error.message;
       } else {
-        const payload = {
-          name: name.value,
-          yearOfCreation: yearOfCreation.value,
-          image: uploadedImage.value,
-        };
+        if (props.type === "add") {
+          const payload = {
+            name: name.value,
+            yearOfCreation: yearOfCreation.value,
+            image: uploadedImage.value,
+          };
 
-        await store.dispatch("tryToAddPainting", payload);
+          await store.dispatch("tryToAddPainting", payload);
+        }
+
+        if (props.type === "edit") {
+          const payload = {
+            name: name.value,
+            yearOfCreation: yearOfCreation.value,
+          };
+
+          await store.dispatch("tryToEditPainting", payload);
+        }
+
         props.onCloseClick();
       }
     };
 
     return {
+      api,
       name,
       yearOfCreation,
       nameError,
@@ -211,13 +248,14 @@ export default defineComponent({
       onFormSubmit,
       onNameChange,
       onYearChange,
+      activePainting,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.upload-form {
+.painting-form {
   position: relative;
   display: flex;
   flex-direction: column;

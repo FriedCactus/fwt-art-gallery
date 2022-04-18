@@ -1,6 +1,7 @@
 import {
   addPaintingByAuthorId,
   deletePaintingById,
+  editPainting,
   getArtistById,
   patchMainPainting,
 } from "@/api";
@@ -23,12 +24,23 @@ type TDeletePaintingPayload = {
   paintingId: string;
 };
 
+type TEditPaintingBody = {
+  name: string;
+  yearOfCreation: string;
+};
+
 const artistModule: Module<TArtistState, TRootState> = {
   state: {
     activeSlide: 0,
     activePaintingId: "",
     artist: undefined,
     uploadedFile: undefined,
+  },
+  getters: {
+    getActivePainting: (state) =>
+      state.artist?.paintings.find(
+        (painting) => painting._id === state.activePaintingId,
+      ),
   },
   mutations: {
     setActiveSlide(state, payload: number) {
@@ -104,6 +116,25 @@ const artistModule: Module<TArtistState, TRootState> = {
           state.artist.paintings = state.artist?.paintings.filter(
             (painting) => painting._id !== paintingId,
           );
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async tryToEditPainting({ state }, payload: TEditPaintingBody) {
+      const authorId = state.artist?._id;
+      const paintingId = state.activePaintingId;
+
+      try {
+        if (authorId && paintingId) {
+          const { data } = await editPainting(authorId, paintingId, payload);
+
+          if (state.artist) {
+            state.artist.paintings = state.artist?.paintings.map((painting) =>
+              painting._id === paintingId ? data : painting,
+            );
+          }
         }
       } catch (e) {
         console.log(e);
