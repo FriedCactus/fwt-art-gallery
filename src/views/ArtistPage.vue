@@ -63,6 +63,7 @@
       />
     </div>
 
+    <ArtistEditModal v-if="isEditArtistModalOpen" />
     <PaintingModal
       v-if="isEditPaintingModalOpen"
       :onClose="closeEditModal"
@@ -90,6 +91,7 @@ import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
 import bodyLock from "@/utils/bodyLock";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import PaintingModal from "@/components/PaintingModal.vue";
+import ArtistEditModal from "@/components/ArtistEditModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -101,6 +103,7 @@ export default defineComponent({
     PaintingSliderModal,
     ConfirmModal,
     PaintingModal,
+    ArtistEditModal,
   },
 
   setup() {
@@ -111,12 +114,19 @@ export default defineComponent({
     const api = process.env.VUE_APP_BASE_URL;
 
     const isTextShown = ref<boolean>(false);
+    // Открытые модалки
     const isPaintingModalOpen = ref<boolean>(false);
+    const isConfirmModalOpen = computed(
+      () => store.state.settings.isConfirmRemoveModalOpen,
+    );
     const isAddPaintingModalOpen = computed(
       () => store.state.settings.isAddPaintingModalOpen,
     );
     const isEditPaintingModalOpen = computed(
       () => store.state.settings.isEditPaintingModalOpen,
+    );
+    const isEditArtistModalOpen = computed(
+      () => store.state.settings.isEditArtistModalOpen,
     );
 
     // Скролл лок при открытии модалки
@@ -166,14 +176,13 @@ export default defineComponent({
     return {
       theme: computed(() => store.state.settings.theme),
       artist: computed(() => store.state.artist.artist),
-      isConfirmModalOpen: computed(
-        () => store.state.settings.isConfirmRemoveModalOpen,
-      ),
       onShowButtonClick,
       isTextShown,
+      isConfirmModalOpen,
       isPaintingModalOpen,
       isAddPaintingModalOpen,
       isEditPaintingModalOpen,
+      isEditArtistModalOpen,
       onPaintingClick,
       onAddPaintingClick,
       closeUploadModal,
