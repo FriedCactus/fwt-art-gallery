@@ -56,6 +56,8 @@ export type TAuthResponse = {
   refreshToken: string;
 };
 
+export type TGenresResponse = TGenre[];
+
 export type TRefreshBody = {
   refreshToken: string;
 };
@@ -92,6 +94,10 @@ export type TAuthState = {
     type: "password" | "username" | "";
     message: string;
   };
+};
+
+export type TFiltersState = {
+  genres: TGenre[];
 };
 
 export type TRootState = {

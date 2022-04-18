@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, watch } from "vue";
+import { defineComponent, onMounted, watch } from "vue";
 import { useCookies } from "@vueuse/integrations/useCookies";
 import Container from "./components/Container.vue";
 import Footer from "./components/Footer.vue";
@@ -62,7 +62,7 @@ export default defineComponent({
       },
     );
 
-    onBeforeMount(() => {
+    onMounted(() => {
       const theme = cookies.get("theme");
 
       if (theme) {
@@ -70,6 +70,8 @@ export default defineComponent({
       } else {
         cookies.set("theme", store.state.settings.theme);
       }
+
+      store.dispatch("tryToGetGenres");
     });
 
     return {};

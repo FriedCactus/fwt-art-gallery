@@ -6,6 +6,7 @@ import {
   TArtistStaticRespone,
   TArtistResponse,
   TArtist,
+  TGenresResponse,
 } from "@/types";
 import axios from "./axios";
 
@@ -65,3 +66,6 @@ export const login = (body: TAuthBody) =>
 
 export const refresh = (body: TRefreshBody) =>
   axios.post<TAuthResponse>("auth/refresh", body);
+
+// Жанры
+export const getGenres = () => axios.get<TGenresResponse>("genres");

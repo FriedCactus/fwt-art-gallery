@@ -5,6 +5,7 @@ import settingsModule from "./modules/settingsModule";
 import galleryModule from "./modules/galleryModule";
 import artistModule from "./modules/artistModule";
 import authModule from "./modules/authModule";
+import filtersModule from "./modules/filtersModule";
 
 export const key: InjectionKey<Store<TRootState>> = Symbol("store");
 
@@ -14,6 +15,7 @@ export default createStore<TRootState>({
     gallery: galleryModule,
     artist: artistModule,
     auth: authModule,
+    filters: filtersModule,
   },
 });
 
