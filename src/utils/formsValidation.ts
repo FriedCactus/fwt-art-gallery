@@ -3,8 +3,13 @@ type TAuthFormReturn = {
   message: string;
 };
 
-type TRegisterFormReturen = {
+type TRegisterFormReturn = {
   type: "login" | "password" | "confirm" | "";
+  message: string;
+};
+
+type TPaintingFormReturn = {
+  type: "name" | "year" | "";
   message: string;
 };
 
@@ -34,8 +39,8 @@ export const registerFormValidation = (
   login: string,
   password: string,
   confirm: string,
-): TRegisterFormReturen | void => {
-  const error: TRegisterFormReturen = {
+): TRegisterFormReturn | void => {
+  const error: TRegisterFormReturn = {
     type: "",
     message: "Поле не заполнено",
   };
@@ -67,7 +72,39 @@ export const registerFormValidation = (
   }
   if (password !== confirm) {
     error.type = "confirm";
-    error.message = "Пароли не свопадают";
+    error.message = "Пароли не совпадают";
+    return error;
+  }
+};
+
+export const paintingFormValidation = (
+  name: string,
+  year: string,
+): TPaintingFormReturn | void => {
+  const error: TPaintingFormReturn = {
+    type: "",
+    message: "Поле не заполнено",
+  };
+
+  if (!name) {
+    error.type = "name";
+    return error;
+  }
+
+  if (!year) {
+    error.type = "year";
+    return error;
+  }
+
+  if (name.length < 3) {
+    error.type = "name";
+    error.message = "Имя не может быть короче 3 символов";
+    return error;
+  }
+
+  if (year.length < 4) {
+    error.type = "year";
+    error.message = "Год не может быть короче 4 символов";
     return error;
   }
 };

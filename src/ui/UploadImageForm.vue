@@ -97,6 +97,7 @@
 <script lang="ts">
 import { useStore } from "@/store";
 import { computed, defineComponent, ref } from "vue";
+import { paintingFormValidation } from "@/utils/formsValidation";
 import DropZone from "@/components/DropZone.vue";
 import DropzoneIcon from "@/assets/icons/dropzone-icon.svg";
 import CloseIcon from "@/assets/icons/close-icon.svg";
@@ -122,7 +123,7 @@ export default defineComponent({
       default: () => {},
     },
   },
-  setup() {
+  setup(props) {
     const conditions = ["jpeg", "jpg", "png"];
     const uploadInputRef = ref<HTMLInputElement>();
 
@@ -173,21 +174,24 @@ export default defineComponent({
       }
     };
 
-    const onFormSubmit = () => {
+    const onFormSubmit = async () => {
       if (!uploadedImage.value) return;
 
-      const data = new FormData();
-      data.append("image", uploadedImage.value);
-      data.append("name", "Test");
-      data.append("yearOfCreation", "1856");
+      const error = paintingFormValidation(name.value, yearOfCreation.value);
 
-      const payload = {
-        name: name.value,
-        yearOfCreation: yearOfCreation.value,
-        image: uploadedImage.value,
-      };
+      if (error) {
+        if (error.type === "name") nameError.value = error.message;
+        if (error.type === "year") yearError.value = error.message;
+      } else {
+        const payload = {
+          name: name.value,
+          yearOfCreation: yearOfCreation.value,
+          image: uploadedImage.value,
+        };
 
-      store.dispatch("tryToAddPainting", payload);
+        await store.dispatch("tryToAddPainting", payload);
+        props.onCloseClick();
+      }
     };
 
     return {

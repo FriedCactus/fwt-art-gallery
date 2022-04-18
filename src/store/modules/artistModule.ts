@@ -53,7 +53,7 @@ const artistModule: Module<TArtistState, TRootState> = {
     },
 
     async tryToPatchMainPainting(
-      { state },
+      { state, dispatch },
       payload: TPatchMainPaintingPayload,
     ) {
       try {
@@ -65,6 +65,8 @@ const artistModule: Module<TArtistState, TRootState> = {
 
         if (state.artist?.mainPainting) {
           state.artist.mainPainting._id = paintingId;
+        } else if (state.artist?._id) {
+          dispatch("fetchArtistById", state.artist?._id);
         }
       } catch (e) {
         console.log(e);
@@ -83,7 +85,11 @@ const artistModule: Module<TArtistState, TRootState> = {
 
       try {
         const { data } = await addPaintingByAuthorId(authorId, formData);
+
         state.artist?.paintings.push(data);
+        if (state.artist?.mainPainting) {
+          state.artist.mainPainting._id = data._id;
+        }
       } catch (e) {
         console.log(e);
       }
@@ -92,7 +98,7 @@ const artistModule: Module<TArtistState, TRootState> = {
     async tryToDeletePainting({ state }, payload: TDeletePaintingPayload) {
       const { artistId, paintingId } = payload;
       try {
-        const data = await deletePaintingById(artistId, paintingId);
+        await deletePaintingById(artistId, paintingId);
 
         if (state.artist) {
           state.artist.paintings = state.artist?.paintings.filter(
