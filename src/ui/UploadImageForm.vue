@@ -6,7 +6,7 @@
         <h4 class="title">Image</h4>
       </div>
       <div class="right">
-        <button @click="onCloseClick()" class="close-button">
+        <button @click="onCloseClick()" class="close-button" type="button">
           <CloseIcon />
         </button>
       </div>
@@ -14,27 +14,31 @@
 
     <div class="inputs">
       <div class="input-row name">
-        <label for="year" class="label">
+        <label for="name" class="label" :class="{ error: nameError }">
           <h4 class="title">The name of the picture</h4>
           <input
             class="input"
-            id="year"
+            id="name"
             placeholder="Enter a name"
             type="text"
-            v-model="name"
+            :value="name"
+            @input="onNameChange($event)"
           />
+          <p v-if="nameError" class="error-text">{{ nameError }}</p>
         </label>
       </div>
       <div class="input-row year">
-        <label for="name" class="label">
+        <label for="year" class="label" :class="{ error: yearError }">
           <h4 class="title">Year of creation</h4>
           <input
             class="input"
-            id="name"
+            id="year"
             placeholder="Enter the year"
             type="text"
-            v-model="yearOfCreation"
+            :value="yearOfCreation"
+            @input="onYearChange($event)"
           />
+          <p v-if="yearError" class="error-text">{{ yearError }}</p>
         </label>
       </div>
     </div>
@@ -118,16 +122,29 @@ export default defineComponent({
       default: () => {},
     },
   },
-  setup(props) {
+  setup() {
     const conditions = ["jpeg", "jpg", "png"];
     const uploadInputRef = ref<HTMLInputElement>();
 
     const store = useStore();
     const isDropActive = ref<boolean>(false);
+
     const name = ref<string>("");
     const yearOfCreation = ref<string>("");
+    const nameError = ref<string>("");
+    const yearError = ref<string>("");
 
     const uploadedImage = computed(() => store.state.artist.uploadedFile);
+
+    const onNameChange = (e: Event) => {
+      name.value = (e.target as HTMLInputElement).value;
+      nameError.value = "";
+    };
+
+    const onYearChange = (e: Event) => {
+      yearOfCreation.value = (e.target as HTMLInputElement).value;
+      yearError.value = "";
+    };
 
     const onDragEnter = () => {
       isDropActive.value = true;
@@ -176,6 +193,8 @@ export default defineComponent({
     return {
       name,
       yearOfCreation,
+      nameError,
+      yearError,
       onDragEnter,
       onDragLeave,
       isDropActive,
@@ -186,6 +205,8 @@ export default defineComponent({
       onUploadInputClick,
       onFileUpload,
       onFormSubmit,
+      onNameChange,
+      onYearChange,
     };
   },
 });
@@ -263,6 +284,12 @@ export default defineComponent({
       }
 
       .label {
+        &.error {
+          .input {
+            border: 1px solid $InputError;
+          }
+        }
+
         .title {
           color: $UploadInputLabel;
           margin-bottom: 10px;
@@ -275,7 +302,7 @@ export default defineComponent({
           width: 100%;
           height: 40px;
           border-radius: 6px;
-          border: none;
+          border: 1px solid transparent;
           outline: none;
 
           font-size: 14px;
@@ -283,6 +310,15 @@ export default defineComponent({
           &::placeholder {
             color: $UploadInputPlaceholder;
           }
+        }
+
+        .error-text {
+          margin-top: 2px;
+
+          font-weight: 400;
+          font-size: 10px;
+          line-height: 120%;
+          color: $InputError;
         }
       }
     }
