@@ -116,15 +116,15 @@ const authModule: Module<TAuthState, TRootState> = {
       state.isLoading = true;
 
       try {
-        await refresh({
+        const { data } = await refresh({
           refreshToken: payload,
         });
 
         state.isAccess = true;
 
         // Новый токен не обновляется в базе, пока юзать старый
-        // state.accessToken = data.accessToken;
-        // state.refreshToken = data.refreshToken;
+        state.accessToken = data.accessToken;
+        state.refreshToken = data.refreshToken;
         state.expires = Date.now() + 60 * 60 * 24 * 1000;
       } catch (e) {
         if (axios.isAxiosError(e)) {

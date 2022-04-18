@@ -64,6 +64,7 @@ export type TRefreshBody = {
 export type TSettingsState = {
   theme: "dark" | "light";
   authorizationModal: "auth" | "register" | "";
+  isConfirmRemoveModalOpen: boolean;
 };
 
 export type TGalleryState = {
@@ -73,6 +74,7 @@ export type TGalleryState = {
 
 export type TArtistState = {
   activeSlide: number;
+  activePaintingId: TPainting["_id"];
   artist?: TArtistResponse;
   uploadedFile?: File;
 };

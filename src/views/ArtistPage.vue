@@ -56,13 +56,15 @@
     </div>
     <div class="paintings">
       <CardsGrid
-        :favouriteId="artist?.mainPainting._id"
+        :favouriteId="artist?.mainPainting?._id"
         :paintings="artist?.paintings"
         :onPaintingClick="onPaintingClick"
         :onAddPaintingClick="onAddPaintingClick"
       />
     </div>
+
     <PaintingModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
+    <ConfirmModal v-if="isConfirmModalOpen" />
     <div class="upload-modal" v-if="isAddPaintingModalOpen">
       <div class="container">
         <UploadImageForm
@@ -85,6 +87,7 @@ import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingModal from "@/components/PaintingModal.vue";
 import bodyLock from "@/utils/bodyLock";
 import UploadImageForm from "@/ui/UploadImageForm.vue";
+import ConfirmModal from "@/components/ConfirmModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -95,6 +98,7 @@ export default defineComponent({
     CardsGrid,
     PaintingModal,
     UploadImageForm,
+    ConfirmModal,
   },
 
   setup() {
@@ -129,6 +133,10 @@ export default defineComponent({
 
     const onPaintingClick = (index: number) => {
       store.commit("setActiveSlide", index);
+      store.commit(
+        "setActivePaintingId",
+        store.state.artist.artist?.paintings[index]._id,
+      );
       isPaintingModalOpen.value = true;
       bodyLock(true);
     };
@@ -146,6 +154,9 @@ export default defineComponent({
     return {
       theme: computed(() => store.state.settings.theme),
       artist: computed(() => store.state.artist.artist),
+      isConfirmModalOpen: computed(
+        () => store.state.settings.isConfirmRemoveModalOpen,
+      ),
       onShowButtonClick,
       isTextShown,
       isPaintingModalOpen,

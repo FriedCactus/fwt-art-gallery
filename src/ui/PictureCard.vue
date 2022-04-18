@@ -13,7 +13,9 @@
         />
       </picture>
       <div v-else class="mock">
-        <div class="logo">Logo</div>
+        <div class="logo">
+          <PaintingMock />
+        </div>
         <p class="text">
           The paintings of this artist have not been uploaded yet
         </p>
@@ -82,6 +84,8 @@ import { useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { defineComponent, PropType } from "vue";
 import type { TArtistStatic, TPainting } from "@/types";
+import bodyLock from "@/utils/bodyLock";
+import PaintingMock from "@/assets/images/painting-mock.svg";
 import EditButton from "./EditButton.vue";
 import FavouriteButton from "./FavouriteButton.vue";
 import RemoveButton from "./RemoveButton.vue";
@@ -97,6 +101,7 @@ export default defineComponent({
     EditButton,
     FavouriteButton,
     RemoveButton,
+    PaintingMock,
   },
   setup(props) {
     const api = process.env.VUE_APP_BASE_URL;
@@ -116,10 +121,15 @@ export default defineComponent({
 
     const onRemoveClick = () => {
       if (props.painting) {
-        store.dispatch("tryToDeletePainting", {
+        store.commit("setActivePaintingId", props.painting._id);
+        store.commit("setIsConfirmRemoveModalOpen", true);
+
+        bodyLock(true);
+
+        /* store.dispatch("tryToDeletePainting", {
           artistId,
           paintingId: props.painting._id,
-        });
+        }); */
       }
     };
 
@@ -166,34 +176,13 @@ export default defineComponent({
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 8px 13px;
-
-    @media ($tablet) {
-      padding: 16px 37px;
-
-      .text {
-        font-size: 14px;
-      }
-
-      .logo {
-        margin-bottom: 10px;
-      }
-    }
-
-    @media ($laptop) {
-      padding: 27px 40px;
-
-      .text {
-        font-size: 16px;
-      }
-
-      .logo {
-        margin-bottom: 31px;
-      }
-    }
+    padding: 8px 13px 33px;
+    background-color: $black;
 
     .logo {
       margin-bottom: 8px;
+      width: 35px;
+      height: 35px;
     }
 
     .text {
@@ -202,6 +191,34 @@ export default defineComponent({
       line-height: 120%;
       text-transform: uppercase;
       color: $StaticPictureCardText;
+    }
+
+    @media ($tablet) {
+      padding: 16px 37px 46px;
+
+      .text {
+        font-size: 14px;
+      }
+
+      .logo {
+        margin-bottom: 10px;
+        width: 70px;
+        height: 70px;
+      }
+    }
+
+    @media ($laptop) {
+      padding: 27px 40px 54px;
+
+      .text {
+        font-size: 16px;
+      }
+
+      .logo {
+        margin-bottom: 31px;
+        width: 110px;
+        height: 110px;
+      }
     }
   }
 

@@ -73,15 +73,23 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
+    const paintings = computed(() => store.state.artist.artist?.paintings);
+
     const api = process.env.VUE_APP_BASE_URL;
 
     const onSlideChange = (swiperInstance: any) => {
-      store.commit("setActiveSlide", swiperInstance.realIndex);
+      if (paintings.value) {
+        store.commit("setActiveSlide", swiperInstance.realIndex);
+        store.commit(
+          "setActivePaintingId",
+          paintings.value[swiperInstance.realIndex]._id,
+        );
+      }
     };
 
     return {
       api,
-      paintings: computed(() => store.state.artist.artist?.paintings),
+      paintings,
       modules: [Pagination, Keyboard, Navigation],
       onSlideChange,
       activeSlide: computed(() => store.state.artist.activeSlide),

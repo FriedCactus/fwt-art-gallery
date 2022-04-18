@@ -5,6 +5,7 @@ const settingsModule: Module<TSettingsState, TRootState> = {
   state: {
     theme: "light",
     authorizationModal: "",
+    isConfirmRemoveModalOpen: false,
   },
   mutations: {
     changeTheme(state) {
@@ -20,6 +21,10 @@ const settingsModule: Module<TSettingsState, TRootState> = {
       payload: TSettingsState["authorizationModal"],
     ) {
       state.authorizationModal = payload;
+    },
+
+    setIsConfirmRemoveModalOpen(state, payload: boolean) {
+      state.isConfirmRemoveModalOpen = payload;
     },
   },
 };

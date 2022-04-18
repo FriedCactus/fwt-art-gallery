@@ -4,7 +4,7 @@ import {
   getArtistById,
   patchMainPainting,
 } from "@/api";
-import { TArtistState, TRootState } from "@/types";
+import { TArtistState, TPainting, TRootState } from "@/types";
 import { Module } from "vuex";
 
 type TPatchMainPaintingPayload = {
@@ -26,12 +26,16 @@ type TDeletePaintingPayload = {
 const artistModule: Module<TArtistState, TRootState> = {
   state: {
     activeSlide: 0,
+    activePaintingId: "",
     artist: undefined,
     uploadedFile: undefined,
   },
   mutations: {
     setActiveSlide(state, payload: number) {
       state.activeSlide = payload;
+    },
+    setActivePaintingId(state, payload: TPainting["_id"]) {
+      state.activePaintingId = payload;
     },
     setUploadedFiles(state, payload: TArtistState["uploadedFile"]) {
       state.uploadedFile = payload;
@@ -95,7 +99,6 @@ const artistModule: Module<TArtistState, TRootState> = {
             (painting) => painting._id !== paintingId,
           );
         }
-        console.log(data);
       } catch (e) {
         console.log(e);
       }
