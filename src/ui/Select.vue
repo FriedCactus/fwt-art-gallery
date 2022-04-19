@@ -17,7 +17,7 @@
           </button>
         </div>
       </div>
-      <div class="text" v-else>{{ placeholder }}</div>
+      <div class="text" else>{{ style !== "label" ? placeholder : "" }}</div>
 
       <span class="icon">
         <TriangleIcon />
