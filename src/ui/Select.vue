@@ -9,7 +9,7 @@
       {{ placeholder }}{{ required ? "*" : "" }}
     </div>
     <div class="select">
-      <div class="selected-options" v-if="items.length">
+      <div class="selected-options" v-if="values.length">
         <div class="option" v-for="value in values" :key="value">
           <span class="text">{{ value }}</span>
           <button @click.stop="onRemoveCLick(value)" class="remove-button">
