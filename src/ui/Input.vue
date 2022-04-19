@@ -1,22 +1,31 @@
 <template>
-  <label class="input-label" :class="{ error: error }" :for="placeholder">
-    <span class="icon">
+  <label
+    class="input-label"
+    :class="{ error: error, [style]: style }"
+    :for="placeholder"
+  >
+    <span class="icon" v-if="style === ('icon' || 'icon-alt')">
       <slot />
     </span>
+    <p class="title" v-if="style === 'label'">
+      {{ placeholder }}<span class="required" v-if="required">*</span>
+    </p>
+
     <input
-      :placeholder="placeholder"
+      :placeholder="style === ('icon' || 'icon-alt') ? placeholder : ''"
       class="input"
       :id="placeholder"
       :type="typeValue"
       :value="value"
       @input="onInput($event)"
+      :required="required"
     />
     <p v-if="error" class="error">{{ error }}</p>
   </label>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "Input",
@@ -40,6 +49,14 @@ export default defineComponent({
       type: Function,
       required: true,
     },
+    required: {
+      type: Boolean,
+      default: false,
+    },
+    style: {
+      type: String as PropType<"icon" | "icon-alt" | "label">,
+      default: "icon",
+    },
   },
   setup() {
     return {};
@@ -49,9 +66,29 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .input-label {
+  display: flex;
+  flex-direction: column;
   position: relative;
   font-family: "Roboto";
   font-weight: 400;
+
+  &.icon {
+    .input {
+      padding: 12px 0 12px 29px;
+    }
+  }
+
+  &.icon-alt {
+    .input {
+      padding: 12px 32px 12px 12px;
+    }
+  }
+
+  &.label {
+    .input {
+      padding: 12px;
+    }
+  }
 
   &.error {
     .input {
@@ -61,6 +98,21 @@ export default defineComponent({
         outline-color: $InputError;
       }
     }
+
+    .title {
+      .required {
+        color: $InputError;
+      }
+    }
+  }
+
+  .title {
+    margin-bottom: 5px;
+
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 116%;
+    color: $InputPlaceholder;
   }
 
   .icon {
@@ -79,7 +131,6 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     border-radius: 6px;
-    padding: 12px 0 12px 29px;
     border: 1px solid $InputBorder;
 
     font-size: 14px;

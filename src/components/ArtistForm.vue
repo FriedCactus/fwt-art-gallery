@@ -11,21 +11,84 @@
       </div>
       <button class="edit-button" type="button">Change Profile Photo</button>
     </div>
-    <div class="inputs">Inputs</div>
+    <div class="inputs">
+      <div class="input-container">
+        <Input
+          :placeholder="'Name'"
+          :value="name"
+          :onInput="setName"
+          :style="'label'"
+          :required="true"
+        />
+      </div>
+      <div class="input-container">
+        <Input
+          :placeholder="'Years of life'"
+          :value="years"
+          :onInput="setYears"
+          :style="'label'"
+        />
+      </div>
+      <div class="input-container">
+        <Input
+          :placeholder="'Location'"
+          :value="location"
+          :onInput="setLocation"
+          :style="'label'"
+        />
+      </div>
+      <div class="textarea-container">
+        <label for="description" class="textarea-label">
+          <div class="label">Description</div>
+          <textarea id="description" class="textarea" v-model="description" />
+        </label>
+      </div>
+    </div>
     <div class="save-button">
-      <Button :staticTheme="'light'" :style="'filled'">Save</Button>
+      <Button :staticTheme="'light'" :style="'filled'" type="submit"
+        >Save</Button
+      >
     </div>
   </form>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
+import Input from "@/ui/Input.vue";
 
 export default defineComponent({
   name: "ArtistForm",
-  components: { CloseIcon, Button },
+  components: { CloseIcon, Button, Input },
+  setup() {
+    const name = ref<string>("");
+    const years = ref<string>("");
+    const location = ref<string>("");
+    const description = ref<string>("");
+
+    const setName = (e: Event) => {
+      name.value = (e.target as HTMLInputElement).value;
+    };
+
+    const setYears = (e: Event) => {
+      years.value = (e.target as HTMLInputElement).value;
+    };
+
+    const setLocation = (e: Event) => {
+      location.value = (e.target as HTMLInputElement).value;
+    };
+
+    return {
+      name,
+      setName,
+      years,
+      setYears,
+      location,
+      setLocation,
+      description,
+    };
+  },
 });
 </script>
 
@@ -82,7 +145,54 @@ export default defineComponent({
 
   .inputs {
     flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
+
+    .input-container {
+      width: 100%;
+      margin-bottom: 20px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .textarea-container {
+      flex: 1 1 auto;
+
+      .textarea-label {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        font-weight: 400;
+
+        .label {
+          font-size: 12px;
+          line-height: 116%;
+          color: $InputPlaceholder;
+          margin-bottom: 5px;
+        }
+
+        .textarea {
+          flex: 1 1 auto;
+          border: 1px solid $InputPlaceholder;
+          border-radius: 6px;
+          padding: 12px;
+          resize: none;
+
+          font-size: 14px;
+          line-height: 114%;
+
+          @media ($laptop) {
+            &:hover {
+              border: 1px solid $black;
+            }
+          }
+        }
+      }
+    }
   }
 
   .save-button {
