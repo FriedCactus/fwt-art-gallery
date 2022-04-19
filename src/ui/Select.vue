@@ -10,9 +10,9 @@
     </div>
     <div class="select">
       <div class="selected-options" v-if="items.length">
-        <div class="option" v-for="item in items" :key="item">
-          <span class="text">{{ item }}</span>
-          <button @click.stop="onRemoveCLick(item)" class="remove-button">
+        <div class="option" v-for="value in values" :key="value">
+          <span class="text">{{ value }}</span>
+          <button @click.stop="onRemoveCLick(value)" class="remove-button">
             <CloseIcon />
           </button>
         </div>
@@ -22,17 +22,18 @@
       <span class="icon">
         <TriangleIcon />
       </span>
+
       <ul class="menu" v-if="isOpen">
         <li
           class="menu-item"
-          :class="{ active: item.includes(item) }"
-          v-for="item in items"
-          :key="item"
+          :class="{ active: values.includes(option.name) }"
+          v-for="option in options"
+          :key="option._id"
         >
           <button class="button-check">
             <CheckIcon />
           </button>
-          <span class="text">{{ item }}</span>
+          <span class="text">{{ option.name }}</span>
         </li>
       </ul>
     </div>
@@ -45,6 +46,11 @@ import { computed, defineComponent, PropType, ref } from "vue";
 import TriangleIcon from "@/assets/icons/triangle.svg";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import CheckIcon from "@/assets/icons/check-icon.svg";
+
+type TOption = {
+  _id: string;
+  name: string;
+};
 
 export default defineComponent({
   name: "Select",
@@ -65,25 +71,19 @@ export default defineComponent({
     staticTheme: {
       type: String as PropType<"light" | "dark">,
     },
+    options: {
+      type: Array as PropType<TOption[]>,
+      required: true,
+    },
+    values: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
   },
   setup(props) {
     const store = useStore();
 
-    const items = ref([
-      "One",
-      "Two",
-      "Three",
-      "Four",
-      "Five",
-      "Six",
-      "Seven",
-      "Eight",
-      "Nine",
-    ]);
-
-    const onRemoveCLick = (value: string) => {
-      items.value = items.value.filter((item) => item !== value);
-    };
+    const onRemoveCLick = (value: string) => {};
 
     const isOpen = ref<boolean>(false);
 
@@ -95,7 +95,6 @@ export default defineComponent({
       theme: computed(() => props.staticTheme || store.state.settings.theme),
       isOpen,
       toggleIsOpen,
-      items,
       onRemoveCLick,
     };
   },
@@ -299,6 +298,7 @@ export default defineComponent({
           }
 
           .text {
+            color: $white;
           }
         }
       }
@@ -366,6 +366,7 @@ export default defineComponent({
           }
 
           .text {
+            color: $black;
           }
         }
       }

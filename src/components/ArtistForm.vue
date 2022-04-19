@@ -43,6 +43,8 @@
           :required="true"
           :style="'label'"
           :staticTheme="'light'"
+          :options="genres"
+          :values="selctedGenres"
         />
       </div>
 
@@ -63,21 +65,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Input from "@/ui/Input.vue";
 import TextareaVue from "@/ui/Textarea.vue";
 import Select from "@/ui/Select.vue";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "ArtistForm",
   components: { CloseIcon, Button, Input, TextareaVue, Select },
   setup() {
+    const store = useStore();
+
     const name = ref<string>("");
     const years = ref<string>("");
     const location = ref<string>("");
     const description = ref<string>("");
+    const selctedGenres = ref<string[]>([]);
 
     const setName = (e: Event) => {
       name.value = (e.target as HTMLInputElement).value;
@@ -104,6 +110,8 @@ export default defineComponent({
       setLocation,
       description,
       setDescription,
+      genres: computed(() => store.state.filters.genres),
+      selctedGenres,
     };
   },
 });

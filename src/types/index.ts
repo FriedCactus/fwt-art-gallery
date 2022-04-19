@@ -105,4 +105,5 @@ export type TRootState = {
   gallery: TGalleryState;
   artist: TArtistState;
   auth: TAuthState;
+  filters: TFiltersState;
 };
