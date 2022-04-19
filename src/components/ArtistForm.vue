@@ -37,6 +37,15 @@
           :style="'label'"
         />
       </div>
+      <div class="input-container">
+        <Select
+          :placeholder="'Genres'"
+          :required="true"
+          :style="'label'"
+          :staticTheme="'light'"
+        />
+      </div>
+
       <div class="textarea-container">
         <TextareaVue
           :placeholder="'Description'"
@@ -59,10 +68,11 @@ import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Input from "@/ui/Input.vue";
 import TextareaVue from "@/ui/Textarea.vue";
+import Select from "@/ui/Select.vue";
 
 export default defineComponent({
   name: "ArtistForm",
-  components: { CloseIcon, Button, Input, TextareaVue },
+  components: { CloseIcon, Button, Input, TextareaVue, Select },
   setup() {
     const name = ref<string>("");
     const years = ref<string>("");

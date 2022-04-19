@@ -117,7 +117,7 @@ export default defineComponent({
 
   .icon {
     position: absolute;
-    top: 2px;
+    top: calc(50% - 7px);
     left: 10px;
     width: 13px;
     height: 14px;
