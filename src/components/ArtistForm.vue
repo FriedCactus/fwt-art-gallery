@@ -38,10 +38,11 @@
         />
       </div>
       <div class="textarea-container">
-        <label for="description" class="textarea-label">
-          <div class="label">Description</div>
-          <textarea id="description" class="textarea" v-model="description" />
-        </label>
+        <TextareaVue
+          :placeholder="'Description'"
+          :value="description"
+          :onInput="setDescription"
+        />
       </div>
     </div>
     <div class="save-button">
@@ -57,10 +58,11 @@ import { defineComponent, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Input from "@/ui/Input.vue";
+import TextareaVue from "@/ui/Textarea.vue";
 
 export default defineComponent({
   name: "ArtistForm",
-  components: { CloseIcon, Button, Input },
+  components: { CloseIcon, Button, Input, TextareaVue },
   setup() {
     const name = ref<string>("");
     const years = ref<string>("");
@@ -79,6 +81,10 @@ export default defineComponent({
       location.value = (e.target as HTMLInputElement).value;
     };
 
+    const setDescription = (e: Event) => {
+      description.value = (e.target as HTMLTextAreaElement).value;
+    };
+
     return {
       name,
       setName,
@@ -87,6 +93,7 @@ export default defineComponent({
       location,
       setLocation,
       description,
+      setDescription,
     };
   },
 });
@@ -160,38 +167,6 @@ export default defineComponent({
 
     .textarea-container {
       flex: 1 1 auto;
-
-      .textarea-label {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-
-        font-weight: 400;
-
-        .label {
-          font-size: 12px;
-          line-height: 116%;
-          color: $InputPlaceholder;
-          margin-bottom: 5px;
-        }
-
-        .textarea {
-          flex: 1 1 auto;
-          border: 1px solid $InputPlaceholder;
-          border-radius: 6px;
-          padding: 12px;
-          resize: none;
-
-          font-size: 14px;
-          line-height: 114%;
-
-          @media ($laptop) {
-            &:hover {
-              border: 1px solid $black;
-            }
-          }
-        }
-      }
     }
   }
 
