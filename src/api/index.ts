@@ -19,7 +19,7 @@ type TEditPaintingBody = {
   yearOfCreation: string;
 };
 
-export type TPatchArtistBody = Pick<
+export type TAddArtistBody = Pick<
   TArtist,
   "name" | "yearsOfLife" | "description" | "genres"
 >;
@@ -27,16 +27,16 @@ export type TPatchArtistBody = Pick<
 // Художник
 export const getArtists = () => axios.get("artists");
 
+export const addArtist = (body: TAddArtistBody) => axios.post("artists", body);
+
 export const getArtistById = (id: TArtist["_id"]) =>
   axios.get<TArtistResponse>(`artists/${id}`);
 
-export const patchArtistById = (id: TArtist["_id"], body: TPatchArtistBody) =>
+export const patchArtistById = (id: TArtist["_id"], body: TAddArtistBody) =>
   axios.put(`artists/${id}`, body);
 
 export const getArtistsStatic = () =>
-  axios
-    .get<TArtistStaticRespone[]>("artists/static", {})
-    .then(({ data }) => data);
+  axios.get<TArtistStaticRespone[]>("artists/static").then(({ data }) => data);
 
 export const patchMainPainting = (
   artistId: string,

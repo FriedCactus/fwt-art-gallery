@@ -63,7 +63,7 @@
       />
     </div>
 
-    <ArtistEditModal v-if="isEditArtistModalOpen" />
+    <ArtistModal v-if="isEditArtistModalOpen" :isEdit="true" />
     <PaintingModal
       v-if="isEditPaintingModalOpen"
       :onClose="closeEditModal"
@@ -91,7 +91,7 @@ import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
 import bodyLock from "@/utils/bodyLock";
 import ConfirmModal from "@/components/ConfirmModal.vue";
 import PaintingModal from "@/components/PaintingModal.vue";
-import ArtistEditModal from "@/components/ArtistEditModal.vue";
+import ArtistModal from "@/components/ArtistModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -103,7 +103,7 @@ export default defineComponent({
     PaintingSliderModal,
     ConfirmModal,
     PaintingModal,
-    ArtistEditModal,
+    ArtistModal,
   },
 
   setup() {
@@ -126,7 +126,7 @@ export default defineComponent({
       () => store.state.settings.isEditPaintingModalOpen,
     );
     const isEditArtistModalOpen = computed(
-      () => store.state.settings.isEditArtistModalOpen,
+      () => store.state.settings.isArtistModalOpen,
     );
 
     // Скролл лок при открытии модалки
@@ -174,7 +174,7 @@ export default defineComponent({
     };
 
     const onEditArtistClick = () => {
-      store.commit("setIsEditArtistModalOpen", true);
+      store.commit("setIsArtistModalOpen", true);
       bodyLock(true);
     };
 

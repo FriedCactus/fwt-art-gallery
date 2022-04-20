@@ -8,7 +8,7 @@ const settingsModule: Module<TSettingsState, TRootState> = {
     isConfirmRemoveModalOpen: false,
     isAddPaintingModalOpen: false,
     isEditPaintingModalOpen: false,
-    isEditArtistModalOpen: false,
+    isArtistModalOpen: false,
   },
   mutations: {
     changeTheme(state) {
@@ -38,8 +38,8 @@ const settingsModule: Module<TSettingsState, TRootState> = {
       state.isEditPaintingModalOpen = payload;
     },
 
-    setIsEditArtistModalOpen(state, payload: boolean) {
-      state.isEditArtistModalOpen = payload;
+    setIsArtistModalOpen(state, payload: boolean) {
+      state.isArtistModalOpen = payload;
     },
   },
 };

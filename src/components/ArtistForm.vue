@@ -73,15 +73,20 @@ import Input from "@/ui/Input.vue";
 import TextareaVue from "@/ui/Textarea.vue";
 import Select from "@/ui/Select.vue";
 import { useStore } from "@/store";
-import { TPatchArtistBody } from "@/api";
+import { TAddArtistBody } from "@/api";
 import bodyLock from "@/utils/bodyLock";
 import { TGenre } from "@/types";
 import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "ArtistForm",
+  props: {
+    isEdit: {
+      type: Boolean,
+    },
+  },
   components: { CloseIcon, Button, Input, TextareaVue, Select },
-  setup() {
+  setup(props) {
     const route = useRoute();
     const { artistId } = route.params;
 
@@ -96,7 +101,7 @@ export default defineComponent({
     const selctedGenres = ref<TGenre[]>([]);
 
     onBeforeMount(() => {
-      if (artist.value) {
+      if (artist.value && props.isEdit) {
         name.value = artist.value.name;
         years.value = artist.value.yearsOfLife;
         description.value = artist.value.description;
@@ -125,20 +130,25 @@ export default defineComponent({
     };
 
     const onCloseClick = () => {
-      store.commit("setIsEditArtistModalOpen", false);
+      store.commit("setIsArtistModalOpen", false);
       bodyLock(false);
     };
 
     const onSubmit = async () => {
-      const payload: TPatchArtistBody = {
+      const payload: TAddArtistBody = {
         description: description.value,
         genres: selctedGenres.value,
         name: name.value,
         yearsOfLife: years.value,
       };
 
-      await store.dispatch("tryToPatchArtist", payload);
-      await store.dispatch("fetchArtistById", artistId);
+      if (props.isEdit) {
+        await store.dispatch("tryToPatchArtist", payload);
+        await store.dispatch("fetchArtistById", artistId);
+      } else {
+        await store.dispatch("tryToAddArtist", payload);
+        await store.dispatch("fetchArtistsStatic");
+      }
 
       onCloseClick();
     };

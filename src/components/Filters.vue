@@ -1,13 +1,15 @@
 <template>
   <div class="filters">
     <div class="button">
-      <Button>ADD ARTIST</Button>
+      <Button :onClick="onAddClick">ADD ARTIST</Button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { useStore } from "@/store";
 import Button from "@/ui/Button.vue";
+import bodyLock from "@/utils/bodyLock";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -16,7 +18,16 @@ export default defineComponent({
     Button,
   },
   setup() {
-    return {};
+    const store = useStore();
+
+    const onAddClick = () => {
+      store.commit("setIsArtistModalOpen", true);
+      bodyLock(true);
+    };
+
+    return {
+      onAddClick,
+    };
   },
 });
 </script>

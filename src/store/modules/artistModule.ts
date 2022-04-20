@@ -1,4 +1,5 @@
 import {
+  addArtist,
   addPaintingByAuthorId,
   deletePaintingById,
   editPainting,
@@ -159,6 +160,16 @@ const artistModule: Module<TArtistState, TRootState> = {
         if (axios.isAxiosError(e)) {
           console.log(e.response);
         }
+      }
+    },
+
+    async tryToAddArtist(_, payload) {
+      try {
+        const { data } = await addArtist(payload);
+
+        console.log(data);
+      } catch (e) {
+        console.log(e);
       }
     },
   },

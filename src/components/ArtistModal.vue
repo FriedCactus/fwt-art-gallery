@@ -1,7 +1,7 @@
 <template>
-  <div class="artist-edit">
+  <div class="artist-modal">
     <div class="container">
-      <ArtistForm />
+      <ArtistForm :isEdit="isEdit" />
     </div>
   </div>
 </template>
@@ -11,7 +11,12 @@ import { defineComponent } from "vue";
 import ArtistForm from "./ArtistForm.vue";
 
 export default defineComponent({
-  name: "ArtistEditModal",
+  name: "ArtistModal",
+  props: {
+    isEdit: {
+      type: Boolean,
+    },
+  },
   components: {
     ArtistForm,
   },
@@ -22,7 +27,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.artist-edit {
+.artist-modal {
   display: flex;
   justify-content: center;
   align-items: center;
