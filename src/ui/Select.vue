@@ -10,9 +10,13 @@
     </div>
     <div class="select">
       <div class="selected-options" v-if="values.length">
-        <div class="option" v-for="value in values" :key="value">
-          <span class="text">{{ value }}</span>
-          <button @click.stop="onRemoveCLick(value)" class="remove-button">
+        <div class="option" v-for="value in values" :key="value._id">
+          <span class="text">{{ value.name }}</span>
+          <button
+            @click.stop="onRemoveCLick(value._id)"
+            class="remove-button"
+            type="button"
+          >
             <CloseIcon />
           </button>
         </div>
@@ -25,14 +29,16 @@
 
       <ul class="menu" v-if="isOpen">
         <li
+          @click.stop="onOptionClick(option)"
+          @keyup.enter="onOptionClick(option)"
           class="menu-item"
-          :class="{ active: values.includes(option.name) }"
+          :class="{ active: values.some((value) => value._id === option._id) }"
           v-for="option in options"
           :key="option._id"
         >
-          <button class="button-check">
+          <span class="check-icon">
             <CheckIcon />
-          </button>
+          </span>
           <span class="text">{{ option.name }}</span>
         </li>
       </ul>
@@ -76,14 +82,31 @@ export default defineComponent({
       required: true,
     },
     values: {
-      type: Array as PropType<string[]>,
+      type: Array as PropType<TOption[]>,
+      required: true,
+    },
+    onUpdate: {
+      type: Function,
       required: true,
     },
   },
   setup(props) {
     const store = useStore();
 
-    const onRemoveCLick = (value: string) => {};
+    const onRemoveCLick = (id: string) => {
+      const updatedArr = props.values.filter((item) => item._id !== id);
+      props.onUpdate(updatedArr);
+    };
+
+    const onOptionClick = (option: TOption) => {
+      const isActive = !!props.values.find((value) => value._id === option._id);
+
+      const updatedArr = isActive
+        ? props.values.filter((value) => value._id !== option._id)
+        : [...props.values, option];
+
+      props.onUpdate(updatedArr);
+    };
 
     const isOpen = ref<boolean>(false);
 
@@ -96,6 +119,7 @@ export default defineComponent({
       isOpen,
       toggleIsOpen,
       onRemoveCLick,
+      onOptionClick,
     };
   },
 });
@@ -190,9 +214,7 @@ export default defineComponent({
       max-height: 200px;
 
       overflow-y: auto;
-
       padding: 20px 15px;
-
       border-radius: 0 0 8px 8px;
 
       .menu-item {
@@ -209,7 +231,7 @@ export default defineComponent({
           margin-bottom: 0;
         }
 
-        .button-check {
+        .check-icon {
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -219,7 +241,6 @@ export default defineComponent({
           border: 1px solid transparent;
 
           background: transparent;
-          outline: none;
           margin-right: 11px;
         }
 
@@ -285,12 +306,12 @@ export default defineComponent({
 
         .menu-item {
           &.active {
-            .button-check {
+            .check-icon {
               background-color: $white;
             }
           }
 
-          .button-check {
+          .check-icon {
             border: 1px solid $white;
 
             :deep(path) {
@@ -351,12 +372,12 @@ export default defineComponent({
 
         .menu-item {
           &.active {
-            .button-check {
+            .check-icon {
               background-color: $black;
             }
           }
 
-          .button-check {
+          .check-icon {
             border: 1px solid $black;
 
             svg {

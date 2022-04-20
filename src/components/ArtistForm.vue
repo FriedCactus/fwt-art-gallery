@@ -45,6 +45,7 @@
           :staticTheme="'light'"
           :options="genres"
           :values="selctedGenres"
+          :onUpdate="updateGenres"
         />
       </div>
 
@@ -119,6 +120,10 @@ export default defineComponent({
       description.value = (e.target as HTMLTextAreaElement).value;
     };
 
+    const updateGenres = (value: TGenre[]) => {
+      selctedGenres.value = value;
+    };
+
     const onCloseClick = () => {
       store.commit("setIsEditArtistModalOpen", false);
       bodyLock(false);
@@ -151,6 +156,7 @@ export default defineComponent({
       selctedGenres,
       onCloseClick,
       onSubmit,
+      updateGenres,
     };
   },
 });
