@@ -1,4 +1,5 @@
 <template>
+  <Filters />
   <CardsGrid v-if="artists.length" :artists="artists" />
 </template>
 
@@ -7,11 +8,13 @@ import { useStore } from "@/store";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import { computed, defineComponent, onBeforeMount, onMounted } from "vue";
 import paintingsPerPage from "@/utils/paintingsPerPage";
+import Filters from "@/components/Filters.vue";
 
 export default defineComponent({
   name: "GalleryPage",
   components: {
     CardsGrid,
+    Filters,
   },
   setup() {
     const store = useStore();
