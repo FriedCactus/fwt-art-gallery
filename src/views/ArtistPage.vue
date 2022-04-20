@@ -11,7 +11,7 @@
             <img :srcset="`${api}/${artist.avatar.src}`" alt="artist.name" />
           </picture>
         </div>
-        <button class="edit-button">
+        <button @click="onEditArtistClick" class="edit-button" type="button">
           <EditIcon />
           EDIT
         </button>
@@ -173,6 +173,11 @@ export default defineComponent({
       bodyLock(false);
     };
 
+    const onEditArtistClick = () => {
+      store.commit("setIsEditArtistModalOpen", true);
+      bodyLock(true);
+    };
+
     return {
       theme: computed(() => store.state.settings.theme),
       artist: computed(() => store.state.artist.artist),
@@ -188,6 +193,7 @@ export default defineComponent({
       closeUploadModal,
       closeEditModal,
       onModalCLose,
+      onEditArtistClick,
       api,
     };
   },

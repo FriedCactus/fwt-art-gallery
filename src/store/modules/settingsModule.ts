@@ -8,7 +8,7 @@ const settingsModule: Module<TSettingsState, TRootState> = {
     isConfirmRemoveModalOpen: false,
     isAddPaintingModalOpen: false,
     isEditPaintingModalOpen: false,
-    isEditArtistModalOpen: true,
+    isEditArtistModalOpen: false,
   },
   mutations: {
     changeTheme(state) {

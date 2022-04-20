@@ -3,9 +3,11 @@ import {
   deletePaintingById,
   editPainting,
   getArtistById,
+  patchArtistById,
   patchMainPainting,
 } from "@/api";
-import { TArtistState, TPainting, TRootState } from "@/types";
+import { TArtist, TArtistState, TPainting, TRootState } from "@/types";
+import axios from "axios";
 import { Module } from "vuex";
 
 type TPatchMainPaintingPayload = {
@@ -23,6 +25,11 @@ type TDeletePaintingPayload = {
   artistId: string;
   paintingId: string;
 };
+
+export type TPatchArtistPayload = Pick<
+  TArtist,
+  "name" | "yearsOfLife" | "description" | "genres"
+>;
 
 type TEditPaintingBody = {
   name: string;
@@ -138,6 +145,20 @@ const artistModule: Module<TArtistState, TRootState> = {
         }
       } catch (e) {
         console.log(e);
+      }
+    },
+
+    async tryToPatchArtist({ state }, payload: TPatchArtistPayload) {
+      const authorId = state.artist?._id;
+
+      try {
+        if (authorId) {
+          await patchArtistById(authorId, payload);
+        }
+      } catch (e) {
+        if (axios.isAxiosError(e)) {
+          console.log(e.response);
+        }
       }
     },
   },

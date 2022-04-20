@@ -1,7 +1,7 @@
 <template>
-  <form @submit.prevent="" class="artist-form">
+  <form @submit.prevent="onSubmit" class="artist-form">
     <div class="top">
-      <button class="close-button" type="button">
+      <button class="close-button" type="button" @click="onCloseClick">
         <CloseIcon />
       </button>
     </div>
@@ -57,33 +57,51 @@
       </div>
     </div>
     <div class="save-button">
-      <Button :staticTheme="'light'" :style="'filled'" type="submit"
-        >Save</Button
-      >
+      <Button :staticTheme="'light'" :style="'filled'" type="submit">
+        Save
+      </Button>
     </div>
   </form>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onBeforeMount, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Input from "@/ui/Input.vue";
 import TextareaVue from "@/ui/Textarea.vue";
 import Select from "@/ui/Select.vue";
 import { useStore } from "@/store";
+import { TPatchArtistBody } from "@/api";
+import bodyLock from "@/utils/bodyLock";
+import { TGenre } from "@/types";
+import { useRoute } from "vue-router";
 
 export default defineComponent({
   name: "ArtistForm",
   components: { CloseIcon, Button, Input, TextareaVue, Select },
   setup() {
+    const route = useRoute();
+    const { artistId } = route.params;
+
     const store = useStore();
+    const artist = computed(() => store.state.artist.artist);
+    const genres = computed(() => store.state.filters.genres);
 
     const name = ref<string>("");
     const years = ref<string>("");
     const location = ref<string>("");
     const description = ref<string>("");
-    const selctedGenres = ref<string[]>([]);
+    const selctedGenres = ref<TGenre[]>([]);
+
+    onBeforeMount(() => {
+      if (artist.value) {
+        name.value = artist.value.name;
+        years.value = artist.value.yearsOfLife;
+        description.value = artist.value.description;
+        selctedGenres.value = artist.value.genres;
+      }
+    });
 
     const setName = (e: Event) => {
       name.value = (e.target as HTMLInputElement).value;
@@ -101,6 +119,25 @@ export default defineComponent({
       description.value = (e.target as HTMLTextAreaElement).value;
     };
 
+    const onCloseClick = () => {
+      store.commit("setIsEditArtistModalOpen", false);
+      bodyLock(false);
+    };
+
+    const onSubmit = async () => {
+      const payload: TPatchArtistBody = {
+        description: description.value,
+        genres: selctedGenres.value,
+        name: name.value,
+        yearsOfLife: years.value,
+      };
+
+      await store.dispatch("tryToPatchArtist", payload);
+      await store.dispatch("fetchArtistById", artistId);
+
+      onCloseClick();
+    };
+
     return {
       name,
       setName,
@@ -110,8 +147,10 @@ export default defineComponent({
       setLocation,
       description,
       setDescription,
-      genres: computed(() => store.state.filters.genres),
+      genres,
       selctedGenres,
+      onCloseClick,
+      onSubmit,
     };
   },
 });
@@ -119,22 +158,27 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .artist-form {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 15px 15px 30px;
+  padding: 30px 15px;
   background-color: $white;
+  overflow-y: auto;
 
   .top {
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    top: 15px;
+    right: 15px;
 
     .close-button {
       cursor: pointer;
       background: transparent;
       outline: none;
       border: none;
+      width: 12px;
+      height: 12px;
 
       svg {
         :deep(path) {
@@ -191,6 +235,15 @@ export default defineComponent({
   .save-button {
     width: 100%;
     height: 40px;
+  }
+
+  @media ($tablet) {
+    padding: 40px 60px;
+
+    .top {
+      top: 20px;
+      right: 20px;
+    }
   }
 }
 </style>
