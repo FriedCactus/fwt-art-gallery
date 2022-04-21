@@ -1,6 +1,7 @@
 import {
   addArtist,
   addPaintingByAuthorId,
+  deleteArtistById,
   deletePaintingById,
   editPainting,
   getArtistById,
@@ -63,33 +64,25 @@ const artistModule: Module<TArtistState, TRootState> = {
   },
   actions: {
     async fetchArtistById({ state }, payload: string) {
-      try {
-        const { data } = await getArtistById(payload);
+      const { data } = await getArtistById(payload);
 
-        state.artist = data;
-      } catch (e) {
-        console.log(e);
-      }
+      state.artist = data;
     },
 
     async tryToPatchMainPainting(
       { state, dispatch },
       payload: TPatchMainPaintingPayload,
     ) {
-      try {
-        const { artistId, paintingId } = payload;
+      const { artistId, paintingId } = payload;
 
-        await patchMainPainting(artistId, {
-          mainPainting: paintingId,
-        });
+      await patchMainPainting(artistId, {
+        mainPainting: paintingId,
+      });
 
-        if (state.artist?.mainPainting) {
-          state.artist.mainPainting._id = paintingId;
-        } else if (state.artist?._id) {
-          dispatch("fetchArtistById", state.artist?._id);
-        }
-      } catch (e) {
-        console.log(e);
+      if (state.artist?.mainPainting) {
+        state.artist.mainPainting._id = paintingId;
+      } else if (state.artist?._id) {
+        dispatch("fetchArtistById", state.artist?._id);
       }
     },
 
@@ -103,30 +96,23 @@ const artistModule: Module<TArtistState, TRootState> = {
         formData.append(item[0], item[1]);
       });
 
-      try {
-        const { data } = await addPaintingByAuthorId(authorId, formData);
+      const { data } = await addPaintingByAuthorId(authorId, formData);
 
-        state.artist?.paintings.push(data);
-        if (state.artist?.mainPainting) {
-          state.artist.mainPainting._id = data._id;
-        }
-      } catch (e) {
-        console.log(e);
+      state.artist?.paintings.push(data);
+      if (state.artist?.mainPainting) {
+        state.artist.mainPainting._id = data._id;
       }
     },
 
     async tryToDeletePainting({ state }, payload: TDeletePaintingPayload) {
       const { artistId, paintingId } = payload;
-      try {
-        await deletePaintingById(artistId, paintingId);
 
-        if (state.artist) {
-          state.artist.paintings = state.artist?.paintings.filter(
-            (painting) => painting._id !== paintingId,
-          );
-        }
-      } catch (e) {
-        console.log(e);
+      await deletePaintingById(artistId, paintingId);
+
+      if (state.artist) {
+        state.artist.paintings = state.artist?.paintings.filter(
+          (painting) => painting._id !== paintingId,
+        );
       }
     },
 
@@ -134,40 +120,40 @@ const artistModule: Module<TArtistState, TRootState> = {
       const authorId = state.artist?._id;
       const paintingId = state.activePaintingId;
 
-      try {
-        if (authorId && paintingId) {
-          const { data } = await editPainting(authorId, paintingId, payload);
+      if (authorId && paintingId) {
+        const { data } = await editPainting(authorId, paintingId, payload);
 
-          if (state.artist) {
-            state.artist.paintings = state.artist?.paintings.map((painting) =>
-              painting._id === paintingId ? data : painting,
-            );
-          }
+        if (state.artist) {
+          state.artist.paintings = state.artist?.paintings.map((painting) =>
+            painting._id === paintingId ? data : painting,
+          );
         }
-      } catch (e) {
-        console.log(e);
       }
     },
 
     async tryToPatchArtist({ state }, payload: TPatchArtistPayload) {
       const authorId = state.artist?._id;
 
-      try {
-        if (authorId) {
-          await patchArtistById(authorId, payload);
-        }
-      } catch (e) {
-        if (axios.isAxiosError(e)) {
-          console.log(e.response);
-        }
+      if (authorId) {
+        await patchArtistById(authorId, payload);
       }
     },
 
     async tryToAddArtist(_, payload) {
-      try {
-        await addArtist(payload);
-      } catch (e) {
-        console.log(e);
+      await addArtist(payload);
+    },
+
+    async tryToDeleteArtis({ state }) {
+      const artistId = state.artist?._id;
+
+      if (artistId) {
+        try {
+          await deleteArtistById(artistId);
+        } catch (e) {
+          if (axios.isAxiosError(e)) {
+            throw new Error(e.message);
+          }
+        }
       }
     },
   },

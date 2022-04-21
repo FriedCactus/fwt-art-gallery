@@ -37,6 +37,9 @@ export const getArtistById = (id: TArtist["_id"]) =>
 export const patchArtistById = (id: TArtist["_id"], body: TAddArtistBody) =>
   axios.put(`artists/${id}`, body);
 
+export const deleteArtistById = (id: TArtist["_id"]) =>
+  axios.delete(`artists/${id}`);
+
 export const getArtistsStatic = () =>
   axios.get<TArtistStaticRespone>("artists/static");
 

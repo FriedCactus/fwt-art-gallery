@@ -2,6 +2,14 @@
   <div class="artist-page" :class="theme">
     <div class="artist-info">
       <div class="left">
+        <div class="menu">
+          <div class="button-container">
+            <EditButton :onClick="onEditArtistClick" />
+          </div>
+          <div class="button-container">
+            <RemoveButton :onClick="onRemoveClick" />
+          </div>
+        </div>
         <div class="portrait">
           <picture v-if="artist?.avatar">
             <source
@@ -10,15 +18,12 @@
             />
             <img :srcset="`${api}/${artist.avatar.src}`" alt="artist.name" />
           </picture>
-          <div class="avatar-mock">
+          <div class="avatar-mock" v-else>
             <AvatarMock />
             <div class="text">Profile photo have not been uploaded yet</div>
           </div>
         </div>
-        <button @click="onEditArtistClick" class="edit-button" type="button">
-          <EditIcon />
-          EDIT
-        </button>
+
         <h3 class="artist-name">{{ artist?.name }}</h3>
         <div class="years">{{ artist?.yearsOfLife }}</div>
       </div>
@@ -74,7 +79,7 @@
 <script lang="ts">
 import { useStore } from "@/store";
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import EditIcon from "@/assets/icons/edit_icon.svg";
 import ArrowIcon from "@/assets/icons/arrow.svg";
 import Tag from "@/ui/Tag.vue";
@@ -82,6 +87,8 @@ import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
 import AvatarMock from "@/assets/images/painting-mock.svg";
 import bodyLock from "@/utils/bodyLock";
+import EditButton from "@/ui/EditButton.vue";
+import RemoveButton from "@/ui/RemoveButton.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -92,11 +99,14 @@ export default defineComponent({
     CardsGrid,
     PaintingSliderModal,
     AvatarMock,
+    EditButton,
+    RemoveButton,
   },
 
   setup() {
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
     const { artistId } = route.params;
 
     const api = process.env.VUE_APP_BASE_URL;
@@ -149,6 +159,14 @@ export default defineComponent({
       store.commit("setIsEditArtistModalOpen", true);
     };
 
+    const onRemoveClick = () => {
+      store.dispatch("tryToDeleteArtis").then(() => {
+        router.push({
+          name: "home",
+        });
+      });
+    };
+
     return {
       theme: computed(() => store.state.settings.theme),
       artist: computed(() => store.state.artist.artist),
@@ -161,6 +179,7 @@ export default defineComponent({
       closeEditModal,
       onModalCLose,
       onEditArtistClick,
+      onRemoveClick,
       api,
     };
   },
@@ -203,6 +222,21 @@ export default defineComponent({
       @media ($desktop) {
         flex: 1 1 auto;
         margin-right: 0;
+      }
+
+      .menu {
+        display: flex;
+        margin-bottom: 15px;
+
+        .button-container {
+          width: 30px;
+          height: 30px;
+          margin-right: 20px;
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
       }
 
       .portrait {
