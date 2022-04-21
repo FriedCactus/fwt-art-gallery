@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, defineComponent, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
@@ -63,96 +63,70 @@ import PersonIcon from "@/assets/icons/person-icon.svg";
 import LockIcon from "@/assets/icons/lock-icon.svg";
 import { authFormValidation } from "@/utils/formsValidation";
 
-export default defineComponent({
-  name: "AuthModal",
-  components: {
-    CloseIcon,
-    Button,
-    Link,
-    Input,
-    PersonIcon,
-    LockIcon,
-  },
+const store = useStore();
 
-  setup() {
-    const store = useStore();
+const loginName = ref("");
+const loginPassword = ref("");
+const loginNameError = ref("");
+const loginPasswordError = ref("");
 
-    const loginName = ref("");
-    const loginPassword = ref("");
-    const loginNameError = ref("");
-    const loginPasswordError = ref("");
+const isLoading = computed(() => store.state.auth.isLoading);
+const error = computed(() => store.state.auth.error);
+const usernameError = computed(() => store.getters.getUsernameError);
+const passwordError = computed(() => store.getters.getPasswordError);
+const isAuthOpen = computed(() => store.state.settings.isAuthModalOpen);
 
-    const isError = computed(() => store.getters.isError);
+const isError = computed(() => store.getters.isError);
 
-    const clearLoginErrors = () => {
-      if (isError.value) store.commit("clearError");
+const clearLoginErrors = () => {
+  if (isError.value) store.commit("clearError");
 
-      if (loginNameError.value) loginNameError.value = "";
-      if (loginPasswordError.value) loginPasswordError.value = "";
-    };
+  if (loginNameError.value) loginNameError.value = "";
+  if (loginPasswordError.value) loginPasswordError.value = "";
+};
 
-    const setLoginName = (event: Event) => {
-      clearLoginErrors();
+const setLoginName = (event: Event) => {
+  clearLoginErrors();
 
-      loginName.value = (event.target as HTMLInputElement).value;
-    };
+  loginName.value = (event.target as HTMLInputElement).value;
+};
 
-    const setLoginPassword = (event: Event) => {
-      clearLoginErrors();
+const setLoginPassword = (event: Event) => {
+  clearLoginErrors();
 
-      loginPassword.value = (event.target as HTMLInputElement).value;
-    };
+  loginPassword.value = (event.target as HTMLInputElement).value;
+};
 
-    const onLogInClick = () => {
-      store.commit("setAuthorizationModal", "auth");
-    };
+const onLogInClick = () => {
+  store.commit("setAuthorizationModal", "auth");
+};
 
-    const onAuthClose = () => {
-      store.commit("setIsAuthModalOpen", false);
-    };
+const onAuthClose = () => {
+  store.commit("setIsAuthModalOpen", false);
+};
 
-    const onSignLinkClick = () => {
-      store.commit("setIsAuthModalOpen", false);
-      store.commit("setIsRegisterModalOpen", true);
-    };
+const onSignLinkClick = () => {
+  store.commit("setIsAuthModalOpen", false);
+  store.commit("setIsRegisterModalOpen", true);
+};
 
-    const onAuthSubmit = async () => {
-      clearLoginErrors();
+const onAuthSubmit = async () => {
+  clearLoginErrors();
 
-      const error = authFormValidation(loginName.value, loginPassword.value);
+  const errorMessage = authFormValidation(loginName.value, loginPassword.value);
 
-      if (error) {
-        const { type, message } = error;
+  if (errorMessage) {
+    const { type, message } = errorMessage;
 
-        if (type === "login") loginNameError.value = message;
-        if (type === "password") loginPasswordError.value = message;
-      } else {
-        await store.dispatch("tryToLogin", {
-          username: loginName.value,
-          password: loginPassword.value,
-        });
-      }
-    };
-
-    return {
-      isLoading: computed(() => store.state.auth.isLoading),
-      error: computed(() => store.state.auth.error),
-      usernameError: computed(() => store.getters.getUsernameError),
-      passwordError: computed(() => store.getters.getPasswordError),
-      isAuthOpen: computed(() => store.state.settings.isAuthModalOpen),
-      onLogInClick,
-      loginName,
-      loginPassword,
-      loginNameError,
-      loginPasswordError,
-      setLoginName,
-      setLoginPassword,
-      onAuthSubmit,
-      onAuthClose,
-      onSignLinkClick,
-    };
-  },
-});
+    if (type === "login") loginNameError.value = message;
+    if (type === "password") loginPasswordError.value = message;
+  } else {
+    await store.dispatch("tryToLogin", {
+      username: loginName.value,
+      password: loginPassword.value,
+    });
+  }
+};
 </script>
 
 <style lang="scss" scoped>

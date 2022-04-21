@@ -61,8 +61,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import { computed, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Link from "@/ui/Link.vue";
@@ -72,114 +72,85 @@ import PersonIcon from "@/assets/icons/person-icon.svg";
 import LockIcon from "@/assets/icons/lock-icon.svg";
 import { registerFormValidation } from "@/utils/formsValidation";
 
-export default defineComponent({
-  name: "AuthModal",
-  components: {
-    CloseIcon,
-    Button,
-    Link,
-    Input,
-    PersonIcon,
-    LockIcon,
-  },
+const store = useStore();
 
-  setup() {
-    const store = useStore();
+const registerName = ref("");
+const registerPassword = ref("");
+const registerConfirmPassword = ref("");
+const registerNameError = ref("");
+const registerPasswordError = ref("");
+const registerConfirmPasswordError = ref("");
 
-    const registerName = ref("");
-    const registerPassword = ref("");
-    const registerConfirmPassword = ref("");
-    const registerNameError = ref("");
-    const registerPasswordError = ref("");
-    const registerConfirmPasswordError = ref("");
+const isLoading = computed(() => store.state.auth.isLoading);
+const error = computed(() => store.state.auth.error);
+const usernameError = computed(() => store.getters.getUsernameError);
+const passwordError = computed(() => store.getters.getPasswordError);
 
-    const isError = computed(() => store.getters.isError);
+const isError = computed(() => store.getters.isError);
 
-    const clearRegisterErrors = () => {
-      if (isError.value) store.commit("clearError");
+const clearRegisterErrors = () => {
+  if (isError.value) store.commit("clearError");
 
-      if (registerNameError.value) registerNameError.value = "";
-      if (registerPasswordError.value) registerPasswordError.value = "";
-      if (registerConfirmPasswordError.value) {
-        registerConfirmPasswordError.value = "";
-      }
-    };
+  if (registerNameError.value) registerNameError.value = "";
+  if (registerPasswordError.value) registerPasswordError.value = "";
+  if (registerConfirmPasswordError.value) {
+    registerConfirmPasswordError.value = "";
+  }
+};
 
-    const setRegisterName = (event: Event) => {
-      clearRegisterErrors();
+const setRegisterName = (event: Event) => {
+  clearRegisterErrors();
 
-      registerName.value = (event.target as HTMLInputElement).value;
-    };
+  registerName.value = (event.target as HTMLInputElement).value;
+};
 
-    const setRegisterPassword = (event: Event) => {
-      clearRegisterErrors();
+const setRegisterPassword = (event: Event) => {
+  clearRegisterErrors();
 
-      registerPassword.value = (event.target as HTMLInputElement).value;
-    };
+  registerPassword.value = (event.target as HTMLInputElement).value;
+};
 
-    const setRegisterConfirmPassword = (event: Event) => {
-      clearRegisterErrors();
+const setRegisterConfirmPassword = (event: Event) => {
+  clearRegisterErrors();
 
-      registerConfirmPassword.value = (event.target as HTMLInputElement).value;
-    };
+  registerConfirmPassword.value = (event.target as HTMLInputElement).value;
+};
 
-    const onSignUpClick = () => {
-      store.commit("setAuthorizationModal", "register");
-    };
+const onSignUpClick = () => {
+  store.commit("setAuthorizationModal", "register");
+};
 
-    const onCloseClick = () => {
-      store.commit("setIsRegisterModalOpen", false);
-    };
+const onCloseClick = () => {
+  store.commit("setIsRegisterModalOpen", false);
+};
 
-    const onLoginLinkClick = () => {
-      store.commit("setIsRegisterModalOpen", false);
-      store.commit("setIsAuthModalOpen", true);
-    };
+const onLoginLinkClick = () => {
+  store.commit("setIsRegisterModalOpen", false);
+  store.commit("setIsAuthModalOpen", true);
+};
 
-    const onRegisterSubmit = () => {
-      clearRegisterErrors();
+const onRegisterSubmit = () => {
+  clearRegisterErrors();
 
-      const error = registerFormValidation(
-        registerName.value,
-        registerPassword.value,
-        registerConfirmPassword.value,
-      );
+  const errorMessage = registerFormValidation(
+    registerName.value,
+    registerPassword.value,
+    registerConfirmPassword.value,
+  );
 
-      if (error) {
-        const { type, message } = error;
+  if (errorMessage) {
+    const { type, message } = errorMessage;
 
-        if (type === "login") registerNameError.value = message;
-        if (type === "password") registerPasswordError.value = message;
-        if (type === "confirm") registerConfirmPasswordError.value = message;
-      } else {
-        store.dispatch("tryToRegister", {
-          username: registerName.value,
-          password: registerPassword.value,
-        });
-      }
-    };
-
-    return {
-      isLoading: computed(() => store.state.auth.isLoading),
-      error: computed(() => store.state.auth.error),
-      usernameError: computed(() => store.getters.getUsernameError),
-      passwordError: computed(() => store.getters.getPasswordError),
-      onSignUpClick,
-      registerName,
-      registerPassword,
-      registerConfirmPassword,
-      registerNameError,
-      registerPasswordError,
-      registerConfirmPasswordError,
-      setRegisterName,
-      setRegisterPassword,
-      setRegisterConfirmPassword,
-      onCloseClick,
-      onLoginLinkClick,
-      onRegisterSubmit,
-    };
-  },
-});
+    if (type === "login") registerNameError.value = message;
+    if (type === "password") registerPasswordError.value = message;
+    if (type === "confirm") registerConfirmPasswordError.value = message;
+  } else {
+    store.dispatch("tryToRegister", {
+      username: registerName.value,
+      password: registerPassword.value,
+    });
+  }
+};
 </script>
 
 <style lang="scss" scoped>

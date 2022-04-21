@@ -12,42 +12,28 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
 import Button from "@/ui/Button.vue";
-import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
 
-export default defineComponent({
-  name: "ConfirmationModal",
-  components: {
-    Button,
-  },
-  setup() {
-    const store = useStore();
-    const route = useRoute();
+const store = useStore();
+const route = useRoute();
 
-    const { artistId } = route.params;
+const { artistId } = route.params;
 
-    const onCancelClick = () => {
-      store.commit("setIsConfirmRemoveModalOpen", false);
-    };
+const onCancelClick = () => {
+  store.commit("setIsConfirmRemoveModalOpen", false);
+};
 
-    const onDeleteClick = async () => {
-      await store.dispatch("tryToDeletePainting", {
-        artistId,
-        paintingId: store.state.artist.activePaintingId,
-      });
+const onDeleteClick = async () => {
+  await store.dispatch("tryToDeletePainting", {
+    artistId,
+    paintingId: store.state.artist.activePaintingId,
+  });
 
-      store.commit("setIsConfirmRemoveModalOpen", false);
-    };
-
-    return {
-      onCancelClick,
-      onDeleteClick,
-    };
-  },
-});
+  store.commit("setIsConfirmRemoveModalOpen", false);
+};
 </script>
 
 <style lang="scss" scoped>

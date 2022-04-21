@@ -22,8 +22,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, watch } from "vue";
+<script lang="ts" setup>
+import { computed, watch } from "vue";
 import bodyLock from "@/utils/bodyLock";
 import { useStore } from "@/store";
 
@@ -35,67 +35,41 @@ import EditPaintingModal from "./EditPaintingModal.vue";
 import AddArtistModal from "./AddArtistModal.vue";
 import EditArtistModal from "./EditArtistModal.vue";
 
-export default defineComponent({
-  name: "Modals",
-  components: {
-    AuthModal,
-    RegisterModal,
-    ConfirmModal,
-    AddPaintingModal,
-    EditPaintingModal,
-    AddArtistModal,
-    EditArtistModal,
+const store = useStore();
+
+const isAuthModalOpen = computed(() => store.state.settings.isAuthModalOpen);
+const isRegisterModalOpen = computed(
+  () => store.state.settings.isRegisterModalOpen,
+);
+const isConfirmRemoveModalOpen = computed(
+  () => store.state.settings.isConfirmRemoveModalOpen,
+);
+const isAddPaintingModalOpen = computed(
+  () => store.state.settings.isAddPaintingModalOpen,
+);
+const isEditPaintingModalOpen = computed(
+  () => store.state.settings.isEditPaintingModalOpen,
+);
+const isAddArtistModalOpen = computed(
+  () => store.state.settings.isAddArtistModalOpen,
+);
+const isEditArtistModalOpen = computed(
+  () => store.state.settings.isEditArtistModalOpen,
+);
+
+watch(
+  () =>
+    isAuthModalOpen.value ||
+    isRegisterModalOpen.value ||
+    isConfirmRemoveModalOpen.value ||
+    isAddPaintingModalOpen.value ||
+    isEditPaintingModalOpen.value ||
+    isAddArtistModalOpen.value ||
+    isEditArtistModalOpen.value,
+  (newValue) => {
+    bodyLock(newValue);
   },
-  setup() {
-    const store = useStore();
-
-    const isAuthModalOpen = computed(
-      () => store.state.settings.isAuthModalOpen,
-    );
-    const isRegisterModalOpen = computed(
-      () => store.state.settings.isRegisterModalOpen,
-    );
-    const isConfirmRemoveModalOpen = computed(
-      () => store.state.settings.isConfirmRemoveModalOpen,
-    );
-    const isAddPaintingModalOpen = computed(
-      () => store.state.settings.isAddPaintingModalOpen,
-    );
-    const isEditPaintingModalOpen = computed(
-      () => store.state.settings.isEditPaintingModalOpen,
-    );
-    const isAddArtistModalOpen = computed(
-      () => store.state.settings.isAddArtistModalOpen,
-    );
-    const isEditArtistModalOpen = computed(
-      () => store.state.settings.isEditArtistModalOpen,
-    );
-
-    watch(
-      () =>
-        isAuthModalOpen.value ||
-        isRegisterModalOpen.value ||
-        isConfirmRemoveModalOpen.value ||
-        isAddPaintingModalOpen.value ||
-        isEditPaintingModalOpen.value ||
-        isAddArtistModalOpen.value ||
-        isEditArtistModalOpen.value,
-      (newValue) => {
-        bodyLock(newValue);
-      },
-    );
-
-    return {
-      isAuthModalOpen,
-      isRegisterModalOpen,
-      isConfirmRemoveModalOpen,
-      isAddPaintingModalOpen,
-      isEditPaintingModalOpen,
-      isAddArtistModalOpen,
-      isEditArtistModalOpen,
-    };
-  },
-});
+);
 </script>
 
 <style lang="scss" scoped>

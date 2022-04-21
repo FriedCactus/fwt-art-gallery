@@ -4,19 +4,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import ArtistForm from "../ArtistForm.vue";
-
-export default defineComponent({
-  name: "EditArtistModal",
-  components: {
-    ArtistForm,
-  },
-  setup() {
-    return {};
-  },
-});
 </script>
 
 <style lang="scss" scoped>

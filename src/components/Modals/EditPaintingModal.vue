@@ -4,28 +4,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import PaintingForm from "@/ui/PaintingForm.vue";
 import { useStore } from "@/store";
 
-export default defineComponent({
-  name: "EditPaintingModal",
-  components: {
-    PaintingForm,
-  },
-  setup() {
-    const store = useStore();
+const store = useStore();
 
-    const onClose = () => {
-      store.commit("setIsEditPaintingModalOpen", false);
-    };
-
-    return {
-      onClose,
-    };
-  },
-});
+const onClose = () => {
+  store.commit("setIsEditPaintingModalOpen", false);
+};
 </script>
 
 <style lang="scss" scoped>
