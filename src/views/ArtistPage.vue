@@ -100,8 +100,8 @@ export default defineComponent({
     const isPaintingModalOpen = ref<boolean>(false);
 
     // Скролл лок при открытии модалки
-    watch(isPaintingModalOpen, (value) => {
-      bodyLock(value);
+    watch(isPaintingModalOpen, (newValue) => {
+      bodyLock(newValue);
     });
 
     onMounted(() => {
@@ -125,27 +125,22 @@ export default defineComponent({
         store.state.artist.artist?.paintings[index]._id,
       );
       isPaintingModalOpen.value = true;
-      bodyLock(true);
     };
 
     const onAddPaintingClick = () => {
       store.commit("setIsAddPaintingModalOpen", true);
-      bodyLock(true);
     };
 
     const closeUploadModal = () => {
       store.commit("setIsAddPaintingModalOpen", false);
-      bodyLock(false);
     };
 
     const closeEditModal = () => {
       store.commit("setIsEditPaintingModalOpen", false);
-      bodyLock(false);
     };
 
     const onEditArtistClick = () => {
       store.commit("setIsEditArtistModalOpen", true);
-      bodyLock(true);
     };
 
     return {

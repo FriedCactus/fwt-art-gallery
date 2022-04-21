@@ -1,15 +1,15 @@
 <template>
   <div class="artist-modal">
-    <ArtistForm :isEdit="true" />
+    <ArtistForm />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ArtistForm from "./ArtistForm.vue";
+import ArtistForm from "../ArtistForm.vue";
 
 export default defineComponent({
-  name: "EditArtistModal",
+  name: "AddArtistModal",
   components: {
     ArtistForm,
   },

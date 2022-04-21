@@ -15,7 +15,6 @@
 <script lang="ts">
 import { useStore } from "@/store";
 import Button from "@/ui/Button.vue";
-import bodyLock from "@/utils/bodyLock";
 import { defineComponent } from "vue";
 import { useRoute } from "vue-router";
 
@@ -32,7 +31,6 @@ export default defineComponent({
 
     const onCancelClick = () => {
       store.commit("setIsConfirmRemoveModalOpen", false);
-      bodyLock(false);
     };
 
     const onDeleteClick = async () => {

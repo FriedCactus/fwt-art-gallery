@@ -165,9 +165,7 @@ const artistModule: Module<TArtistState, TRootState> = {
 
     async tryToAddArtist(_, payload) {
       try {
-        const { data } = await addArtist(payload);
-
-        console.log(data);
+        await addArtist(payload);
       } catch (e) {
         console.log(e);
       }

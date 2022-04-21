@@ -74,7 +74,6 @@ import TextareaVue from "@/ui/Textarea.vue";
 import Select from "@/ui/Select.vue";
 import { useStore } from "@/store";
 import { TAddArtistBody } from "@/api";
-import bodyLock from "@/utils/bodyLock";
 import { TGenre } from "@/types";
 import { useRoute } from "vue-router";
 
@@ -135,8 +134,6 @@ export default defineComponent({
       } else {
         store.commit("setIsAddArtistModalOpen", false);
       }
-
-      bodyLock(false);
     };
 
     const onSubmit = async () => {

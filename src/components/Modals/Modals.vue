@@ -23,8 +23,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, watch } from "vue";
+import bodyLock from "@/utils/bodyLock";
 import { useStore } from "@/store";
+
 import AuthModal from "./AuthModal.vue";
 import RegisterModal from "./RegisterModal.vue";
 import ConfirmModal from "./ConfirmModal.vue";
@@ -67,6 +69,20 @@ export default defineComponent({
     );
     const isEditArtistModalOpen = computed(
       () => store.state.settings.isEditArtistModalOpen,
+    );
+
+    watch(
+      () =>
+        isAuthModalOpen.value ||
+        isRegisterModalOpen.value ||
+        isConfirmRemoveModalOpen.value ||
+        isAddPaintingModalOpen.value ||
+        isEditPaintingModalOpen.value ||
+        isAddArtistModalOpen.value ||
+        isEditArtistModalOpen.value,
+      (newValue) => {
+        bodyLock(newValue);
+      },
     );
 
     return {
@@ -113,7 +129,7 @@ export default defineComponent({
     }
   }
 
-  &.modal {
+  &.artist {
     @media ($laptop) {
       justify-content: flex-start;
     }

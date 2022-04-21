@@ -9,7 +9,6 @@
 <script lang="ts">
 import { useStore } from "@/store";
 import Button from "@/ui/Button.vue";
-import bodyLock from "@/utils/bodyLock";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -22,7 +21,6 @@ export default defineComponent({
 
     const onAddClick = () => {
       store.commit("setIsAddArtistModalOpen", true);
-      bodyLock(true);
     };
 
     return {

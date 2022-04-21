@@ -84,7 +84,6 @@ import { useRoute } from "vue-router";
 import { useStore } from "@/store";
 import { defineComponent, PropType } from "vue";
 import type { TArtistStatic, TPainting } from "@/types";
-import bodyLock from "@/utils/bodyLock";
 import PaintingMock from "@/assets/images/painting-mock.svg";
 import EditButton from "./EditButton.vue";
 import FavouriteButton from "./FavouriteButton.vue";
@@ -128,15 +127,11 @@ export default defineComponent({
     const onRemoveClick = () => {
       setActivePainting();
       store.commit("setIsConfirmRemoveModalOpen", true);
-
-      bodyLock(true);
     };
 
     const onEditClick = () => {
       setActivePainting();
       store.commit("setIsEditPaintingModalOpen", true);
-
-      bodyLock(true);
     };
 
     return {

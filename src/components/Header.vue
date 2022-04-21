@@ -37,11 +37,8 @@
 </template>
 
 <script lang="ts">
-import type { TSettingsState } from "@/types";
-
 import { useStore } from "@/store";
 import useAuth from "@/hooks/useAuth";
-import bodyLock from "@/utils/bodyLock";
 import { computed, defineComponent, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
@@ -64,7 +61,6 @@ export default defineComponent({
 
     const onBurgerClick = () => {
       isMenuOpen.value = !isMenuOpen.value;
-      bodyLock(isMenuOpen.value);
     };
 
     const onThemeChangeClick = () => {
