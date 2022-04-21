@@ -1,12 +1,11 @@
 <template>
   <div class="auth-modal">
-    <div class="top">
-      <button @click="onClose" class="close-button">
-        <CloseIcon />
-      </button>
-    </div>
-
-    <template v-if="type === 'auth'">
+    <template v-if="isAuthOpen">
+      <div class="top">
+        <button @click="onAuthClose" class="close-button">
+          <CloseIcon />
+        </button>
+      </div>
       <form @submit.prevent="onAuthSubmit" class="form">
         <h3 class="title">AUTHORIZATION</h3>
         <div class="inputs">
@@ -46,63 +45,7 @@
       <div class="info">
         <p class="text">
           If you don't have An account yet,
-          <Link @click="onSignUpClick">please sign up</Link>
-        </p>
-      </div>
-    </template>
-
-    <template v-if="type === 'register'">
-      <form @submit.prevent="onRegisterSubmit" class="form">
-        <h3 class="title">СREATE YOUR PROFILE</h3>
-        <div class="inputs">
-          <div class="input">
-            <Input
-              :value="registerName"
-              :onInput="setRegisterName"
-              :placeholder="'Login'"
-              :error="registerNameError || usernameError"
-            >
-              <PersonIcon />
-            </Input>
-          </div>
-          <div class="input">
-            <Input
-              :value="registerPassword"
-              :onInput="setRegisterPassword"
-              :placeholder="'Password'"
-              :typeValue="'password'"
-              :error="registerPasswordError"
-            >
-              <LockIcon />
-            </Input>
-          </div>
-          <div class="input">
-            <Input
-              :value="registerConfirmPassword"
-              :onInput="setRegisterConfirmPassword"
-              :placeholder="'Confirm password'"
-              :typeValue="'password'"
-              :error="registerConfirmPasswordError"
-            >
-              <LockIcon />
-            </Input>
-          </div>
-        </div>
-        <div class="submit-button">
-          <Button
-            :disabled="isLoading"
-            :style="'filled'"
-            :staticTheme="'light'"
-            type="submit"
-            >Registration</Button
-          >
-        </div>
-      </form>
-      <span class="separating-line" />
-      <div class="info">
-        <p class="text">
-          If you already have an account,
-          <Link @click="onLogInClick">please log in</Link>
+          <Link @click="onSignLinkClick">please sign up</Link>
         </p>
       </div>
     </template>
@@ -110,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import Button from "@/ui/Button.vue";
 import Link from "@/ui/Link.vue";
@@ -118,14 +61,7 @@ import { useStore } from "@/store";
 import Input from "@/ui/Input.vue";
 import PersonIcon from "@/assets/icons/person-icon.svg";
 import LockIcon from "@/assets/icons/lock-icon.svg";
-import {
-  authFormValidation,
-  registerFormValidation,
-} from "@/utils/formsValidation";
-
-type Props = {
-  type: "auth" | "register";
-};
+import { authFormValidation } from "@/utils/formsValidation";
 
 export default defineComponent({
   name: "AuthModal",
@@ -137,13 +73,7 @@ export default defineComponent({
     PersonIcon,
     LockIcon,
   },
-  props: {
-    type: String as PropType<Props["type"]>,
-    onClose: {
-      type: Function as PropType<() => void>,
-      default: () => {},
-    },
-  },
+
   setup() {
     const store = useStore();
 
@@ -152,13 +82,6 @@ export default defineComponent({
     const loginNameError = ref("");
     const loginPasswordError = ref("");
 
-    const registerName = ref("");
-    const registerPassword = ref("");
-    const registerConfirmPassword = ref("");
-    const registerNameError = ref("");
-    const registerPasswordError = ref("");
-    const registerConfirmPasswordError = ref("");
-
     const isError = computed(() => store.getters.isError);
 
     const clearLoginErrors = () => {
@@ -166,16 +89,6 @@ export default defineComponent({
 
       if (loginNameError.value) loginNameError.value = "";
       if (loginPasswordError.value) loginPasswordError.value = "";
-    };
-
-    const clearRegisterErrors = () => {
-      if (isError.value) store.commit("clearError");
-
-      if (registerNameError.value) registerNameError.value = "";
-      if (registerPasswordError.value) registerPasswordError.value = "";
-      if (registerConfirmPasswordError.value) {
-        registerConfirmPasswordError.value = "";
-      }
     };
 
     const setLoginName = (event: Event) => {
@@ -190,30 +103,17 @@ export default defineComponent({
       loginPassword.value = (event.target as HTMLInputElement).value;
     };
 
-    const setRegisterName = (event: Event) => {
-      clearRegisterErrors();
-
-      registerName.value = (event.target as HTMLInputElement).value;
-    };
-
-    const setRegisterPassword = (event: Event) => {
-      clearRegisterErrors();
-
-      registerPassword.value = (event.target as HTMLInputElement).value;
-    };
-
-    const setRegisterConfirmPassword = (event: Event) => {
-      clearRegisterErrors();
-
-      registerConfirmPassword.value = (event.target as HTMLInputElement).value;
-    };
-
     const onLogInClick = () => {
       store.commit("setAuthorizationModal", "auth");
     };
 
-    const onSignUpClick = () => {
-      store.commit("setAuthorizationModal", "register");
+    const onAuthClose = () => {
+      store.commit("setIsAuthModalOpen", false);
+    };
+
+    const onSignLinkClick = () => {
+      store.commit("setIsAuthModalOpen", false);
+      store.commit("setIsRegisterModalOpen", true);
     };
 
     const onAuthSubmit = async () => {
@@ -234,53 +134,22 @@ export default defineComponent({
       }
     };
 
-    const onRegisterSubmit = () => {
-      clearRegisterErrors();
-
-      const error = registerFormValidation(
-        registerName.value,
-        registerPassword.value,
-        registerConfirmPassword.value,
-      );
-
-      if (error) {
-        const { type, message } = error;
-
-        if (type === "login") registerNameError.value = message;
-        if (type === "password") registerPasswordError.value = message;
-        if (type === "confirm") registerConfirmPasswordError.value = message;
-      } else {
-        store.dispatch("tryToRegister", {
-          username: registerName.value,
-          password: registerPassword.value,
-        });
-      }
-    };
-
     return {
       isLoading: computed(() => store.state.auth.isLoading),
       error: computed(() => store.state.auth.error),
       usernameError: computed(() => store.getters.getUsernameError),
       passwordError: computed(() => store.getters.getPasswordError),
+      isAuthOpen: computed(() => store.state.settings.isAuthModalOpen),
       onLogInClick,
-      onSignUpClick,
       loginName,
       loginPassword,
       loginNameError,
       loginPasswordError,
-      registerName,
-      registerPassword,
-      registerConfirmPassword,
-      registerNameError,
-      registerPasswordError,
-      registerConfirmPasswordError,
       setLoginName,
       setLoginPassword,
-      setRegisterName,
-      setRegisterPassword,
-      setRegisterConfirmPassword,
       onAuthSubmit,
-      onRegisterSubmit,
+      onAuthClose,
+      onSignLinkClick,
     };
   },
 });

@@ -8,8 +8,11 @@
         </main>
         <Footer />
       </Wrapper>
-      <AuthorizationModals />
     </Container>
+
+    <teleport to="body">
+      <Modals />
+    </teleport>
   </AuthProvider>
 </template>
 
@@ -21,9 +24,8 @@ import Footer from "./components/Footer.vue";
 import Header from "./components/Header.vue";
 import Wrapper from "./components/Wrapper.vue";
 import { useStore } from "./store";
-import AuthorizationModals from "./components/AuthorizationModals.vue";
-import bodyLock from "./utils/bodyLock";
 import AuthProvider from "./components/AuthProvider.vue";
+import Modals from "./components/Modals.vue";
 
 export default defineComponent({
   name: "App",
@@ -32,8 +34,8 @@ export default defineComponent({
     Wrapper,
     Header,
     Footer,
-    AuthorizationModals,
     AuthProvider,
+    Modals,
   },
   setup() {
     const cookies = useCookies();
@@ -44,21 +46,6 @@ export default defineComponent({
       () => store.state.settings.theme,
       (newValue) => {
         cookies.set("theme", newValue);
-      },
-    );
-
-    // Слежение за модалками авторизации
-    watch(
-      () => store.state.settings.authorizationModal,
-      (newValue) => {
-        bodyLock(!!newValue);
-      },
-    );
-
-    watch(
-      () => store.state.auth.isAccess,
-      (newValue) => {
-        if (newValue) store.commit("setAuthorizationModal", "");
       },
     );
 

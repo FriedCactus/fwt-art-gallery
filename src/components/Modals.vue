@@ -1,0 +1,102 @@
+<template>
+  <div class="modal auth" v-if="isAuthModalOpen">
+    <AuthModal />
+  </div>
+  <div class="modal auth" v-if="isRegisterModalOpen">
+    <RegisterModal />
+  </div>
+  <div class="modal confirm" v-if="isConfirmRemoveModalOpen">
+    <ConfirmModal />
+  </div>
+  <div class="modal" v-if="isAddPaintingModalOpen">
+    <AddPaintingModal />
+  </div>
+  <div class="modal" v-if="isEditPaintingModalOpen">
+    <EditPaintingModal />
+  </div>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
+import AuthModal from "./AuthModal.vue";
+import RegisterModal from "./RegisterModal.vue";
+import ConfirmModal from "./ConfirmModal.vue";
+import AddPaintingModal from "./AddPaintingModal.vue";
+import EditPaintingModal from "./EditPaintingModal.vue";
+
+export default defineComponent({
+  name: "Modals",
+  components: {
+    AuthModal,
+    RegisterModal,
+    ConfirmModal,
+    AddPaintingModal,
+    EditPaintingModal,
+  },
+  setup() {
+    const store = useStore();
+
+    const isAuthModalOpen = computed(
+      () => store.state.settings.isAuthModalOpen,
+    );
+    const isRegisterModalOpen = computed(
+      () => store.state.settings.isRegisterModalOpen,
+    );
+    const isConfirmRemoveModalOpen = computed(
+      () => store.state.settings.isConfirmRemoveModalOpen,
+    );
+    const isAddPaintingModalOpen = computed(
+      () => store.state.settings.isAddPaintingModalOpen,
+    );
+    const isEditPaintingModalOpen = computed(
+      () => store.state.settings.isEditPaintingModalOpen,
+    );
+    const isArtistModalOpen = computed(
+      () => store.state.settings.isArtistModalOpen,
+    );
+
+    return {
+      isAuthModalOpen,
+      isRegisterModalOpen,
+      isConfirmRemoveModalOpen,
+      isAddPaintingModalOpen,
+      isEditPaintingModalOpen,
+      isArtistModalOpen,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $ModalBackground;
+
+  &.auth {
+    padding-top: 91px;
+
+    @media ($tablet) {
+      padding-top: 0;
+    }
+  }
+
+  &.confirm {
+    align-items: flex-end;
+    z-index: 6;
+
+    @media ($tablet) {
+      align-items: center;
+    }
+  }
+}
+</style>

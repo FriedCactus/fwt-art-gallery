@@ -69,7 +69,8 @@ export type TRefreshBody = {
 // Стор
 export type TSettingsState = {
   theme: "dark" | "light";
-  authorizationModal: "auth" | "register" | "";
+  isAuthModalOpen: boolean;
+  isRegisterModalOpen: boolean;
   isConfirmRemoveModalOpen: boolean;
   isAddPaintingModalOpen: boolean;
   isEditPaintingModalOpen: boolean;

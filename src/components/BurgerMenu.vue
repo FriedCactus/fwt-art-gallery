@@ -50,18 +50,12 @@ export default defineComponent({
       store.commit("changeTheme");
     };
 
-    const authorizationModal = (
-      modal: TSettingsState["authorizationModal"],
-    ) => {
-      store.commit("setAuthorizationModal", modal);
-    };
-
     const onLogInClick = () => {
-      authorizationModal("auth");
+      store.commit("setIsAuthModalOpen", true);
     };
 
     const onSignUpClick = () => {
-      authorizationModal("register");
+      store.commit("setIsRegisterModalOpen", true);
     };
 
     const onLogOutClick = () => {

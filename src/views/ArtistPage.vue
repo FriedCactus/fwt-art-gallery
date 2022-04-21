@@ -64,18 +64,8 @@
     </div>
 
     <ArtistModal v-if="isEditArtistModalOpen" :isEdit="true" />
-    <PaintingModal
-      v-if="isEditPaintingModalOpen"
-      :onClose="closeEditModal"
-      :type="'edit'"
-    />
-    <PaintingModal
-      v-if="isAddPaintingModalOpen"
-      :onClose="closeUploadModal"
-      :type="'add'"
-    />
+
     <PaintingSliderModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
-    <ConfirmModal v-if="isConfirmModalOpen" />
   </div>
 </template>
 
@@ -89,8 +79,7 @@ import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
 import bodyLock from "@/utils/bodyLock";
-import ConfirmModal from "@/components/ConfirmModal.vue";
-import PaintingModal from "@/components/PaintingModal.vue";
+import PaintingModal from "@/components/AddPaintingModal.vue";
 import ArtistModal from "@/components/ArtistModal.vue";
 
 export default defineComponent({
@@ -101,7 +90,6 @@ export default defineComponent({
     Tag,
     CardsGrid,
     PaintingSliderModal,
-    ConfirmModal,
     PaintingModal,
     ArtistModal,
   },
@@ -116,15 +104,6 @@ export default defineComponent({
     const isTextShown = ref<boolean>(false);
     // Открытые модалки
     const isPaintingModalOpen = ref<boolean>(false);
-    const isConfirmModalOpen = computed(
-      () => store.state.settings.isConfirmRemoveModalOpen,
-    );
-    const isAddPaintingModalOpen = computed(
-      () => store.state.settings.isAddPaintingModalOpen,
-    );
-    const isEditPaintingModalOpen = computed(
-      () => store.state.settings.isEditPaintingModalOpen,
-    );
     const isEditArtistModalOpen = computed(
       () => store.state.settings.isArtistModalOpen,
     );
@@ -183,10 +162,7 @@ export default defineComponent({
       artist: computed(() => store.state.artist.artist),
       onShowButtonClick,
       isTextShown,
-      isConfirmModalOpen,
       isPaintingModalOpen,
-      isAddPaintingModalOpen,
-      isEditPaintingModalOpen,
       isEditArtistModalOpen,
       onPaintingClick,
       onAddPaintingClick,

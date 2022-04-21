@@ -4,7 +4,8 @@ import { Module } from "vuex";
 const settingsModule: Module<TSettingsState, TRootState> = {
   state: {
     theme: "light",
-    authorizationModal: "",
+    isAuthModalOpen: false,
+    isRegisterModalOpen: false,
     isConfirmRemoveModalOpen: false,
     isAddPaintingModalOpen: false,
     isEditPaintingModalOpen: false,
@@ -19,11 +20,12 @@ const settingsModule: Module<TSettingsState, TRootState> = {
       state.theme = payload;
     },
 
-    setAuthorizationModal(
-      state,
-      payload: TSettingsState["authorizationModal"],
-    ) {
-      state.authorizationModal = payload;
+    setIsAuthModalOpen(state, payload: boolean) {
+      state.isAuthModalOpen = payload;
+    },
+
+    setIsRegisterModalOpen(state, payload: boolean) {
+      state.isRegisterModalOpen = payload;
     },
 
     setIsConfirmRemoveModalOpen(state, payload: boolean) {

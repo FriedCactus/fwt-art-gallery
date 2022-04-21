@@ -1,7 +1,7 @@
 <template>
-  <template v-if="authorizationModal">
+  <template v-if="isModalOpen">
     <div class="authorization-modals">
-      <AuthModal :type="authorizationModal" :onClose="onClose" />
+      <AuthModal />
     </div>
   </template>
 </template>
@@ -19,15 +19,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    const onClose = () => {
-      store.commit("setAuthorizationModal", "");
-    };
-
     return {
-      authorizationModal: computed(
-        () => store.state.settings.authorizationModal,
+      isModalOpen: computed(
+        () =>
+          store.state.settings.isAuthModalOpen ||
+          store.state.settings.isRegisterModalOpen,
       ),
-      onClose,
     };
   },
 });
