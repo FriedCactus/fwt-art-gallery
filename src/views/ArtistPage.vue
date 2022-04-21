@@ -345,6 +345,7 @@ export default defineComponent({
   }
 
   .paintings {
+    flex: 1 1 auto;
   }
 
   &.dark {

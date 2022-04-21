@@ -79,17 +79,6 @@ export default defineComponent({
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 
-  &.paintings {
-    @media ($desktop) {
-      gap: 20px;
-    }
-  }
-
-  @media ($tablet) {
-    grid-template-columns: repeat(6, 1fr);
-    gap: 20px;
-  }
-
   .card {
     &.clickable {
       cursor: pointer;
@@ -104,6 +93,7 @@ export default defineComponent({
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 120px;
       height: 100%;
       width: 100%;
       border: none;
@@ -111,10 +101,6 @@ export default defineComponent({
       background-color: transparent;
 
       border-radius: 4px;
-    }
-
-    @media ($tablet) {
-      grid-column: span 2;
     }
   }
 
@@ -142,6 +128,31 @@ export default defineComponent({
         :deep(path) {
           stroke: $GridAddCardLight;
         }
+      }
+    }
+  }
+
+  @media ($tablet) {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+
+    .card {
+      grid-column: span 2;
+
+      .add-card {
+        min-height: 190px;
+      }
+    }
+  }
+
+  @media ($desktop) {
+    &.paintings {
+      gap: 20px;
+    }
+
+    .card {
+      .add-card {
+        min-height: 140px;
       }
     }
   }
