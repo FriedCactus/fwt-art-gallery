@@ -10,6 +10,10 @@
             />
             <img :srcset="`${api}/${artist.avatar.src}`" alt="artist.name" />
           </picture>
+          <div class="avatar-mock">
+            <AvatarMock />
+            <div class="text">Profile photo have not been uploaded yet</div>
+          </div>
         </div>
         <button @click="onEditArtistClick" class="edit-button" type="button">
           <EditIcon />
@@ -76,6 +80,7 @@ import ArrowIcon from "@/assets/icons/arrow.svg";
 import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
+import AvatarMock from "@/assets/images/painting-mock.svg";
 import bodyLock from "@/utils/bodyLock";
 
 export default defineComponent({
@@ -86,6 +91,7 @@ export default defineComponent({
     Tag,
     CardsGrid,
     PaintingSliderModal,
+    AvatarMock,
   },
 
   setup() {
@@ -201,6 +207,49 @@ export default defineComponent({
 
       .portrait {
         margin-bottom: 10px;
+
+        .avatar-mock {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 250px;
+
+          border: 3px solid rgba(255, 255, 255, 0.75);
+
+          svg {
+            width: 80px;
+            margin-bottom: 20px;
+          }
+
+          .text {
+            max-width: 70%;
+
+            text-align: center;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+            text-transform: uppercase;
+          }
+
+          @media ($tablet) {
+            height: 310px;
+
+            .text {
+              font-size: 18px;
+              line-height: 21px;
+            }
+          }
+
+          @media ($laptop) {
+            height: 350px;
+
+            .text {
+              font-size: 22px;
+              line-height: 26px;
+            }
+          }
+        }
       }
 
       .edit-button {
@@ -373,6 +422,19 @@ export default defineComponent({
             }
           }
         }
+
+        .portrait {
+          .avatar-mock {
+            color: $GridAddCardDark;
+            border: 3px solid $GridAddCardDark;
+
+            svg {
+              :deep(path) {
+                fill: $GridAddCardDark;
+              }
+            }
+          }
+        }
       }
 
       .right {
@@ -412,6 +474,19 @@ export default defineComponent({
             svg {
               :deep(path) {
                 fill: $LinkActiveLight;
+              }
+            }
+          }
+        }
+
+        .portrait {
+          .avatar-mock {
+            color: $GridAddCardLight;
+            border: 3px solid $GridAddCardLight;
+
+            svg {
+              :deep(path) {
+                fill: $GridAddCardLight;
               }
             }
           }
