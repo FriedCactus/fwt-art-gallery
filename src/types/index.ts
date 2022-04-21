@@ -74,7 +74,8 @@ export type TSettingsState = {
   isConfirmRemoveModalOpen: boolean;
   isAddPaintingModalOpen: boolean;
   isEditPaintingModalOpen: boolean;
-  isArtistModalOpen: boolean;
+  isAddArtistModalOpen: boolean;
+  isEditArtistModalOpen: boolean;
 };
 
 export type TGalleryState = {

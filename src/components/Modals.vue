@@ -14,6 +14,12 @@
   <div class="modal" v-if="isEditPaintingModalOpen">
     <EditPaintingModal />
   </div>
+  <div class="modal artist" v-if="isAddArtistModalOpen">
+    <AddArtistModal />
+  </div>
+  <div class="modal artist" v-if="isEditArtistModalOpen">
+    <EditArtistModal />
+  </div>
 </template>
 
 <script lang="ts">
@@ -24,6 +30,8 @@ import RegisterModal from "./RegisterModal.vue";
 import ConfirmModal from "./ConfirmModal.vue";
 import AddPaintingModal from "./AddPaintingModal.vue";
 import EditPaintingModal from "./EditPaintingModal.vue";
+import AddArtistModal from "./AddArtistModal.vue";
+import EditArtistModal from "./EditArtistModal.vue";
 
 export default defineComponent({
   name: "Modals",
@@ -33,6 +41,8 @@ export default defineComponent({
     ConfirmModal,
     AddPaintingModal,
     EditPaintingModal,
+    AddArtistModal,
+    EditArtistModal,
   },
   setup() {
     const store = useStore();
@@ -52,8 +62,11 @@ export default defineComponent({
     const isEditPaintingModalOpen = computed(
       () => store.state.settings.isEditPaintingModalOpen,
     );
-    const isArtistModalOpen = computed(
-      () => store.state.settings.isArtistModalOpen,
+    const isAddArtistModalOpen = computed(
+      () => store.state.settings.isAddArtistModalOpen,
+    );
+    const isEditArtistModalOpen = computed(
+      () => store.state.settings.isEditArtistModalOpen,
     );
 
     return {
@@ -62,7 +75,8 @@ export default defineComponent({
       isConfirmRemoveModalOpen,
       isAddPaintingModalOpen,
       isEditPaintingModalOpen,
-      isArtistModalOpen,
+      isAddArtistModalOpen,
+      isEditArtistModalOpen,
     };
   },
 });
@@ -96,6 +110,12 @@ export default defineComponent({
 
     @media ($tablet) {
       align-items: center;
+    }
+  }
+
+  &.modal {
+    @media ($laptop) {
+      justify-content: flex-start;
     }
   }
 }

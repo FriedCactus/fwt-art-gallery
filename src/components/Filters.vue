@@ -21,7 +21,7 @@ export default defineComponent({
     const store = useStore();
 
     const onAddClick = () => {
-      store.commit("setIsArtistModalOpen", true);
+      store.commit("setIsAddArtistModalOpen", true);
       bodyLock(true);
     };
 

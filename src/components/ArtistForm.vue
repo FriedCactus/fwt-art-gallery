@@ -130,7 +130,12 @@ export default defineComponent({
     };
 
     const onCloseClick = () => {
-      store.commit("setIsArtistModalOpen", false);
+      if (props.isEdit) {
+        store.commit("setIsEditArtistModalOpen", false);
+      } else {
+        store.commit("setIsAddArtistModalOpen", false);
+      }
+
       bodyLock(false);
     };
 

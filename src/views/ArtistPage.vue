@@ -63,8 +63,6 @@
       />
     </div>
 
-    <ArtistModal v-if="isEditArtistModalOpen" :isEdit="true" />
-
     <PaintingSliderModal v-if="isPaintingModalOpen" :onClose="onModalCLose" />
   </div>
 </template>
@@ -79,8 +77,6 @@ import Tag from "@/ui/Tag.vue";
 import CardsGrid from "@/ui/CardsGrid.vue";
 import PaintingSliderModal from "@/components/PaintingSliderModal.vue";
 import bodyLock from "@/utils/bodyLock";
-import PaintingModal from "@/components/AddPaintingModal.vue";
-import ArtistModal from "@/components/ArtistModal.vue";
 
 export default defineComponent({
   name: "ArtistPage",
@@ -90,8 +86,6 @@ export default defineComponent({
     Tag,
     CardsGrid,
     PaintingSliderModal,
-    PaintingModal,
-    ArtistModal,
   },
 
   setup() {
@@ -104,9 +98,6 @@ export default defineComponent({
     const isTextShown = ref<boolean>(false);
     // Открытые модалки
     const isPaintingModalOpen = ref<boolean>(false);
-    const isEditArtistModalOpen = computed(
-      () => store.state.settings.isArtistModalOpen,
-    );
 
     // Скролл лок при открытии модалки
     watch(isPaintingModalOpen, (value) => {
@@ -153,7 +144,7 @@ export default defineComponent({
     };
 
     const onEditArtistClick = () => {
-      store.commit("setIsArtistModalOpen", true);
+      store.commit("setIsEditArtistModalOpen", true);
       bodyLock(true);
     };
 
@@ -163,7 +154,6 @@ export default defineComponent({
       onShowButtonClick,
       isTextShown,
       isPaintingModalOpen,
-      isEditArtistModalOpen,
       onPaintingClick,
       onAddPaintingClick,
       closeUploadModal,
