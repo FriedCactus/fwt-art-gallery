@@ -1,5 +1,5 @@
-import { getArtistsStatic, getPaintingsByArtist } from "@/api";
-import type { TArtistStatic, TGalleryState, TRootState } from "@/types";
+import { getArtists, getArtistsStatic } from "@/api";
+import type { TGalleryState, TRootState } from "@/types";
 import { Module } from "vuex";
 
 const galleryModule: Module<TGalleryState, TRootState> = {
@@ -11,20 +11,26 @@ const galleryModule: Module<TGalleryState, TRootState> = {
     getArtistsStatic: (state) => state.artistsStatic.slice(0, state.perPage),
   },
   mutations: {
-    setArtistsStatic(state, payload: TArtistStatic[]) {
-      state.artistsStatic = payload;
-    },
-
     setPerPage(state, payload: number) {
       state.perPage = payload;
     },
   },
   actions: {
-    async fetchArtistsStatic({ commit }) {
+    async fetchArtistsStatic({ state }) {
       try {
-        const data = await getArtistsStatic();
+        const { data } = await getArtistsStatic();
 
-        commit("setArtistsStatic", data);
+        state.artistsStatic = [...state.artistsStatic, ...data];
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async fetchArtists({ state }) {
+      try {
+        const { data } = await getArtists();
+
+        state.artistsStatic = [...state.artistsStatic, ...data];
       } catch (e) {
         console.log(e);
       }

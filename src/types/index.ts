@@ -49,6 +49,10 @@ export type TAuthBody = {
 
 export type TArtistStaticRespone = TArtistStatic[];
 
+export type TArtistsResponse = {
+  data: TArtistStatic[];
+};
+
 export type TArtistResponse = TArtist;
 
 export type TAuthResponse = {
@@ -73,7 +77,7 @@ export type TSettingsState = {
 };
 
 export type TGalleryState = {
-  artistsStatic: TArtistStaticRespone | [];
+  artistsStatic: TArtistStatic[] | [];
   perPage: number;
 };
 

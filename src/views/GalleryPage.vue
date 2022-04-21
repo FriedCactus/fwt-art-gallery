@@ -1,6 +1,6 @@
 <template>
   <div class="gallery-page">
-    <Filters />
+    <Filters v-if="isAccess" />
     <CardsGrid v-if="artists.length" :artists="artists" />
   </div>
   <ArtistModal v-if="isArtistModalOpen" />
@@ -23,6 +23,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const isAccess = computed(() => store.state.auth.isAccess);
 
     onBeforeMount(() => {
       const perPage = paintingsPerPage();
@@ -34,11 +35,13 @@ export default defineComponent({
 
     onMounted(() => {
       store.dispatch("fetchArtistsStatic");
+      if (isAccess.value) store.dispatch("fetchArtists");
     });
 
     return {
       artists: computed(() => store.getters.getArtistsStatic),
       isArtistModalOpen: computed(() => store.state.settings.isArtistModalOpen),
+      isAccess,
     };
   },
 });

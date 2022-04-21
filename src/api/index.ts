@@ -7,6 +7,7 @@ import {
   TArtistResponse,
   TArtist,
   TGenresResponse,
+  TArtistsResponse,
 } from "@/types";
 import axios from "./axios";
 
@@ -25,7 +26,8 @@ export type TAddArtistBody = Pick<
 >;
 
 // Художник
-export const getArtists = () => axios.get("artists");
+export const getArtists = () =>
+  axios.get<TArtistsResponse>("artists").then(({ data }) => data);
 
 export const addArtist = (body: TAddArtistBody) => axios.post("artists", body);
 
@@ -36,7 +38,7 @@ export const patchArtistById = (id: TArtist["_id"], body: TAddArtistBody) =>
   axios.put(`artists/${id}`, body);
 
 export const getArtistsStatic = () =>
-  axios.get<TArtistStaticRespone[]>("artists/static").then(({ data }) => data);
+  axios.get<TArtistStaticRespone>("artists/static");
 
 export const patchMainPainting = (
   artistId: string,
