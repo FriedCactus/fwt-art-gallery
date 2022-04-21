@@ -1,5 +1,6 @@
 import { getArtists, getArtistsStatic } from "@/api";
 import type { TGalleryState, TRootState } from "@/types";
+import axios from "axios";
 import { Module } from "vuex";
 
 const galleryModule: Module<TGalleryState, TRootState> = {
@@ -22,7 +23,9 @@ const galleryModule: Module<TGalleryState, TRootState> = {
 
         state.artistsStatic = [...state.artistsStatic, ...data];
       } catch (e) {
-        console.log(e);
+        if (axios.isAxiosError(e)) {
+          throw new Error(e.message);
+        }
       }
     },
 
@@ -32,7 +35,9 @@ const galleryModule: Module<TGalleryState, TRootState> = {
 
         state.artistsStatic = [...state.artistsStatic, ...data];
       } catch (e) {
-        console.log(e);
+        if (axios.isAxiosError(e)) {
+          throw new Error(e.message);
+        }
       }
     },
   },

@@ -1,5 +1,6 @@
 import { getGenres } from "@/api";
 import { TFiltersState, TRootState } from "@/types";
+import axios from "axios";
 import { Module } from "vuex";
 
 const filtersModule: Module<TFiltersState, TRootState> = {
@@ -13,7 +14,9 @@ const filtersModule: Module<TFiltersState, TRootState> = {
 
         state.genres = data;
       } catch (e) {
-        console.log(e);
+        if (axios.isAxiosError(e)) {
+          throw new Error(e.message);
+        }
       }
     },
   },

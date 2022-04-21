@@ -78,6 +78,8 @@ const authModule: Module<TAuthState, TRootState> = {
               message: "Пароль введен неправильно",
             };
           }
+
+          throw new Error(e.message);
         }
       }
 

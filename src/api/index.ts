@@ -41,7 +41,7 @@ export const deleteArtistById = (id: TArtist["_id"]) =>
   axios.delete(`artists/${id}`);
 
 export const getArtistsStatic = () =>
-  axios.get<TArtistStaticRespone>("artists/static");
+  axios.get<TArtistStaticRespone>("artists/static", {});
 
 export const patchMainPainting = (
   artistId: string,
