@@ -20,8 +20,8 @@
       @input="onInput($event)"
       :required="required"
     />
-    <p v-if="error" class="error">{{ error }}</p>
   </label>
+  <p v-if="error" class="error">{{ error }}</p>
 </template>
 
 <script lang="ts">
@@ -145,14 +145,6 @@ export default defineComponent({
     }
   }
 
-  .error {
-    margin-top: 1px;
-
-    font-size: 10px;
-    line-height: 120%;
-    color: $InputError;
-  }
-
   @media ($laptop) {
     &:hover {
       .input {
@@ -160,5 +152,13 @@ export default defineComponent({
       }
     }
   }
+}
+
+.error {
+  margin-top: 1px;
+
+  font-size: 10px;
+  line-height: 120%;
+  color: $InputError;
 }
 </style>
