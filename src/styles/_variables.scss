@@ -32,6 +32,9 @@ $ShowAllDark: #ffffff40;
 $GridAddCardDark: #ffffff66;
 $SelectBorderDark: #ffffff4d;
 $SelectBorderHoverDark: $white;
+$InputBorderDark: #ffffff4d;
+$InputBorderHoverDark: $white;
+$InputPlaceholderDark: $white;
 
 // Light theme
 $MainColorLight: $white;
@@ -53,6 +56,9 @@ $ShowAllLight: #00000040;
 $GridAddCardLight: #00000066;
 $SelectBorderLight: #0000004d;
 $SelectBorderHoverLight: $black;
+$InputBorderLight: #bfbfbf;
+$InputBorderHoverLight: $black;
+$InputPlaceholderLight: #0000004d;
 
 // Both
 $StaticPictureCardBorder: #ffffffbf;
@@ -72,9 +78,6 @@ $SliderBulletActive: #ffffffd9;
 $SliderButton: #ffffff1a;
 $SliderDisabledButton: #ffffff0d;
 $SeparatingLine: #0000004d;
-$InputBorder: #bfbfbf;
-$InputBorderHover: $black;
-$InputPlaceholder: #0000004d;
 $InputError: #ff0000;
 $UploadFormBackground: #131313;
 $UploadInputLabel: #bfbfbf;
@@ -84,3 +87,5 @@ $UploadZoneBorder: #444444;
 $UploadZoneText: #464646;
 $UploadText: #ffffff80;
 $RemoveModalBackground: #0d0d0dcc;
+$TextareaPlaceholder: #0000004d;
+$SelectPlaceholder: #0000004d;

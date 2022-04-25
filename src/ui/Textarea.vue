@@ -47,13 +47,13 @@ export default defineComponent({
   .label {
     font-size: 12px;
     line-height: 116%;
-    color: $InputPlaceholder;
+    color: $TextareaPlaceholder;
     margin-bottom: 5px;
   }
 
   .textarea {
     flex: 1 1 auto;
-    border: 1px solid $InputPlaceholder;
+    border: 1px solid $TextareaPlaceholder;
     border-radius: 6px;
     padding: 12px;
     resize: none;

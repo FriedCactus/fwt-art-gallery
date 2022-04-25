@@ -1,33 +1,37 @@
 <template>
   <div class="filters">
-    <div class="button">
+    <div class="filter-container">
       <Button :onClick="onAddClick">ADD ARTIST</Button>
     </div>
+    <div class="filter-container">
+      <Input
+        :placeholder="'Name'"
+        :value="nameSearch"
+        :onInput="nameSearchUpdate"
+      ></Input>
+    </div>
+    <div class="filter-container">Genres</div>
+    <div class="filter-container">Sort by</div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
 import Button from "@/ui/Button.vue";
-import { defineComponent } from "vue";
+import Input from "@/ui/Input.vue";
+import { ref } from "vue";
 
-export default defineComponent({
-  name: "Filters",
-  components: {
-    Button,
-  },
-  setup() {
-    const store = useStore();
+const store = useStore();
 
-    const onAddClick = () => {
-      store.commit("setIsAddArtistModalOpen", true);
-    };
+const nameSearch = ref<string>("");
 
-    return {
-      onAddClick,
-    };
-  },
-});
+const nameSearchUpdate = (e: Event) => {
+  nameSearch.value = (e.target as HTMLInputElement).value;
+};
+
+const onAddClick = () => {
+  store.commit("setIsAddArtistModalOpen", true);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -36,7 +40,7 @@ export default defineComponent({
   flex-direction: column;
   margin-bottom: 30px;
 
-  .button {
+  .filter-container {
     width: 100%;
     height: 40px;
     margin-bottom: 15px;
@@ -50,7 +54,7 @@ export default defineComponent({
     flex-direction: row;
     margin-bottom: 40px;
 
-    .button {
+    .filter-container {
       flex: 0 0 25%;
       margin-bottom: 0;
       margin-right: 20px;

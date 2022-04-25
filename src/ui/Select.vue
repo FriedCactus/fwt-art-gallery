@@ -136,7 +136,7 @@ export default defineComponent({
     font-weight: 400;
     font-size: 12px;
     line-height: 112%;
-    color: $InputPlaceholder;
+    color: $SelectPlaceholder;
   }
 
   .select {

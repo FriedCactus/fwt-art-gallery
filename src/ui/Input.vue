@@ -1,7 +1,7 @@
 <template>
   <label
     class="input-label"
-    :class="{ error: error, [style]: style }"
+    :class="{ error: error, [style]: style, [theme]: theme }"
     :for="placeholder"
   >
     <span class="icon" v-if="style === ('icon' || 'icon-alt')">
@@ -25,7 +25,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { useStore } from "@/store";
+import { computed, defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "Input",
@@ -59,7 +60,13 @@ export default defineComponent({
     },
   },
   setup() {
-    return {};
+    const store = useStore();
+
+    const theme = computed(() => store.state.settings.theme);
+
+    return {
+      theme,
+    };
   },
 });
 </script>
@@ -112,7 +119,6 @@ export default defineComponent({
     font-weight: 400;
     font-size: 12px;
     line-height: 116%;
-    color: $InputPlaceholder;
   }
 
   .icon {
@@ -123,7 +129,6 @@ export default defineComponent({
     height: 14px;
 
     :deep(path) {
-      fill: $InputPlaceholder;
     }
   }
 
@@ -131,24 +136,83 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     border-radius: 6px;
-    border: 1px solid $InputBorder;
 
     font-size: 14px;
     line-height: 114%;
 
     &::placeholder {
-      color: $InputPlaceholder;
     }
 
     &:focus {
-      outline: 1px solid $InputBorderHover;
+    }
+  }
+
+  &.dark {
+    .title {
+      color: $InputPlaceholderDark;
+    }
+
+    .icon {
+      :deep(path) {
+        fill: $InputPlaceholderDark;
+      }
+    }
+
+    .input {
+      border: 1px solid $InputBorderDark;
+      background-color: $black;
+      color: $InputPlaceholderDark;
+
+      &::placeholder {
+        color: $InputPlaceholderDark;
+      }
+
+      &:focus {
+        outline: 1px solid $InputBorderHoverDark;
+      }
+    }
+  }
+
+  &.light {
+    .title {
+      color: $InputPlaceholderLight;
+    }
+
+    .icon {
+      :deep(path) {
+        fill: $InputPlaceholderLight;
+      }
+    }
+
+    .input {
+      border: 1px solid $InputBorderLight;
+      background-color: $white;
+      color: $InputPlaceholderLight;
+
+      &::placeholder {
+        color: $InputPlaceholderLight;
+      }
+
+      &:focus {
+        outline: 1px solid $InputBorderHoverLight;
+      }
     }
   }
 
   @media ($laptop) {
-    &:hover {
-      .input {
-        border: 1px solid $InputBorderHover;
+    &.light {
+      &:hover {
+        .input {
+          border: 1px solid $InputBorderHoverLight;
+        }
+      }
+    }
+
+    &.dark {
+      &:hover {
+        .input {
+          border: 1px solid $InputBorderHoverDark;
+        }
       }
     }
   }
