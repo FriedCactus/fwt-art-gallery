@@ -79,69 +79,52 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { useStore } from "@/store";
-import { defineComponent, PropType } from "vue";
+import { defineProps } from "vue";
 import type { TArtistStatic, TPainting } from "@/types";
 import PaintingMock from "@/assets/images/painting-mock.svg";
 import EditButton from "./EditButton.vue";
 import FavouriteButton from "./FavouriteButton.vue";
 import RemoveButton from "./RemoveButton.vue";
 
-export default defineComponent({
-  name: "PictureCard",
-  props: {
-    artist: Object as PropType<TArtistStatic>,
-    painting: Object as PropType<TPainting>,
-    isFavourite: Boolean,
-  },
-  components: {
-    EditButton,
-    FavouriteButton,
-    RemoveButton,
-    PaintingMock,
-  },
-  setup(props) {
-    const api = process.env.VUE_APP_BASE_URL;
+const props = defineProps<{
+  artist: TArtistStatic;
+  painting: TPainting;
+  isFavourite: boolean;
+}>();
 
-    const store = useStore();
-    const route = useRoute();
-    const { artistId } = route.params;
+const api = process.env.VUE_APP_BASE_URL;
 
-    const setActivePainting = () => {
-      if (props.painting) {
-        store.commit("setActivePaintingId", props.painting._id);
-      }
-    };
+const store = useStore();
+const route = useRoute();
+const { artistId } = route.params;
 
-    const onFavouriteClick = () => {
-      if (props.painting) {
-        store.dispatch("tryToPatchMainPainting", {
-          artistId,
-          paintingId: props.painting._id,
-        });
-      }
-    };
+const setActivePainting = () => {
+  if (props.painting) {
+    store.commit("setActivePaintingId", props.painting._id);
+  }
+};
 
-    const onRemoveClick = () => {
-      setActivePainting();
-      store.commit("setIsConfirmRemoveModalOpen", true);
-    };
+const onFavouriteClick = () => {
+  if (props.painting) {
+    store.dispatch("tryToPatchMainPainting", {
+      artistId,
+      paintingId: props.painting._id,
+    });
+  }
+};
 
-    const onEditClick = () => {
-      setActivePainting();
-      store.commit("setIsEditPaintingModalOpen", true);
-    };
+const onRemoveClick = () => {
+  setActivePainting();
+  store.commit("setIsConfirmRemoveModalOpen", true);
+};
 
-    return {
-      api,
-      onFavouriteClick,
-      onRemoveClick,
-      onEditClick,
-    };
-  },
-});
+const onEditClick = () => {
+  setActivePainting();
+  store.commit("setIsEditPaintingModalOpen", true);
+};
 </script>
 
 <style lang="scss" scoped>

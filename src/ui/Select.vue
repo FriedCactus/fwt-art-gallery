@@ -46,9 +46,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
-import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineProps, PropType, ref } from "vue";
 import TriangleIcon from "@/assets/icons/triangle.svg";
 import CloseIcon from "@/assets/icons/close-icon.svg";
 import CheckIcon from "@/assets/icons/check-icon.svg";
@@ -58,71 +58,60 @@ type TOption = {
   name: string;
 };
 
-export default defineComponent({
-  name: "Select",
-  components: { TriangleIcon, CloseIcon, CheckIcon },
-  props: {
-    placeholder: {
-      type: String,
-      required: true,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    style: {
-      type: String as PropType<"default" | "label">,
-      default: "defalut",
-    },
-    staticTheme: {
-      type: String as PropType<"light" | "dark">,
-    },
-    options: {
-      type: Array as PropType<TOption[]>,
-      required: true,
-    },
-    values: {
-      type: Array as PropType<TOption[]>,
-      required: true,
-    },
-    onUpdate: {
-      type: Function,
-      required: true,
-    },
+const props = defineProps({
+  placeholder: {
+    type: String,
+    required: true,
   },
-  setup(props) {
-    const store = useStore();
-
-    const onRemoveCLick = (id: string) => {
-      const updatedArr = props.values.filter((item) => item._id !== id);
-      props.onUpdate(updatedArr);
-    };
-
-    const onOptionClick = (option: TOption) => {
-      const isActive = !!props.values.find((value) => value._id === option._id);
-
-      const updatedArr = isActive
-        ? props.values.filter((value) => value._id !== option._id)
-        : [...props.values, option];
-
-      props.onUpdate(updatedArr);
-    };
-
-    const isOpen = ref<boolean>(false);
-
-    const toggleIsOpen = () => {
-      isOpen.value = !isOpen.value;
-    };
-
-    return {
-      theme: computed(() => props.staticTheme || store.state.settings.theme),
-      isOpen,
-      toggleIsOpen,
-      onRemoveCLick,
-      onOptionClick,
-    };
+  required: {
+    type: Boolean,
+    default: false,
+  },
+  style: {
+    type: String as PropType<"default" | "label">,
+    default: "defalut",
+  },
+  staticTheme: {
+    type: String as PropType<"light" | "dark">,
+  },
+  options: {
+    type: Array as PropType<TOption[]>,
+    required: true,
+  },
+  values: {
+    type: Array as PropType<TOption[]>,
+    required: true,
+  },
+  onUpdate: {
+    type: Function,
+    required: true,
   },
 });
+
+const store = useStore();
+
+const theme = computed(() => props.staticTheme || store.state.settings.theme);
+
+const onRemoveCLick = (id: string) => {
+  const updatedArr = props.values.filter((item) => item._id !== id);
+  props.onUpdate(updatedArr);
+};
+
+const onOptionClick = (option: TOption) => {
+  const isActive = !!props.values.find((value) => value._id === option._id);
+
+  const updatedArr = isActive
+    ? props.values.filter((value) => value._id !== option._id)
+    : [...props.values, option];
+
+  props.onUpdate(updatedArr);
+};
+
+const isOpen = ref<boolean>(false);
+
+const toggleIsOpen = () => {
+  isOpen.value = !isOpen.value;
+};
 </script>
 
 <style lang="scss" scoped>

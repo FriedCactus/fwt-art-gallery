@@ -34,8 +34,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed, defineProps } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "@/store";
 import bodyLock from "@/utils/bodyLock";
@@ -45,73 +45,49 @@ import RemoveButton from "@/ui/RemoveButton.vue";
 import EditButton from "@/ui/EditButton.vue";
 import Slider from "./Slider.vue";
 
-export default defineComponent({
-  components: {
-    CloseIcon,
-    FavouriteButton,
-    RemoveButton,
-    EditButton,
-    Slider,
-  },
-  props: {
-    onClose: {
-      type: Function,
-      required: true,
-    },
-  },
-  setup() {
-    const store = useStore();
-    const route = useRoute();
+defineProps<{
+  onClose: () => void;
+}>();
 
-    const { artistId } = route.params;
-    const paintingId = computed(() => store.state.artist.activePaintingId);
-    const mainPaintingId = computed(
-      () => store.state.artist.artist?.mainPainting?._id,
-    );
-    const isFavourite = computed(
-      () => mainPaintingId.value === paintingId.value,
-    );
+const store = useStore();
+const route = useRoute();
 
-    const info = computed(() => {
-      const { activeSlide } = store.state.artist;
-      const description =
-        store.state.artist.artist?.paintings[activeSlide]?.name;
-      const year =
-        store.state.artist?.artist?.paintings[activeSlide].yearOfCreation;
+const { artistId } = route.params;
+const paintingId = computed(() => store.state.artist.activePaintingId);
+const mainPaintingId = computed(
+  () => store.state.artist.artist?.mainPainting?._id,
+);
+const isFavourite = computed(() => mainPaintingId.value === paintingId.value);
 
-      return { description, year };
-    });
+const info = computed(() => {
+  const { activeSlide } = store.state.artist;
+  const description = store.state.artist.artist?.paintings[activeSlide]?.name;
+  const year =
+    store.state.artist?.artist?.paintings[activeSlide].yearOfCreation;
 
-    const onFavouriteClick = () => {
-      if (paintingId.value) {
-        store.dispatch("tryToPatchMainPainting", {
-          artistId,
-          paintingId: paintingId.value,
-        });
-      }
-    };
-
-    const onRemoveClick = () => {
-      store.commit("setIsConfirmRemoveModalOpen", true);
-
-      bodyLock(true);
-    };
-
-    const onEditClick = () => {
-      store.commit("setIsEditPaintingModalOpen", true);
-
-      bodyLock(true);
-    };
-
-    return {
-      info,
-      onFavouriteClick,
-      isFavourite,
-      onRemoveClick,
-      onEditClick,
-    };
-  },
+  return { description, year };
 });
+
+const onFavouriteClick = () => {
+  if (paintingId.value) {
+    store.dispatch("tryToPatchMainPainting", {
+      artistId,
+      paintingId: paintingId.value,
+    });
+  }
+};
+
+const onRemoveClick = () => {
+  store.commit("setIsConfirmRemoveModalOpen", true);
+
+  bodyLock(true);
+};
+
+const onEditClick = () => {
+  store.commit("setIsEditPaintingModalOpen", true);
+
+  bodyLock(true);
+};
 </script>
 
 <style lang="scss" scoped>

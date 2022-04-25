@@ -4,20 +4,13 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
-import { computed, defineComponent } from "vue";
+import { computed } from "vue";
 
-export default defineComponent({
-  name: "Container",
-  setup() {
-    const store = useStore();
+const store = useStore();
 
-    return {
-      theme: computed(() => store.state.settings.theme),
-    };
-  },
-});
+const theme = computed(() => store.state.settings.theme);
 </script>
 
 <style lang="scss" scoped>

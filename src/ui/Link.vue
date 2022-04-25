@@ -2,26 +2,20 @@
   <a href="#" class="link" :class="{ [theme]: theme, bold: bold }"><slot /></a>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
-import { computed, defineComponent } from "vue";
+import { computed, defineProps } from "vue";
 
-export default defineComponent({
-  name: "Link",
-  props: {
-    bold: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup() {
-    const store = useStore();
-
-    return {
-      theme: computed(() => store.state.settings.theme),
-    };
+defineProps({
+  bold: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const store = useStore();
+
+const theme = computed(() => store.state.settings.theme);
 </script>
 
 <style lang="scss" scoped>

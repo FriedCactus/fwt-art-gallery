@@ -103,10 +103,10 @@
   </form>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { TPainting } from "@/types";
 import { useStore } from "@/store";
-import { computed, defineComponent, onBeforeMount, PropType, ref } from "vue";
+import { computed, defineProps, onBeforeMount, PropType, ref } from "vue";
 import { paintingFormValidation } from "@/utils/formsValidation";
 import DropZone from "@/components/DropZone.vue";
 import DropzoneIcon from "@/assets/icons/dropzone-icon.svg";
@@ -114,144 +114,114 @@ import CloseIcon from "@/assets/icons/close-icon.svg";
 import UploadIcon from "@/assets/icons/upload-icon.svg";
 import Button from "./Button.vue";
 
-export default defineComponent({
-  name: "PaintingForm",
-  components: {
-    CloseIcon,
-    UploadIcon,
-    Button,
-    DropzoneIcon,
-    DropZone,
+const props = defineProps({
+  onCloseClick: {
+    type: Function,
+    required: true,
   },
-  props: {
-    onCloseClick: {
-      type: Function,
-      required: true,
-    },
-    onUpload: {
-      type: Function,
-      default: () => {},
-    },
-    type: {
-      type: String as PropType<"add" | "edit">,
-      required: true,
-    },
+  onUpload: {
+    type: Function,
+    default: () => {},
   },
-
-  setup(props) {
-    const api = process.env.VUE_APP_BASE_URL;
-    const conditions = ["jpeg", "jpg", "png"];
-    const uploadInputRef = ref<HTMLInputElement>();
-
-    const store = useStore();
-    const isDropActive = ref<boolean>(false);
-
-    const name = ref<string>("");
-    const yearOfCreation = ref<string>("");
-    const nameError = ref<string>("");
-    const yearError = ref<string>("");
-
-    const uploadedImage = computed(() => store.state.artist.uploadedFile);
-    const activePainting = computed<TPainting>(
-      () => store.getters.getActivePainting,
-    );
-
-    onBeforeMount(() => {
-      if (props.type === "edit") {
-        name.value = activePainting.value.name;
-        yearOfCreation.value = activePainting.value.yearOfCreation;
-      }
-    });
-
-    const onNameChange = (e: Event) => {
-      name.value = (e.target as HTMLInputElement).value;
-      nameError.value = "";
-    };
-
-    const onYearChange = (e: Event) => {
-      yearOfCreation.value = (e.target as HTMLInputElement).value;
-      yearError.value = "";
-    };
-
-    const onDragEnter = () => {
-      isDropActive.value = true;
-    };
-
-    const onDragLeave = () => {
-      isDropActive.value = false;
-    };
-
-    const onUploadInputClick = () => {
-      uploadInputRef.value?.click();
-    };
-
-    const onFileUpload = (e: Event) => {
-      const input = e.target as HTMLInputElement;
-
-      if (!input.files) return;
-
-      const file = input.files[0];
-      const isFileValid = conditions.some((condition) =>
-        file.type.includes(condition),
-      );
-
-      if (isFileValid) {
-        store.commit("setUploadedFiles", file);
-      }
-    };
-
-    const onFormSubmit = async () => {
-      const error = paintingFormValidation(name.value, yearOfCreation.value);
-
-      if (error) {
-        if (error.type === "name") nameError.value = error.message;
-        if (error.type === "year") yearError.value = error.message;
-      } else {
-        if (props.type === "add") {
-          const payload = {
-            name: name.value,
-            yearOfCreation: yearOfCreation.value,
-            image: uploadedImage.value,
-          };
-
-          await store.dispatch("tryToAddPainting", payload);
-        }
-
-        if (props.type === "edit") {
-          const payload = {
-            name: name.value,
-            yearOfCreation: yearOfCreation.value,
-          };
-
-          await store.dispatch("tryToEditPainting", payload);
-        }
-
-        props.onCloseClick();
-      }
-    };
-
-    return {
-      api,
-      name,
-      yearOfCreation,
-      nameError,
-      yearError,
-      onDragEnter,
-      onDragLeave,
-      isDropActive,
-      uploadedImageUrl: computed(
-        () => uploadedImage.value && URL.createObjectURL(uploadedImage.value),
-      ),
-      uploadInputRef,
-      onUploadInputClick,
-      onFileUpload,
-      onFormSubmit,
-      onNameChange,
-      onYearChange,
-      activePainting,
-    };
+  type: {
+    type: String as PropType<"add" | "edit">,
+    required: true,
   },
 });
+
+const api = process.env.VUE_APP_BASE_URL;
+const conditions = ["jpeg", "jpg", "png"];
+const uploadInputRef = ref<HTMLInputElement>();
+
+const store = useStore();
+const isDropActive = ref<boolean>(false);
+
+const name = ref<string>("");
+const yearOfCreation = ref<string>("");
+const nameError = ref<string>("");
+const yearError = ref<string>("");
+
+const uploadedImage = computed(() => store.state.artist.uploadedFile);
+const activePainting = computed<TPainting>(
+  () => store.getters.getActivePainting,
+);
+const uploadedImageUrl = computed(
+  () => uploadedImage.value && URL.createObjectURL(uploadedImage.value),
+);
+
+onBeforeMount(() => {
+  if (props.type === "edit") {
+    name.value = activePainting.value.name;
+    yearOfCreation.value = activePainting.value.yearOfCreation;
+  }
+});
+
+const onNameChange = (e: Event) => {
+  name.value = (e.target as HTMLInputElement).value;
+  nameError.value = "";
+};
+
+const onYearChange = (e: Event) => {
+  yearOfCreation.value = (e.target as HTMLInputElement).value;
+  yearError.value = "";
+};
+
+const onDragEnter = () => {
+  isDropActive.value = true;
+};
+
+const onDragLeave = () => {
+  isDropActive.value = false;
+};
+
+const onUploadInputClick = () => {
+  uploadInputRef.value?.click();
+};
+
+const onFileUpload = (e: Event) => {
+  const input = e.target as HTMLInputElement;
+
+  if (!input.files) return;
+
+  const file = input.files[0];
+  const isFileValid = conditions.some((condition) =>
+    file.type.includes(condition),
+  );
+
+  if (isFileValid) {
+    store.commit("setUploadedFiles", file);
+  }
+};
+
+const onFormSubmit = async () => {
+  const error = paintingFormValidation(name.value, yearOfCreation.value);
+
+  if (error) {
+    if (error.type === "name") nameError.value = error.message;
+    if (error.type === "year") yearError.value = error.message;
+  } else {
+    if (props.type === "add") {
+      const payload = {
+        name: name.value,
+        yearOfCreation: yearOfCreation.value,
+        image: uploadedImage.value,
+      };
+
+      await store.dispatch("tryToAddPainting", payload);
+    }
+
+    if (props.type === "edit") {
+      const payload = {
+        name: name.value,
+        yearOfCreation: yearOfCreation.value,
+      };
+
+      await store.dispatch("tryToEditPainting", payload);
+    }
+
+    props.onCloseClick();
+  }
+};
 </script>
 
 <style lang="scss" scoped>

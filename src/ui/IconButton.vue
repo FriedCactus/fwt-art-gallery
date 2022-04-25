@@ -4,15 +4,12 @@
   </button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { defineProps } from "vue";
 
-export default defineComponent({
-  name: "IconButton",
-  props: {
-    isActive: Boolean,
-  },
-});
+defineProps<{
+  isActive?: boolean;
+}>();
 </script>
 
 <style lang="scss" scoped>

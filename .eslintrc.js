@@ -30,5 +30,7 @@ module.exports = {
     "consistent-return": "off",
     "no-underscore-dangle": "off",
     "function-paren-newline": "off",
+    "no-spaced-func": "off",
+    "func-call-spacing": "off",
   },
 };

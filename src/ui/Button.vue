@@ -9,33 +9,27 @@
   </button>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineProps, PropType } from "vue";
 
-export default defineComponent({
-  name: "Button",
-  props: {
-    style: {
-      type: String,
-      default: "filled",
-    },
-    staticTheme: {
-      type: String as PropType<"dark" | "light">,
-    },
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
+const props = defineProps({
+  style: {
+    type: String,
+    default: "filled",
   },
-  setup(props) {
-    const store = useStore();
-
-    return {
-      theme: computed(() => props.staticTheme || store.state.settings.theme),
-    };
+  staticTheme: {
+    type: String as PropType<"dark" | "light">,
+  },
+  onClick: {
+    type: Function,
+    default: () => {},
   },
 });
+
+const store = useStore();
+
+const theme = computed(() => props.staticTheme || store.state.settings.theme);
 </script>
 
 <style lang="scss" scoped>

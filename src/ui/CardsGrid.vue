@@ -35,42 +35,33 @@
   </section>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { TArtistStatic, TPainting } from "@/types";
 
 import { useStore } from "@/store";
 import AddImage from "@/assets/images/Add.svg";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineProps, PropType } from "vue";
 import PictureCard from "./PictureCard.vue";
 
-export default defineComponent({
-  components: {
-    PictureCard,
-    AddImage,
+defineProps({
+  artists: Array as PropType<TArtistStatic[]>,
+  paintings: Array as PropType<TPainting[]>,
+  favouriteId: String,
+  onPaintingClick: {
+    type: Function,
+    default: () => {},
   },
-  props: {
-    artists: Array as PropType<TArtistStatic[]>,
-    paintings: Array as PropType<TPainting[]>,
-    favouriteId: String,
-    onPaintingClick: {
-      type: Function,
-      default: () => {},
-    },
-    onAddPaintingClick: {
-      type: Function,
-      default: () => {},
-    },
-  },
-  setup() {
-    const store = useStore();
-
-    return {
-      basePath: process.env.VUE_APP_BASE_PATH,
-      theme: computed(() => store.state.settings.theme),
-      isAccess: computed(() => store.state.auth.isAccess),
-    };
+  onAddPaintingClick: {
+    type: Function,
+    default: () => {},
   },
 });
+
+const store = useStore();
+
+const theme = computed(() => store.state.settings.theme);
+const isAccess = computed(() => store.state.auth.isAccess);
+const basePath = process.env.VUE_APP_BASE_PATH;
 </script>
 
 <style lang="scss" scoped>

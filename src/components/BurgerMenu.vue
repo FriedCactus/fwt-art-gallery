@@ -22,57 +22,41 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
 import useAuth from "@/hooks/useAuth";
 import Button from "@/ui/Button.vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
-import { computed, defineComponent } from "vue";
-import { TSettingsState } from "@/types";
+import { computed, defineProps } from "vue";
 
-export default defineComponent({
-  name: "BurgerMenu",
-  props: {
-    isOpen: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  components: {
-    Button,
-    ThemeIcon,
-  },
-  setup() {
-    const store = useStore();
-    const { clearLoginCookies } = useAuth();
+const props = defineProps<{
+  isOpen: boolean;
+}>();
 
-    const onThemeChangeClick = () => {
-      store.commit("changeTheme");
-    };
+console.log(props.isOpen);
 
-    const onLogInClick = () => {
-      store.commit("setIsAuthModalOpen", true);
-    };
+const store = useStore();
+const { clearLoginCookies } = useAuth();
 
-    const onSignUpClick = () => {
-      store.commit("setIsRegisterModalOpen", true);
-    };
+const isAuth = computed(() => store.state.auth.isAccess);
+const theme = computed(() => store.state.settings.theme);
 
-    const onLogOutClick = () => {
-      store.commit("setIsAuth", false);
-      clearLoginCookies();
-    };
+const onThemeChangeClick = () => {
+  store.commit("changeTheme");
+};
 
-    return {
-      isAuth: computed(() => store.state.auth.isAccess),
-      theme: computed(() => store.state.settings.theme),
-      onThemeChangeClick,
-      onLogInClick,
-      onSignUpClick,
-      onLogOutClick,
-    };
-  },
-});
+const onLogInClick = () => {
+  store.commit("setIsAuthModalOpen", true);
+};
+
+const onSignUpClick = () => {
+  store.commit("setIsRegisterModalOpen", true);
+};
+
+const onLogOutClick = () => {
+  store.commit("setIsAuth", false);
+  clearLoginCookies();
+};
 </script>
 
 <style lang="scss" scoped>

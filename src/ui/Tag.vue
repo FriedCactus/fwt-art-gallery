@@ -4,14 +4,6 @@
   </span>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "Tag",
-});
-</script>
-
 <style lang="scss" scoped>
 .tag {
   display: inline-block;

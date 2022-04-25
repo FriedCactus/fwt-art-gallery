@@ -36,63 +36,44 @@
   </header>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
 import useAuth from "@/hooks/useAuth";
-import { computed, defineComponent, ref } from "vue";
+import { computed, ref } from "vue";
 import ThemeIcon from "@/assets/icons/theme_icon.svg";
 import Logo from "@/assets/images/Logo.svg";
 import Button from "@/ui/Button.vue";
 import BurgerMenu from "./BurgerMenu.vue";
 
-export default defineComponent({
-  name: "Header",
-  components: {
-    Logo,
-    Button,
-    ThemeIcon,
-    BurgerMenu,
-  },
-  setup() {
-    const store = useStore();
-    const { clearLoginCookies } = useAuth();
+const store = useStore();
+const { clearLoginCookies } = useAuth();
 
-    const isMenuOpen = ref(false);
+const isAuth = computed(() => store.state.auth.isAccess);
+const theme = computed(() => store.state.settings.theme);
+const basePath = process.env.VUE_APP_BASE_PATH;
 
-    const onBurgerClick = () => {
-      isMenuOpen.value = !isMenuOpen.value;
-    };
+const isMenuOpen = ref(false);
 
-    const onThemeChangeClick = () => {
-      store.commit("changeTheme");
-    };
+const onBurgerClick = () => {
+  isMenuOpen.value = !isMenuOpen.value;
+};
 
-    const onLogInClick = () => {
-      store.commit("setIsAuthModalOpen", true);
-    };
+const onThemeChangeClick = () => {
+  store.commit("changeTheme");
+};
 
-    const onSignUpClick = () => {
-      store.commit("setIsRegisterModalOpen", true);
-    };
+const onLogInClick = () => {
+  store.commit("setIsAuthModalOpen", true);
+};
 
-    const onLogOutClick = () => {
-      store.commit("setIsAuth", false);
-      clearLoginCookies();
-    };
+const onSignUpClick = () => {
+  store.commit("setIsRegisterModalOpen", true);
+};
 
-    return {
-      isAuth: computed(() => store.state.auth.isAccess),
-      isMenuOpen,
-      onBurgerClick,
-      onThemeChangeClick,
-      theme: computed(() => store.state.settings.theme),
-      basePath: process.env.VUE_APP_BASE_PATH,
-      onLogInClick,
-      onSignUpClick,
-      onLogOutClick,
-    };
-  },
-});
+const onLogOutClick = () => {
+  store.commit("setIsAuth", false);
+  clearLoginCookies();
+};
 </script>
 
 <style lang="scss" scoped>

@@ -24,51 +24,43 @@
   <p v-if="error" class="error">{{ error }}</p>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useStore } from "@/store";
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineProps, PropType } from "vue";
 
-export default defineComponent({
-  name: "Input",
-  props: {
-    placeholder: {
-      type: String,
-      required: true,
-    },
-    typeValue: {
-      type: String,
-      default: "text",
-    },
-    error: {
-      type: String,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-    onInput: {
-      type: Function,
-      required: true,
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    style: {
-      type: String as PropType<"icon" | "icon-alt" | "label">,
-      default: "icon",
-    },
+defineProps({
+  placeholder: {
+    type: String,
+    required: true,
   },
-  setup() {
-    const store = useStore();
-
-    const theme = computed(() => store.state.settings.theme);
-
-    return {
-      theme,
-    };
+  typeValue: {
+    type: String,
+    default: "text",
+  },
+  error: {
+    type: String,
+  },
+  value: {
+    type: String,
+    required: true,
+  },
+  onInput: {
+    type: Function,
+    required: true,
+  },
+  required: {
+    type: Boolean,
+    default: false,
+  },
+  style: {
+    type: String as PropType<"icon" | "icon-alt" | "label">,
+    default: "icon",
   },
 });
+
+const store = useStore();
+
+const theme = computed(() => store.state.settings.theme);
 </script>
 
 <style lang="scss" scoped>

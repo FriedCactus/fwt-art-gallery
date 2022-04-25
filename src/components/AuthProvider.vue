@@ -2,37 +2,32 @@
   <slot />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import useAuth from "@/hooks/useAuth";
 import { useStore } from "@/store";
-import { defineComponent, onMounted, watch } from "vue";
+import { onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 
-export default defineComponent({
-  name: "AuthProvider",
-  setup() {
-    const store = useStore();
-    const router = useRouter();
+const store = useStore();
+const router = useRouter();
 
-    const { isAccess, setLoginCookies, refreshToken } = useAuth();
+const { isAccess, setLoginCookies, refreshToken } = useAuth();
 
-    onMounted(async () => {
-      if (!isAccess.value && refreshToken) {
-        await store.dispatch("tryToRefresh", refreshToken);
+onMounted(async () => {
+  if (!isAccess.value && refreshToken) {
+    await store.dispatch("tryToRefresh", refreshToken);
 
-        if (!isAccess.value) {
-          router.push({
-            name: "home",
-          });
-        }
-      }
-    });
+    if (!isAccess.value) {
+      router.push({
+        name: "home",
+      });
+    }
+  }
+});
 
-    watch(isAccess, (newValue) => {
-      if (newValue) {
-        setLoginCookies();
-      }
-    });
-  },
+watch(isAccess, (newValue) => {
+  if (newValue) {
+    setLoginCookies();
+  }
 });
 </script>

@@ -51,8 +51,8 @@
   </button>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Keyboard, Navigation } from "swiper";
 import "swiper/css";
@@ -62,40 +62,24 @@ import { useStore } from "@/store";
 import PrevIcon from "@/assets/icons/prev-arrow.svg";
 import NextIcon from "@/assets/icons/next-arrow.svg";
 
-export default defineComponent({
-  components: {
-    Swiper,
-    SwiperSlide,
-    PrevIcon,
-    NextIcon,
-  },
+const store = useStore();
 
-  setup() {
-    const store = useStore();
+const activeSlide = computed(() => store.state.artist.activeSlide);
+const paintings = computed(() => store.state.artist.artist?.paintings);
 
-    const paintings = computed(() => store.state.artist.artist?.paintings);
+const modules = [Pagination, Keyboard, Navigation];
 
-    const api = process.env.VUE_APP_BASE_URL;
+const api = process.env.VUE_APP_BASE_URL;
 
-    const onSlideChange = (swiperInstance: any) => {
-      if (paintings.value) {
-        store.commit("setActiveSlide", swiperInstance.realIndex);
-        store.commit(
-          "setActivePaintingId",
-          paintings.value[swiperInstance.realIndex]._id,
-        );
-      }
-    };
-
-    return {
-      api,
-      paintings,
-      modules: [Pagination, Keyboard, Navigation],
-      onSlideChange,
-      activeSlide: computed(() => store.state.artist.activeSlide),
-    };
-  },
-});
+const onSlideChange = (swiperInstance: any) => {
+  if (paintings.value) {
+    store.commit("setActiveSlide", swiperInstance.realIndex);
+    store.commit(
+      "setActivePaintingId",
+      paintings.value[swiperInstance.realIndex]._id,
+    );
+  }
+};
 </script>
 
 <style lang="scss">

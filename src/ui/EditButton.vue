@@ -4,22 +4,15 @@
   </IconButton>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { defineProps } from "vue";
 import EditIcon from "../assets/icons/edit_icon.svg";
 import IconButton from "./IconButton.vue";
 
-export default defineComponent({
-  name: "FavouriteButton",
-  components: {
-    IconButton,
-    EditIcon,
-  },
-  props: {
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
+defineProps({
+  onClick: {
+    type: Function,
+    default: () => {},
   },
 });
 </script>

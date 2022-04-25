@@ -10,29 +10,14 @@
   </label>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { defineProps } from "vue";
 
-export default defineComponent({
-  name: "Textarea",
-  props: {
-    placeholder: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-    onInput: {
-      type: Function,
-      required: true,
-    },
-  },
-  setup() {
-    return {};
-  },
-});
+defineProps<{
+  placeholder: string;
+  value: string;
+  onInput: (e: Event) => void;
+}>();
 </script>
 
 <style lang="scss" scoped>

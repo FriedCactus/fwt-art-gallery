@@ -5,25 +5,17 @@
   </IconButton>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { defineProps } from "vue";
 import StarIcon from "../assets/icons/star_icon.svg";
 import FullStarIcon from "../assets/icons/fullstar_icon.svg";
 import IconButton from "./IconButton.vue";
 
-export default defineComponent({
-  name: "FavouriteButton",
-  components: {
-    IconButton,
-    FullStarIcon,
-    StarIcon,
-  },
-  props: {
-    isActive: Boolean,
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
+defineProps({
+  isActive: Boolean,
+  onClick: {
+    type: Function,
+    default: () => {},
   },
 });
 </script>

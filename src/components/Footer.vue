@@ -26,9 +26,9 @@
   </footer>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Link from "@/ui/Link.vue";
-import { computed, defineComponent } from "vue";
+import { computed } from "vue";
 import FbDark from "@/assets/icons/fb_dark.svg";
 import VkDark from "@/assets/icons/vk_dark.svg";
 import InstDark from "@/assets/icons/inst_dark.svg";
@@ -37,25 +37,9 @@ import VkLight from "@/assets/icons/vk_light.svg";
 import InstLight from "@/assets/icons/inst_light.svg";
 import { useStore } from "@/store";
 
-export default defineComponent({
-  name: "Footer",
-  components: {
-    Link,
-    FbDark,
-    VkDark,
-    InstDark,
-    FbLight,
-    VkLight,
-    InstLight,
-  },
-  setup() {
-    const store = useStore();
+const store = useStore();
 
-    return {
-      theme: computed(() => store.state.settings.theme),
-    };
-  },
-});
+const theme = computed(() => store.state.settings.theme);
 </script>
 
 <style lang="scss" scoped>
