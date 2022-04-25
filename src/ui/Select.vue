@@ -134,6 +134,8 @@ const toggleIsOpen = () => {
     display: flex;
     align-items: center;
     padding: 15px 12px;
+    height: 100%;
+    z-index: 2;
 
     border-radius: 8px;
 
@@ -201,6 +203,7 @@ const toggleIsOpen = () => {
       left: 0;
       width: 100%;
       max-height: 200px;
+      z-index: 2;
 
       overflow-y: auto;
       padding: 20px 15px;
@@ -253,6 +256,8 @@ const toggleIsOpen = () => {
 
   &.dark {
     .select {
+      color: $white;
+
       box-shadow: -1px 0px 0px 0px $SelectBorderDark,
         1px 0px 0px 0px $SelectBorderDark, 0px -1px 0px 0px $SelectBorderDark,
         0px 1px 0px 0px $SelectBorderDark;
@@ -269,12 +274,6 @@ const toggleIsOpen = () => {
             1px 0px 0px 0px $SelectBorderHoverDark,
             0px -1px 0px 0px $SelectBorderDark,
             0px 1px 0px 0px $SelectBorderHoverDark;
-        }
-      }
-
-      .selected-options {
-        .option {
-          color: $white;
         }
       }
 
@@ -318,6 +317,8 @@ const toggleIsOpen = () => {
 
   &.light {
     .select {
+      color: $black;
+
       box-shadow: -1px 0px 0px 0px $SelectBorderLight,
         1px 0px 0px 0px $SelectBorderLight, 0px -1px 0px 0px $SelectBorderLight,
         0px 1px 0px 0px $SelectBorderLight;
@@ -334,12 +335,6 @@ const toggleIsOpen = () => {
             1px 0px 0px 0px $SelectBorderHoverLight,
             0px -1px 0px 0px $SelectBorderLight,
             0px 1px 0px 0px $SelectBorderHoverLight;
-        }
-      }
-
-      .selected-options {
-        .option {
-          color: $black;
         }
       }
 

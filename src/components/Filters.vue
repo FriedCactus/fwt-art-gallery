@@ -10,7 +10,14 @@
         :onInput="nameSearchUpdate"
       ></Input>
     </div>
-    <div class="filter-container">Genres</div>
+    <div class="filter-container">
+      <Select
+        :placeholder="'Genres'"
+        :options="genres"
+        :values="selectedGenres"
+        :onUpdate="selectedGenresUpdate"
+      />
+    </div>
     <div class="filter-container">Sort by</div>
   </div>
 </template>
@@ -19,14 +26,22 @@
 import { useStore } from "@/store";
 import Button from "@/ui/Button.vue";
 import Input from "@/ui/Input.vue";
-import { ref } from "vue";
+import Select from "@/ui/Select.vue";
+import { computed, ref } from "vue";
 
 const store = useStore();
 
+const genres = computed(() => store.state.filters.genres);
+
 const nameSearch = ref<string>("");
+const selectedGenres = ref([]);
 
 const nameSearchUpdate = (e: Event) => {
   nameSearch.value = (e.target as HTMLInputElement).value;
+};
+
+const selectedGenresUpdate = (arr: any) => {
+  selectedGenres.value = arr;
 };
 
 const onAddClick = () => {

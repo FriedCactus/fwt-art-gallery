@@ -46,6 +46,7 @@
           :options="genres"
           :values="selctedGenres"
           :onUpdate="updateGenres"
+          :multiselect="true"
         />
       </div>
 
